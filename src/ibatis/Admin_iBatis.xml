@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Admin">
+
+  <!-- Use type aliases to avoid typing the full classname every time. -->
+  <!-- replyBBSDto 별칭해 놓음. 저 DTO타입거에 담고 싶으면 -->
+  <typeAlias alias="AdminDTO" type="model.member.AdminDTO"/>
+
+  <!-- Result maps describe the mapping between the columns returned
+       from a query, and the class properties(dto속성들).  A result map isn't
+       necessary if the columns (or aliases) match to the properties 
+       exactly. -->
+  <!-- 테이블의 칼럼명과 dto클래스의 속성명이 정확히 일치하면 꼭 안해도 알아서 매칭해줌
+  	   일치하지 않을 경우 아래의 과정을 통해서 매칭해 줘야 함.
+  	   property = dto속성
+  	   column = 실제 테이블의 해당하는 칼럼 이름
+  	   -->
+	<resultMap id="AdminDtoResult" class="AdminDTO">
+	  <result property="a_no" column="a_no"/>
+	  <result property="id" column="id"/>
+	  <result property="pwd" column="pwd"/>
+	  <result property="grade" column="grade"/>
+	  <result property="email" column="email"/>
+	</resultMap>
+<!-- 인지가 map이나 dto계열일 시
+	map은 #키값#, dto는 #속성명#
+	#값# = 기존에 ?처리하던 거
+	$객체$ = 객체에 해당하는 것들(테이블명 혹은 컬럼명 등에 해당함)
+	
+	
+	 -->
+	<select id="Admin.login" parameterClass="java.util.Map" resultMap="AdminDtoResult">SELECT * FROM administrator WHERE id=#id# AND pwd=#pwd#</select>
+	<select id="Admin.list" parameterClass="java.util.Map" resultMap="AdminDtoResult">SELECT * FROM administrator</select>
+	<select id="Admin.selectOne" parameterClass="java.util.Map" resultClass="AdminDTO">SELECT RB.*, NAME FROM REPLYBBS RB JOIN MEMBER M ON RB.id=M.id WHERE no=#key#</select>
+	<!-- 매핑결과를 저장하는 건 2가지 방법. resultClass를 쓰거나 resultMap을 쓰거나.
+		resultMap = 위에 지정한 resultMap에 담음. 해당 ID를 써야 함 
+		resultClass = 
+	 -->
+	<update id="ReplyBBS.reply_update" parameterClass="java.util.Map">UPDATE REPLYBBS SET STEP=STEP+1 WHERE REFER=#refer# AND STEP &gt; #step#</update>
+	<update id="ReplyBBS.reply_insert" parameterClass="java.util.Map">INSERT INTO REPLYBBS VALUES(SEQ_REPLYBBS.NEXTVAL, #id#, #title#, #content#, SYSDATE, #refer#, #step#+1, #depth#+1)</update>
+	<insert id="ReplyBBS.insert" parameterClass="ReplyBBSDto">INSERT INTO REPLYBBS(NO, ID, TITLE, CONTENT, REFER) VALUES(SEQ_REPLYBBS.NEXTVAL, #id#, #title#, #content#, SEQ_REPLYBBS.CURRVAL)</insert>
+	<update id="ReplyBBS.update" parameterClass="ReplyBBSDto">UPDATE REPLYBBS SET title=#title#, content=#content# WHERE no=#no#</update>
+	<delete id="ReplyBBS.delete" parameterClass="ReplyBBSDto">DELETE FROM REPLYBBS WHERE no=#no#</delete>
+</sqlMap>
