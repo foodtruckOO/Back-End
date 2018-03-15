@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
     <meta charset="utf-8">
@@ -37,8 +36,7 @@
     
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
-	
-	
+
 </head>
 <body>
 
@@ -75,6 +73,22 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             	행사 일정 통계(DB연동)
+                            	<div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        	기간 선택
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a id='quarter'>3개월간</a>
+                                        </li>
+                                        <li><a id='half'>6개월간</a>
+                                        </li>
+                                        <li><a id='year'>1년간</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -113,21 +127,6 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Morris.js Usage
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <p>Morris.js is a jQuery based charting plugin created by Olly Smith. In SB Admin, we are using the most recent version of Morris.js which includes the resize function, which makes the charts fully responsive. The documentation for Morris.js is available on their website, <a target="_blank" href="http://morrisjs.github.io/morris.js/">http://morrisjs.github.io/morris.js/</a>.</p>
-                            <a target="_blank" class="btn btn-default btn-lg btn-block" href="http://morrisjs.github.io/morris.js/">View Morris.js Documentation</a>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-6 -->
             </div>
             <!-- /.row -->
         </div>
@@ -151,6 +150,55 @@
     <script src="<c:url value='/backend/vendor/morrisjs/morris.js'/>"></script>
     <script>
     $(function() {
+    	$("#quarter").click(function(){
+			console.log("버튼클릭함");
+			$.ajax({
+				url:"<c:url value='/Back/Graph.do'/>",
+				type:'post',
+				dataType:'text',
+				data:'term=3',
+				success:function(data){
+					console.log("성공"+data);
+					chart.setData(JSON.parse(data));
+				},
+				error:function(data){
+					console.log("에러발생 : "+data);
+				}
+			});
+		});
+		$("#half").click(function(){
+			console.log("버튼클릭함");
+			$.ajax({
+				url:"<c:url value='/Back/Graph.do'/>",
+				type:'post',
+				dataType:'text',
+				data:'term=6',
+				success:function(data){
+					console.log("성공"+data);
+					chart.setData(JSON.parse(data));
+				},
+				error:function(data){
+					console.log("에러발생 : "+data);
+				}
+			});
+		});
+		$("#year").click(function(){
+			console.log("버튼클릭함");
+			$.ajax({
+				url:"<c:url value='/Back/Graph.do'/>",
+				type:'post',
+				dataType:'text',
+				data:'term=12',
+				success:function(data){
+					console.log("성공"+data);
+					chart.setData(JSON.parse(data));
+				},
+				error:function(data){
+					console.log("에러발생 : "+data);
+				}
+			});
+		});
+    	
         Morris.Area({
             element: 'morris-area-chart',
             data: //${data}
@@ -197,17 +245,16 @@
         Morris.Donut({
             element: 'morris-donut-chart',
             data: ${memberCounts},
-            
             resize: true
         });
 
-        Morris.Bar({
+        var chart = Morris.Bar({
             element: 'morris-bar-chart',
             data: ${eventData},
             xkey: 'period',
             ykeys: ['count'],
             labels: ['갯수'],
-            barColors:'blue',
+            barColors:['green'],
             hideHover: 'auto',
             resize: true
         });
@@ -218,6 +265,5 @@
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
 
-</body>
-
+	</body>
 </html>

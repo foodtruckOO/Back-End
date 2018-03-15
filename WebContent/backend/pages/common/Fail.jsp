@@ -20,7 +20,7 @@
 	<c:when test="${WHERE eq 'EVENTWRITE' }">
 		<c:set var="SUC_MSG" value="글 작성 성공"/>
 		<c:set var="FAIL_MSG" value="글 작성 실패"/>
-		<c:set var="SUC_URL" value="/Back/Board.do?type=admin"/>
+		<c:set var="SUC_URL" value="/Back/Board.do?type=admin&board=1"/>
 	</c:when>
 	<c:when test="${WHERE eq 'EVENTEDIT' }">
 		<c:set var="SUC_MSG" value="글 수정 성공"/>
@@ -30,7 +30,7 @@
 	<c:when test="${WHERE eq 'EVENTDELETE'}">
 		<c:set var="SUC_MSG" value="글 삭제 성공"/>
 		<c:set var="FAIL_MSG" value="글 삭제 실패"/>
-		<c:set var="SUC_URL" value="/Back/Board.do?type=admin"/>	
+		<c:set var="SUC_URL" value="/Back/Board.do?type=admin&board=1"/>	
 	</c:when>
 	<c:otherwise>
 		<c:set var="SUC_MSG" value="계정 삭제 성공"/>

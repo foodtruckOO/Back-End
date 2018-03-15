@@ -98,7 +98,7 @@
 		});
 	});
 	$(function(){
-		if(${eventdto.boardtype=='2'}){
+		if(${eventdto.boardtype}==2){
 			$("option:last").attr('checked', 'checked');
 		}
 	});

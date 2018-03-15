@@ -43,7 +43,7 @@ public class EventWriteController extends HttpServlet {
 		dto.setTitle(req.getParameter("title"));
 		dto.setContent(req.getParameter("content").replace("\r\n", "</br>"));
 		dto.setBoardtype(req.getParameter("boardtype"));
-		dto.setAttachedfile(req.getParameter("attachedfile"));
+		dto.setTitlefile(req.getParameter("attachedfile"));
 		try {
 			dto.setS_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startdate")).getTime()));
 			dto.setE_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("enddate")).getTime()));

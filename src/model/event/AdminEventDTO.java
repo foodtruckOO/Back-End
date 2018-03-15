@@ -5,11 +5,12 @@ public class AdminEventDTO {
 	private String a_no;
 	private String title;
 	private String content;
-	private String attachedfile;
-	private String boardtype;
+	private String titlefile;
+	private String contentfile;
 	private java.sql.Date s_date;
 	private java.sql.Date e_date;
 	private java.sql.Date postdate;
+	private String boardtype;
 	private String id;
 	
 	public String getEno() {
@@ -36,18 +37,20 @@ public class AdminEventDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getAttachedfile() {
-		return attachedfile;
+	
+	public String getTitlefile() {
+		return titlefile;
 	}
-	public void setAttachedfile(String attachedfile) {
-		this.attachedfile = attachedfile;
+	public void setTitlefile(String titlefile) {
+		this.titlefile = titlefile;
 	}
-	public String getBoardtype() {
-		return boardtype;
+	public String getContentfile() {
+		return contentfile;
 	}
-	public void setBoardtype(String boardtype) {
-		this.boardtype = boardtype;
+	public void setContentfile(String contentfile) {
+		this.contentfile = contentfile;
 	}
+
 	public java.sql.Date getS_date() {
 		return s_date;
 	}
@@ -71,6 +74,12 @@ public class AdminEventDTO {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getBoardtype() {
+		return boardtype;
+	}
+	public void setBoardtype(String boardtype) {
+		this.boardtype = boardtype;
 	}
 	
 }

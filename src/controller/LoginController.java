@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
 		if(dto!=null) {
 			System.out.println("로그인성공");
 			req.getSession().setAttribute("dto", dto);
-			resp.sendRedirect(req.getContextPath()+"/backend/pages/Index.jsp");
+			resp.sendRedirect(req.getContextPath()+"/Back/Index.do");
 		}
 		else {
 			System.out.println("로그인실패");

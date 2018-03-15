@@ -2,6 +2,14 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Back-end</display-name>
   <servlet>
+    <servlet-name>IndexPage</servlet-name>
+    <servlet-class>controller.IndexPageController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IndexPage</servlet-name>
+    <url-pattern>/Back/Index.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>controller.LoginController</servlet-class>
   </servlet>

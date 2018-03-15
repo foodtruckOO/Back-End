@@ -55,6 +55,15 @@
 	function sendWrite(){
 		location.href="<c:url value='/Back/EventWrite.do'/>";
 	}
+	$(function(){
+		var title = "";
+		switch(${param.board}){
+		case 1 : title="홈페이지 주관 행사 안내글 목록";break;
+		case 2 : title="지역 행사 안내글 목록";break;
+		default : title="창업 안내 게시판 글 목록";break;
+		}
+		$("h1.page-header").html(title);
+	});
 </script>
 </head>
 
@@ -66,7 +75,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">지역 행사 안내글 목록</h1>
+                    <h1 class="page-header">게시판</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

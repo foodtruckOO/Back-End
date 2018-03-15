@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,11 @@ import model.GraphDAO;
 import model.GraphDTO;
 
 public class GraphController extends HttpServlet {
-
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		GraphDAO dao = new GraphDAO(req.getServletContext());
-		
+		System.out.println(req.getParameter("id"));
+		String id = req.getParameter("id");
 		/*List<GraphDTO> list =  dao.selectList();
 		List<Map> collections = new Vector<Map>();
 		for(GraphDTO dto : list) {
@@ -78,5 +79,36 @@ public class GraphController extends HttpServlet {
 		dao.close();
 		//System.out.println(eventData);
 		req.getRequestDispatcher("/backend/member/statistics/Graph.jsp").forward(req, resp);
+	}
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(req.getParameter("id"));
+		String id = req.getParameter("id");
+		System.out.println("기간선택버튼 클릭함 : "+req.getParameter("term"));
+		GraphDAO dao = new GraphDAO(req.getServletContext());
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(cal.YEAR);
+		int month = cal.get(cal.MONTH)+1;
+		List<Map> eventCounts = new Vector<Map>();
+		int num=Integer.parseInt(req.getParameter("term"));
+
+		for(int i=0;i<num;i++) {
+			Map record = new HashMap();
+			
+			/*if(month<10) record.put("period", Integer.toString(year)+" 0"+Integer.toString(month));
+			else */record.put("period", Integer.toString(year)+"-"+Integer.toString(month));
+			
+			record.put("count", dao.selectEventGraph(Integer.toString(year), Integer.toString(month)));
+			if(month==12) {//12월이라 다음달이 1월이라는소리
+				year++;
+				month=1;
+			}
+			else month++;
+			eventCounts.add(record);
+		}
+		dao.close();
+		String eventData = JSONArray.toJSONString(eventCounts);
+		PrintWriter out = resp.getWriter();
+		out.print(eventData);
 	}
 }

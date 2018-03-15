@@ -31,9 +31,9 @@ public class AdminEventDAO {
 			if(conn!=null)conn.close();
 		} catch (Exception e) {}
 	}
-	public List<AdminEventDTO> selectList() {
+	public List<AdminEventDTO> selectList(String type) {
 		List<AdminEventDTO> list = new Vector();
-		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no ORDER BY eno DESC";
+		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no WHERE boardtype= "+type+" ORDER BY eno DESC";
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
@@ -43,12 +43,13 @@ public class AdminEventDAO {
 				dto.setA_no(rs.getString(2));
 				dto.setTitle(rs.getString(3));
 				dto.setContent(rs.getString(4));
-				dto.setAttachedfile(rs.getString(5));
-				dto.setBoardtype(rs.getString(6));
+				dto.setTitlefile(rs.getString(5));
+				dto.setContentfile(rs.getString(6));
 				dto.setS_date(rs.getDate(7));
 				dto.setE_date(rs.getDate(8));
 				dto.setPostdate(rs.getDate(9));
-				dto.setId(rs.getString(10));
+				dto.setBoardtype(rs.getString(10));
+				dto.setId(rs.getString(11));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -56,7 +57,7 @@ public class AdminEventDAO {
 		}
 		return list;
 	}
-	public List<AdminEventDTO> selectList2(String type) {
+	/*public List<AdminEventDTO> selectList2(String type) {
 		List<AdminEventDTO> list = new Vector();
 		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no  "+type+"  ORDER BY eno DESC";
 		try {
@@ -80,7 +81,7 @@ public class AdminEventDAO {
 			e.printStackTrace();
 		}
 		return list;
-	}
+	}*/
 	
 	public AdminEventDTO selectOne(String eno) {
 		AdminEventDTO dto = new AdminEventDTO();
@@ -94,33 +95,53 @@ public class AdminEventDAO {
 				dto.setA_no(rs.getString(2));
 				dto.setTitle(rs.getString(3));
 				dto.setContent(rs.getString(4));
-				dto.setAttachedfile(rs.getString(5));
-				dto.setBoardtype(rs.getString(6));
+				dto.setTitlefile(rs.getString(5));
+				dto.setContentfile(rs.getString(6));
 				dto.setS_date(rs.getDate(7));
 				dto.setE_date(rs.getDate(8));
 				dto.setPostdate(rs.getDate(9));
-				dto.setId(rs.getString(10));
+				dto.setBoardtype(rs.getString(10));
+				dto.setId(rs.getString(11));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return dto;
-		
 	}
 	
+	public String selectToday(String today, String yesterday) {
+		String count="";
+		System.out.println("넘어온 값 : "+today);
+		String sql = "SELECT count(*) FROM event WHERE postdate between TO_DATE(?,'YYYY-MM-DD') and TO_DATE(?, 'YYYY-MM-DD')";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, yesterday);
+			psmt.setString(2, today);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println(count+"개");
+		return count;
+	}
 	
 	public int insert(AdminEventDTO dto) {
 		int affected=0;
-		String sql = "INSERT INTO event VALUES(seq_event.nextval, ?, ?, ?, ?, ?, ?, ?, sysdate)";
+		String sql = "INSERT INTO event VALUES(seq_event.nextval, ?, ?, ?, ?,? ,?, ?, sysdate, ?)";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getA_no());
 			psmt.setString(2, dto.getTitle());
 			psmt.setString(3, dto.getContent());
-			psmt.setString(4, dto.getAttachedfile());
-			psmt.setString(5, dto.getBoardtype());
+			psmt.setString(4, dto.getTitlefile());
+			psmt.setString(5, dto.getContentfile());
 			psmt.setDate(6, dto.getS_date());
 			psmt.setDate(7, dto.getE_date());
+			psmt.setString(8, dto.getBoardtype());
+
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -130,16 +151,17 @@ public class AdminEventDAO {
 	
 	public int edit(AdminEventDTO dto) {
 		int affected=0;
-		String sql = "UPDATE EVENT SET title=?, content=?, attachedfile=?, boardtype=?, s_date=?, e_date=? WHERE eno=?";
+		String sql = "UPDATE EVENT SET title=?, content=?, titlefile=?, contentfile=?, s_date=?, e_date=?, boardtype=? WHERE eno=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getTitle());
 			psmt.setString(2, dto.getContent());
-			psmt.setString(3, dto.getAttachedfile());
-			psmt.setString(4, dto.getBoardtype());
+			psmt.setString(3, dto.getTitlefile());
+			psmt.setString(4, dto.getContentfile());
 			psmt.setDate(5, dto.getS_date());
 			psmt.setDate(6, dto.getE_date());
-			psmt.setString(7, dto.getEno());
+			psmt.setString(7, dto.getBoardtype());
+			psmt.setString(8, dto.getEno());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

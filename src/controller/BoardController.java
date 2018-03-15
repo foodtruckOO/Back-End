@@ -20,7 +20,8 @@ public class BoardController extends HttpServlet {
 		switch(req.getParameter("type")) {
 		case "admin" :
 			AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
-			list = dao.selectList();
+			System.out.println("게시판타입 : "+req.getParameter("board"));
+			list = dao.selectList(req.getParameter("board"));
 			dao.close();
 			req.setAttribute("list", list);
 			req.getRequestDispatcher("/backend/event/EventList.jsp").forward(req, resp);
