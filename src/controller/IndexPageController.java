@@ -26,8 +26,8 @@ public class IndexPageController extends HttpServlet {
 		month = cal.get(cal.MONTH)+1;
 		day = cal.get(cal.DATE);
 		String fullYesterday = ""+year+"-"+month+"-"+day;*/
-		AdminEventDAO admindao = new AdminEventDAO(req.getServletContext());
-		String count = admindao.selectToday(fullToday);
+		AdminEventDAO aedao = new AdminEventDAO(req.getServletContext());
+		String count = aedao.selectToday(fullToday);
 		req.setAttribute("todayWriteCount", count);
 		//////////////첫번쨰 꺼 조치 끝
 		
@@ -36,6 +36,9 @@ public class IndexPageController extends HttpServlet {
 		SellerDAO sellerdao = new SellerDAO(req.getServletContext());
 		int newMember = Integer.parseInt(customerdao.selectToday(fullToday))+Integer.parseInt(sellerdao.selectToday(fullToday));
 		req.setAttribute("todayRegisterMemberCount", Integer.toString(newMember));
+		aedao.close();
+		customerdao.close();
+		sellerdao.close();
 		req.getRequestDispatcher("/backend/pages/Index.jsp").forward(req, resp);
 	}
 }

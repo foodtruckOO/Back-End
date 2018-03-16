@@ -57,7 +57,8 @@ public class AdminEventDAO {
 		}
 		return list;
 	}
-	/*public List<AdminEventDTO> selectList2(String type) {
+	/*
+	public List<AdminEventDTO> selectList2(String type) {
 		List<AdminEventDTO> list = new Vector();
 		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no  "+type+"  ORDER BY eno DESC";
 		try {

@@ -54,7 +54,7 @@ public class GraphDAO {
 	}
 	public String selectEventGraph(String year, String month){
 		String count="0";
-		String sql = "SELECT COUNT(*) FROM EVENT WHERE S_DATE > TO_DATE(?,'YYYY-MM-DD') AND E_DATE < TO_DATE(?,'YYYY-MM-DD')";
+		String sql = "SELECT COUNT(*) FROM EVENT WHERE S_DATE > TO_DATE(?,'YYYY-MM-DD') and E_DATE < TO_DATE(?,'YYYY-MM-DD')";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, year+"-"+month+"-01");
