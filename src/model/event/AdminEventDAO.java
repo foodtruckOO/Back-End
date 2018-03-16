@@ -109,14 +109,13 @@ public class AdminEventDAO {
 		return dto;
 	}
 	
-	public String selectToday(String today, String yesterday) {
+	public String selectToday(String today) {
 		String count="";
 		System.out.println("넘어온 값 : "+today);
-		String sql = "SELECT count(*) FROM event WHERE postdate between TO_DATE(?,'YYYY-MM-DD') and TO_DATE(?, 'YYYY-MM-DD')";
+		String sql = "SELECT count(*) FROM event WHERE postdate >= TO_DATE(?,'YYYY-MM-DD')";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, yesterday);
-			psmt.setString(2, today);
+			psmt.setString(1, today);
 			rs = psmt.executeQuery();
 			if(rs.next()) {
 				count=rs.getString(1);

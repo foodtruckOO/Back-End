@@ -38,10 +38,10 @@ public class CalendarDAO {
 				dto.setTitle(rs.getString(3));
 				dto.setContent(rs.getString(4));
 				dto.setAttachedfile(rs.getString(5));
-				dto.setBoardtype(rs.getString(6));
 				dto.setS_date(rs.getDate(7));
 				dto.setE_date(rs.getDate(8));
 				dto.setPostdate(rs.getDate(9));
+				dto.setBoardtype(rs.getString(10));
 				dto.setUrl("/Back/EventView.do?eno="+rs.getString(1));
 				list.add(dto);
 			}

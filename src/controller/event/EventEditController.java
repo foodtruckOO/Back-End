@@ -29,12 +29,21 @@ public class EventEditController extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html;charset=UTF-8");
+		System.out.println(req.getParameter("title")+" "+req.getParameter("content")+" "+req.getParameter("boardtype"));
 		String eno = req.getParameter("no");
 		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
 		AdminEventDTO dto = new AdminEventDTO();
 		dto.setEno(eno);
 		dto.setTitle(req.getParameter("title"));
 		dto.setContent(req.getParameter("content"));
+		if(req.getParameter("attachedfile").equals("") || req.getParameter("attachedfile")==null) {
+			System.out.println("파일첨부안함");
+			dto.setTitlefile(dao.selectOne(eno).getTitlefile());
+		}
+		else {
+			System.out.println("파일첨부함");
+			dto.setTitlefile(req.getParameter("attachedfile"));
+		}
 		dto.setBoardtype(req.getParameter("boardtype"));
 		try {
 			dto.setS_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startdate")).getTime()));
@@ -43,8 +52,7 @@ public class EventEditController extends HttpServlet{
 			System.out.println("시간 변환 과정에서 문제 발생함");
 			e.printStackTrace();
 		}
-		dto.setAttachedfile(req.getParameter("attachedfile"));
-		System.out.println(dto.getEno()+dto.getAttachedfile()+dto.getId()+dto.getTitle()+dto.getContent());
+		//System.out.println(dto.getEno()+dto.getAttachedfile()+dto.getId()+dto.getTitle()+dto.getContent());
 		int affected = dao.edit(dto);
 		System.out.println(affected+"행이 영향받음");
 		dao.close();

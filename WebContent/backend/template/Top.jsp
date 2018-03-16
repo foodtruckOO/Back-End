@@ -162,13 +162,13 @@
                         	<c:if test="${!isNotLogin }">
                         		<div style="padding-left: 10px;font-family: fantasy;">
                         			<h4>${dto.id}님 환영합니다</h4>
-                        			<h4>회원등급 : ${dto.grade=='1'?'사장님':'핫산'}</h4>
+                        			<h4>회원등급 : ${dto.grade=='1'?'사장님':'중간관리자'}</h4>
                         			<p style="text-align: center;">
                         				<c:if test="${dto.grade=='1' }">
                         					<img src="<c:url value='/backend/img/boss.jpg'/>"/>
                         				</c:if>
                         				<c:if test="${dto.grade=='2' }">
-                        					<img src="<c:url value='/backend/img/hassan.png'/>"/>
+                        					<img src="<c:url value='/backend/img/mid.jpg'/>"/>
                         				</c:if>
                         			</p>
                         		</div>

@@ -37,7 +37,7 @@ public class EventWriteController extends HttpServlet {
 		resp.setContentType("text/html;charset=UTF-8");
 		int affected=0;
 		System.out.println("제목 : "+req.getParameter("title"));
-		System.out.println("내용 : "+req.getParameter("context"));
+		System.out.println("내용 : "+req.getParameter("content"));
 		System.out.println("게시판유형 : "+req.getParameter("boardtype"));
 		dto.setA_no(((AdminDTO)req.getSession().getAttribute("dto")).getA_no());
 		dto.setTitle(req.getParameter("title"));

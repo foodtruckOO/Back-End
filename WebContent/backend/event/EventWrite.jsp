@@ -46,6 +46,7 @@
 			rules:{
 				title:{required:true, minlength:1},
 				content:{required:true, minlength:1},
+				attachedfile:"required",
 				startdate:"required",
 				enddate:{required:true}
 			},
@@ -58,6 +59,9 @@
 					required:"내용을 입력하셔야 합니다",
 					minlength:"내용을 입력하셔야 합니다"
 					},
+				attachedfile : {
+					required:"파일을 첨부하셔야 합니다"
+				},
 				startdate:	{
 					required:"시작날짜를 설정하셔야 합니다"
 					},
