@@ -40,6 +40,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 
 <body>
@@ -67,19 +68,19 @@
 	                    	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 		                        <tr class="gradeA">
 		                        	<td width="20%">아이디</td>
-		                            <td width="80%"><input class="form-control" placeholder="아이디" name="id" type="txt" value="${dto.id}" autofocus></td>
+		                            <td width="80%"><input class="form-control" placeholder="아이디" name="id" type="txt" value="${dtto.id}" autofocus></td>
 		                    	</tr>
 		                    	<tr class="gradeA">
 		                        	<td width="20%">비밀번호</td>
-		                            <td width="80%"><input class="form-control" placeholder="비밀번호" name="pwd" type="password" value="${dto.pwd}"></td>
+		                            <td width="80%"><input class="form-control" placeholder="비밀번호" name="pwd" type="password" value="${dtto.pwd}"></td>
 		                    	</tr>
 		                        <tr class="gradeA">
 		                            <td>관리자 유형</td>
 		                            <td>
 		                            	<select name="grade">
-		                            		<option value="1"${dto.grade==1?'selected="selected"':""}>마스터 관리자</option>
-		                            		<option value="2"${dto.grade==2?'selected="selected"':""}>중간 관리자</option>
-		                            		<option value="3"${dto.grade==3?'selected="selected"':""}>권한 없음</option>
+		                            		<option id="fir" value="1"${dtto.grade==1?'selected="selected"':""}>마스터 관리자</option>
+		                            		<option id="sec" value="2"${dtto.grade==2?'selected="selected"':""}>중간 관리자</option>
+		                            		<option id="thr" value="3"${dtto.grade==3?'selected="selected"':""}>권한 없음</option>
 		                            	</select>
 		                            </td>
 		                    	</tr>
@@ -87,7 +88,7 @@
 		                        	<td>이메일</td>
                                     <td><input class="form-control" placeholder="비밀번호" name="email" type="email" value="${dto.email}"></td>
 		                    	</tr>
-		                    	<input type="hidden" name="a_no" value="${dto.a_no}">
+		                    	<input type="hidden" name="a_no" value="${dtto.a_no}">
 		                    	<tr>
 		                    		<td colspan="2">
 		                    			<input type="submit" value="수정">

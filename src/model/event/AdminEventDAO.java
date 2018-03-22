@@ -33,7 +33,7 @@ public class AdminEventDAO {
 	}
 	public List<AdminEventDTO> selectList(String type) {
 		List<AdminEventDTO> list = new Vector();
-		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no WHERE boardtype= "+type+" ORDER BY eno DESC";
+		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no WHERE boardtype= "+type+" ORDER BY eno desc";
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();

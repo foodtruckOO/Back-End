@@ -9,6 +9,8 @@ public class SellerDTO {
 	private String addr;
 	private String tel;
 	private String corporate_no;
+	private String latitude;
+	private String longtitude;
 	private java.sql.Date regidate;
 	public String getS_no() {
 		return s_no;
@@ -63,6 +65,18 @@ public class SellerDTO {
 	}
 	public void setRegidate(java.sql.Date regidate) {
 		this.regidate = regidate;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongtitude() {
+		return longtitude;
+	}
+	public void setLongtitude(String longtitude) {
+		this.longtitude = longtitude;
 	}
 	
 }

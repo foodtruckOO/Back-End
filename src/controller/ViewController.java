@@ -17,7 +17,7 @@ public class ViewController extends HttpServlet {
 		String no = req.getParameter("no");
 		AdminDAO dao = new AdminDAO(req.getServletContext());
 		AdminDTO dto = dao.selectOne(no);
-		req.setAttribute("dto", dto);
+		req.setAttribute("dtto", dto);
 		req.getRequestDispatcher("/backend/member/administrator/View.jsp").forward(req, resp);
 	}
 }

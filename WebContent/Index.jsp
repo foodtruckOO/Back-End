@@ -10,6 +10,6 @@
 </script>
 </head>
 <body>
-Go to <a href="<c:url value='/backend/pages/Index.jsp'/>">/pages/index.html</a>
+Go to <a href="<c:url value='/Back/Index.do'/>">/pages/index.html</a>
 </body>
 </html>

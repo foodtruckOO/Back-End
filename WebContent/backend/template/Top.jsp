@@ -207,9 +207,6 @@
 		                                <li>
 		                                    <a href="<c:url value='/Back/Board.do?type=admin&board=2'/>"><i class="fa fa-list fa-fw"></i>지역별행사 게시판</a>
 		                                </li>
-		                                <li>
-		                                    <a href="<c:url value='/Back/Board.do?type=admin&board=3'/>"><i class="fa fa-list fa-fw"></i>창업설명회 게시판</a>
-		                                </li>
 	                                </ul>
                                 </li>
                             </ul>

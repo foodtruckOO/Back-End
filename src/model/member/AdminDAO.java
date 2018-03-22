@@ -107,7 +107,7 @@ public class AdminDAO {
 	
 	public List<AdminDTO> selectList() {
 		List<AdminDTO> list = new Vector();
-		String sql = "SELECT * FROM administrator ORDER BY a_no DESC";
+		String sql = "SELECT * FROM administrator ORDER BY a_no";
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();

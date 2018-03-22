@@ -12,6 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.jni.File;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.sun.glass.ui.Application;
+
+import model.FileUtils;
 import model.event.AdminEventDAO;
 import model.event.AdminEventDTO;
 import model.member.AdminDTO;
@@ -29,21 +36,35 @@ public class EventWriteController extends HttpServlet {
 		}
 		else resp.sendRedirect(req.getContextPath()+"/backend/event/EventWrite.jsp");
 	}
-	@Override
+	/*@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(req.getParameter("startdate"));
+		System.out.println(req.getParameter("enddate"));
 		AdminEventDTO dto = new AdminEventDTO();
 		//한글깨짐관련 조치사항
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html;charset=UTF-8");
+		
+		
 		int affected=0;
-		System.out.println("제목 : "+req.getParameter("title"));
-		System.out.println("내용 : "+req.getParameter("content"));
-		System.out.println("게시판유형 : "+req.getParameter("boardtype"));
 		dto.setA_no(((AdminDTO)req.getSession().getAttribute("dto")).getA_no());
 		dto.setTitle(req.getParameter("title"));
-		dto.setContent(req.getParameter("content").replace("\r\n", "</br>"));
+		dto.setContent(req.getParameter("content"));
 		dto.setBoardtype(req.getParameter("boardtype"));
-		dto.setTitlefile(req.getParameter("attachedfile"));
+		dto.setTitlefile(req.getParameter("titleFile"));
+		dto.setContentfile(req.getParameter("contentFile"));
+		
+		///////////////파일업로드 관련 조치사항들
+		//디렉토리생성 관련
+		String savePath = req.getServletContext().getRealPath("/backend/img/admin/"+((AdminDTO)req.getSession().getAttribute("dto")).getId());
+		//backend/img/admin/아이디로 할 생각
+		java.io.File targetDir = new java.io.File(savePath);
+		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
+		//디렉토리생성 끝
+		if(req.getParameter("contentFile")!=null) {
+			MultipartRequest mr = FileUtils.upload(req, savePath);//업로드하기
+			
+		}
 		try {
 			dto.setS_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startdate")).getTime()));
 			dto.setE_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("enddate")).getTime()));
@@ -62,14 +83,57 @@ public class EventWriteController extends HttpServlet {
 		req.setAttribute("SUC_FAIL", sf);
 		req.setAttribute("WHERE", "EVENTWRITE");		
 		req.setAttribute("boardtype", req.getParameter("boardtype"));
-		/*if(req.getParameter("boardtype").equalsIgnoreCase("1")) {//타입 1 = 메인이벤트
-			resp.sendRedirect(req.getContextPath()+"/backend/event/home_event/HomeEventList.jsp");
+		req.getRequestDispatcher("/backend/pages/common/Fail.jsp").forward(req, resp);
+		//타입 2 = 지역이벤트
+	}*/
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String savePath = req.getServletContext().getRealPath("/backend/img/admin/"+((AdminDTO)req.getSession().getAttribute("dto")).getId());
+		//backend/img/admin/아이디로 할 생각
+		java.io.File targetDir = new java.io.File(savePath);
+		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
+		//디렉토리생성 끝
+		MultipartRequest mr = FileUtils.upload(req, savePath);//업로드하기
+			
+		
+		AdminEventDTO dto = new AdminEventDTO();
+		//한글깨짐관련 조치사항
+		req.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html;charset=UTF-8");
+		
+		
+		int affected=0;
+		dto.setA_no(((AdminDTO)req.getSession().getAttribute("dto")).getA_no());
+		dto.setTitle(mr.getParameter("title"));
+		dto.setContent(mr.getParameter("content"));
+		dto.setBoardtype(mr.getParameter("boardtype"));
+		dto.setTitlefile(mr.getOriginalFileName("titleFile"));
+		dto.setContentfile(mr.getOriginalFileName("contentFile"));
+		
+		///////////////파일업로드 관련 조치사항들
+		//디렉토리생성 관련
+		
+		try {
+			dto.setS_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(mr.getParameter("startdate")).getTime()));
+			dto.setE_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(mr.getParameter("enddate")).getTime()));
+		} catch (ParseException e) {
+			System.out.println("시간 변환 과정에서 문제 발생함");
+			e.printStackTrace();
 		}
-		else resp.sendRedirect(req.getContextPath()+"/backend/event/area/AreaEventList.jsp");*/
+		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
+		String sf="";
+		affected=dao.insert(dto);
+		if(affected==0) {
+			sf="0";
+		}
+		else sf="1";
+		dao.close();
+		req.setAttribute("SUC_FAIL", sf);
+		req.setAttribute("WHERE", "EVENTWRITE");		
+		req.setAttribute("boardtype", req.getParameter("boardtype"));
 		req.getRequestDispatcher("/backend/pages/common/Fail.jsp").forward(req, resp);
 		//타입 2 = 지역이벤트
 	}
-	
 	private String getMonthNumberByName(String name) {
 		String result = "0";
 		switch(name) {

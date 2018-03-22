@@ -66,15 +66,15 @@
 	                    	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
 		                        <tr class="gradeA">
 		                            <td width="20%">아이디</td>
-		                            <td width="80%">${dto.id}</td>
+		                            <td width="80%">${dtto.id}</td>
 		                    	</tr>
 		                        <tr class="gradeA">
 		                            <td width="20%">관리자 유형</td>
-		                            <td width="80%">${dto.grade==1?"마스터관리자":"중간관리자"}</td>
+		                            <td width="80%">${dtto.grade==1?"마스터관리자":"중간관리자"}</td>
 		                    	</tr>
 		                        <tr class="gradeA">
 		                            <td width="20%">이메일</td>
-		                            <td width="80%">${dto.email}</td>
+		                            <td width="80%">${dtto.email}</td>
 		                    	</tr>
 	                        </table>
                             <!-- /.table-responsive -->

@@ -98,7 +98,7 @@
 		});
 	});
 	$(function(){
-		if(${eventdto.boardtype}==2){
+		if(${eventdto.boardtype}=='2'){
 			$("option:last").attr('checked', 'checked');
 		}
 	});
@@ -151,8 +151,8 @@
                                         <div class="form-group" >
                                             <label>게시판 분류</label>
                                             <select class="form-control"name="boardtype">
-                                                <option value="1">메인페이지 이벤트 게시판</option>
-                                                <option value="2">지역 행사 게시판</option>
+                                                <option value="1" ${eventdto.boardtype==1?'selected="selected"':""}>메인페이지 이벤트 게시판</option>
+                                                <option value="2" ${eventdto.boardtype==2?'selected="selected"':""}>지역 행사 게시판</option>
                                             </select>
                                             </br>
                                         </div>

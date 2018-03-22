@@ -27,16 +27,32 @@ public class MapDAO {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public List<MapDTO> getLocs(){
+	public List<MapDTO> selectListBasic() {
 		List<MapDTO> list = new Vector();
-		String sql = "SELECT * FROM foodtrucks ORDER BY f_no";
+		String sql="";
+		switch(selectListSupport()) {
+			case 3 : 
+				sql = "SELECT f_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks UNION ";
+				sql+="SELECT s_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
+				break;
+			case 2 : 
+				sql+="SELECT s_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
+				break;
+			default :
+				sql = "SELECT f_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks";
+				break;
+		}
+		
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				MapDTO dto = new MapDTO();
-				dto.setName(rs.getString(2));
-				dto.setLocation(rs.getString(6));
+				dto.setNo(rs.getString(1));
+				dto.setTname(rs.getString(2));
+				dto.setAddr(rs.getString(3));
+				dto.setTel(rs.getString(4));
+				dto.setColumnCount(rs.getString(5));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -44,11 +60,33 @@ public class MapDAO {
 		}
 		return list;
 	}
+		
 	public void close() {
 		try {
 			if(rs!=null)rs.close();
 			if(psmt!=null)psmt.close();
 			if(conn!=null)conn.close();
 		} catch (Exception e) {}
+	}
+	
+	
+	public int selectListSupport() {
+		String sql = "SELECT f_no no, tname, addr, tel FROM foodtrucks UNION ";
+		sql+="SELECT s_no no, tname, addr, tel FROM seller";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			if(rs.next()) return 3;//두 테이블에 다 데이터가 있다.
+			else {
+				sql="SELECT f_no no, tname, addr, tel FROM seller";
+				psmt = conn.prepareStatement(sql);
+				rs = psmt.executeQuery();
+				if(rs.next()) return 2;//seller만 데이터를 갖고 있다.
+				else return 1;//foodtrucks만 데이터를 갖고 있던지, 아니면 아무것도 없던지
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;//오류발생시 반환값
 	}
 }

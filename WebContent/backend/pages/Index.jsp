@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div>신규 작성 글</div>
-                                    <div class="huge">${todayWriteCount}</div>
+                                    <div class="huge">${todayWriteCount==null?0:todayWriteCount}</div>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div>신규 가입자</div>
-                                    <div class="huge">${todayRegisterMemberCount}</div>
+                                    <div class="huge">${todayRegisterMemberCount==null?0:todayRegisterMemberCount}</div>
                                 </div>
                             </div>
                         </div>

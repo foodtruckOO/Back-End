@@ -75,6 +75,7 @@ public class GraphController extends HttpServlet {
 		memberCounts.add(rc1);
 		memberCounts.add(rc2);
 		String memberCountData = JSONArray.toJSONString(memberCounts);
+		System.out.println(memberCountData);
 		req.setAttribute("memberCounts", memberCountData);
 		dao.close();
 		//System.out.println(eventData);

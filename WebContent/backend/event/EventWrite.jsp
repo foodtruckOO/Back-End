@@ -46,7 +46,7 @@
 			rules:{
 				title:{required:true, minlength:1},
 				content:{required:true, minlength:1},
-				attachedfile:"required",
+				titlefile:"required",
 				startdate:"required",
 				enddate:{required:true}
 			},
@@ -59,7 +59,7 @@
 					required:"내용을 입력하셔야 합니다",
 					minlength:"내용을 입력하셔야 합니다"
 					},
-				attachedfile : {
+				titlefile : {
 					required:"파일을 첨부하셔야 합니다"
 				},
 				startdate:	{
@@ -135,15 +135,17 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form id="frm" action="<c:url value='/Back/EventWrite.do'/>" method="post">
+                                    <form id="frm" action="<c:url value='/Back/EventWrite.do'/>" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label>글 제목</label>
                                             <input class="form-control" placeholder="제목을 입력하세요" name="title">
                                             </br>
                                         </div>
                                         <div class="form-group">
-                                            <label>내용</label>
+                                            <label>내용(내용파일이 없을 시 출력)</label>
                                             <textarea class="form-control" rows="3" name="content"></textarea>
+                                            <label>내용파일</label>
+                                            <input type="file" name="contentFile">
                                             </br>
                                         </div>
                                         <div class="form-group" >
@@ -157,16 +159,16 @@
                                         <div class="form-group">
                                         	<label>행사일자</label></br>
                                         	<div style="display: inline-block; position: relative;"align="left">
-                                        		시작일자 : <input type="text" id="sdatepicker" name="startdate" size="15" value='${s_date}'>
+                                        		시작일자 : <input type="text" id="sdatepicker" name="startdate" size="15">
                                         	</div>
                                         	<div style="display: inline-block; position: relative;"align="left">
-                                        		종료일자 : <input type="text" id="edatepicker" name="enddate" size="15" value='${s_date}'>
+                                        		종료일자 : <input type="text" id="edatepicker" name="enddate" size="15">
                                         		<span id="span" style="color: red"></span>
                                         	</div>
                                         </div>
                                         <div class="form-group">
-                                            <label>첨부파일</label>
-                                            <input type="file" name="attachedfile">
+                                            <label>타이틀 파일</label>
+                                            <input type="file" name="titleFile">
                                             </br>
                                         </div>
                                         <input type="button" class="btn btn-success" value="작성"/>

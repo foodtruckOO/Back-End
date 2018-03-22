@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-
 import model.event.AdminEventDAO;
 import model.event.AdminEventDTO;
 
@@ -20,7 +18,6 @@ public class BoardController extends HttpServlet {
 		switch(req.getParameter("type")) {
 		case "admin" :
 			AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
-			System.out.println("게시판타입 : "+req.getParameter("board"));
 			list = dao.selectList(req.getParameter("board"));
 			dao.close();
 			req.setAttribute("list", list);
