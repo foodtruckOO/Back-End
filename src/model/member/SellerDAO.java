@@ -14,14 +14,6 @@ import javax.naming.InitialContext;
 import javax.servlet.ServletContext;
 import javax.sql.DataSource;
 
-import com.google.code.geocoder.Geocoder;
-import com.google.code.geocoder.GeocoderRequestBuilder;
-import com.google.code.geocoder.model.GeocodeResponse;
-import com.google.code.geocoder.model.GeocoderRequest;
-import com.google.code.geocoder.model.GeocoderResult;
-import com.google.code.geocoder.model.GeocoderStatus;
-import com.google.code.geocoder.model.LatLng;
-
 public class SellerDAO {
 	private Connection conn;
 	private ResultSet rs;

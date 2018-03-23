@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
 
-import com.google.code.geocoder.model.LatLng;
 
 import model.map.MapDAO;
 import model.map.MapDTO;
@@ -45,7 +44,7 @@ public class MapController extends HttpServlet{
 		req.setAttribute("json", jsonString);
 		System.out.println(jsonString);
 		//req.getRequestDispatcher("/backend/member/Map.jsp").forward(req, resp);
-		req.getRequestDispatcher("/backend/member/Map2.jsp").forward(req, resp);
+		req.getRequestDispatcher("/backend/member/Map3.jsp").forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

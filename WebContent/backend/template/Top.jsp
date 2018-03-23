@@ -213,10 +213,21 @@
                             <!-- /.nav-second-level -->
                         </li>
                         <li>
-                            <a href="<c:url value='/Back/Graph.do'/>"><i class="fa fa-bar-chart-o fa-fw"></i>각종 통계 확인</a>
+                            <a href="#"><i class="fa fa-truck fa-fw"></i>푸드트럭 관리<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+		                        <li>
+		                            <a href="<c:url value='/Back/Map.do'/>"><i class="fa fa-map-marker fa-fw"></i>푸드트럭 위치보기</a>
+		                        </li>
+		                        <li>
+		                            <a href="#"><i class="fa fa-user fa-fw"></i>비회원 트럭 등록</a>
+		                        </li>
+		                        <li>
+		                            <a href="#"><i class="fa fa-desktop fa-fw"></i>트럭 통합관리</a>
+		                        </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="<c:url value='/Back/Map.do'/>"><i class="fa fa-map-marker fa-fw"></i>푸드트럭 위치조회</a>
+                            <a href="<c:url value='/Back/Graph.do'/>"><i class="fa fa-bar-chart-o fa-fw"></i>각종 통계 확인</a>
                         </li>
                         <li>
                             <a href="<c:url value='/Back/Calendar.do'/>"><i class="fa fa-calendar fa-fw"></i>행사일정월력 관리</a>

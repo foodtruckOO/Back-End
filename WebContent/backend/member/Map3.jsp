@@ -55,34 +55,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgl1I9rm4B0-n7bZ-IyvDv3yyIv8sHM3c&"></script>
-<script>
-$(function(){
-	var obj = ${json};
-	if(obj!=null){
-		$.each(obj, function(){
-			console.log(this.content+"    "+this.location);
-			this.latlng = geoCode(this.location);
-		});
-	}//이거는 멀쩡히 작동함. 이제 여기서 아마도 geocoding 통해서 location을 변환하는 작업을 거쳐가야 할 것 같다고 생각합니다...
-});
-function geoCode(location) {
-	var geocoder;
-	geocoder = new google.maps.Geocoder();
-	geocoder.geocode( { 'address': location}, function(results, status) {
-		var faddr_lat = 0;
-		var faddr_lng = 0;
-		if (status == google.maps.GeocoderStatus.OK) {
-			faddr_lat = results[0].geometry.location.lat();	//위도
-			faddr_lng = results[0].geometry.location.lng();	//경도
-		}
-		var latNlng = new Array(2);
-		latNlng[0] = faddr_lat;
-		latNlng[1] = faddr_lng;
-		//alert('주소 : ' + location + '\n\n위도 : ' + faddr_lat + '\n\n경도 : ' + faddr_lng);
-		return latNlng;
-	});
-}//이걸 이용하면 위도/경도를 산출해 내는 것은 가능하다.이 둘을 이용한다면... 그렇다면... 이걸 활용하면... 뭐라도... 되어야...
-</script>
+
 
 </head>
 <body>
@@ -248,56 +221,53 @@ function geoCode(location) {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////DB에 저장된 주소 받아서 위도/경도로 변환한 뒤 해당 지점에 마커 찍는 로직/////////////////////////
 	$.each(${json}, function() {
+		//여기서 넘겨줘야 하는 것은 결국 컨텐츠하고 회원여부, 번호 정도가 되겠습니다... 별도로 구글기준 지오코더 안써도 다음 지오코더가 더 나음
 		var dto = this;
 		////////////////////////////////
-		var geocoder = new google.maps.Geocoder();
-		geocoder.geocode( { 'address': this.location}, function(results, status) {
-			var lat = 0;
-			var lng = 0;
-			if (status == google.maps.GeocoderStatus.OK) {
-				lat = results[0].geometry.location.lat();//위도
-				lng = results[0].geometry.location.lng();//경도
-			}
-			var latNlng = new Array(2);
-			latNlng[0] = lat;
-			latNlng[1] = lng;		
-			////////////////////////////	
-			var markerPosition  = new daum.maps.LatLng(lat, lng);
-			// 마커를 생성합니다
-			var marker = new daum.maps.Marker({
-			    position: markerPosition
-			});
-			// 마커가 지도 위에 표시되도록 설정합니다
-			marker.setMap(map);
-			
-			var iwContent = dto.content;
-			console.log("주소 : "+dto.location+", 위도 : "+lat+", 경도 : "+lng)
-		    iwPosition = new daum.maps.LatLng(lat, lng); //인포윈도우 표시 위치입니다
-			// 인포윈도우를 생성합니다
-			var infowindow = new daum.maps.InfoWindow({
-			    position : iwPosition, 
-			    content : iwContent
-			});
-			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-			//infowindow.open(map, marker); 
-			daum.maps.event.addListener(marker, 'click', function() {
-			      // 마커 위에 인포윈도우를 표시합니다
-			      alert("상세보기 페이지로 이동하는거 구현예정입니다");
-			      alert(dto.cc=='9'?'회원':'비회원');
-			      alert("트럭번호는 "+dto.no);
-			      //location.href="<c:url value='/backend/pages/Index.jsp'/>";//여기서 상세보기로 링크걸면 된다. 이제 소비자페이지 상세보기로 연결하는거 필요
-			});
-			// 마커에 마우스오버 이벤트를 등록합니다
-			daum.maps.event.addListener(marker, 'mouseover', function() {
-			  // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
-			    infowindow.open(map, marker);
-			});
+		var geocoder = new daum.maps.services.Geocoder();
+		geocoder.addressSearch(this.location, function(result, status) {
+			if (status === daum.maps.services.Status.OK) {
 
-			// 마커에 마우스아웃 이벤트를 등록합니다
-			daum.maps.event.addListener(marker, 'mouseout', function() {
-			    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
-			    infowindow.close();
-			});
+		        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new daum.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+
+		        // 인포윈도우로 장소에 대한 설명을 표시합니다
+		        var infowindow = new daum.maps.InfoWindow({
+			    	content : dto.content
+				});
+		        daum.maps.event.addListener(marker, 'mousedown', function() {
+				      // 마커 위에 인포윈도우를 표시합니다
+				      switch(event.button){
+				      case 0 : 
+					      alert("상세보기 페이지로 이동하는거 구현예정입니다");
+					      alert(dto.cc=='9'?'회원':'비회원');
+					      alert("트럭번호는 "+dto.no);
+				    	  break;
+				      case 2 : 
+					      alert(dto.cc=='9'?'회원':'비회원');
+					      alert("트럭번호는 "+dto.no);
+				    	  confirm("해당 마커를 숨깁니다");
+				    	  break;
+				      }
+				      //location.href="<c:url value='/backend/pages/Index.jsp'/>";//여기서 상세보기로 링크걸면 된다. 이제 소비자페이지 상세보기로 연결하는거 필요
+				});
+				// 마커에 마우스오버 이벤트를 등록합니다
+				daum.maps.event.addListener(marker, 'mouseover', function() {
+				  // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+				    infowindow.open(map, marker);
+				});
+
+				// 마커에 마우스아웃 이벤트를 등록합니다
+				daum.maps.event.addListener(marker, 'mouseout', function() {
+				    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+				    infowindow.close();
+				});
+		    } 
 		});//지오코드 종료
 	});///.each 종료
 	//지도위에 추가된 마커를 삭제하는 함수
