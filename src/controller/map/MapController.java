@@ -1,4 +1,4 @@
-package controller;
+package controller.map;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -36,6 +36,8 @@ public class MapController extends HttpServlet{
 			content+="<div style='height:100px;'>업체명 : "+dto.getTname()+"</br>주소 : "+dto.getAddr();
 			map.put("content", content);
 			map.put("location", dto.getAddr());
+			map.put("tel", dto.getTel());
+			map.put("tname", dto.getTname());
 			map.put("no", dto.getNo());
 			map.put("cc", dto.getColumnCount());
 			collections.add(map);
@@ -44,7 +46,7 @@ public class MapController extends HttpServlet{
 		req.setAttribute("json", jsonString);
 		System.out.println(jsonString);
 		//req.getRequestDispatcher("/backend/member/Map.jsp").forward(req, resp);
-		req.getRequestDispatcher("/backend/member/Map3.jsp").forward(req, resp);
+		req.getRequestDispatcher("/backend/member/Map2.jsp").forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

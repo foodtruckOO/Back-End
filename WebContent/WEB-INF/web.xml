@@ -67,7 +67,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>Map</servlet-name>
-    <servlet-class>controller.MapController</servlet-class>
+    <servlet-class>controller.map.MapController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Map</servlet-name>

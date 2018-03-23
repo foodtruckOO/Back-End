@@ -225,7 +225,7 @@
 		var dto = this;
 		////////////////////////////////
 		var geocoder = new daum.maps.services.Geocoder();
-		geocoder.addressSearch(this.location, function(result, status) {
+		geocoder.addressSearch(this.location, function(result, status) {//첫 인자로 주소를 넣어야 한다. 따라서 json으로 주소를 넘겨주는 게 필수
 			if (status === daum.maps.services.Status.OK) {
 
 		        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
@@ -238,7 +238,7 @@
 
 		        // 인포윈도우로 장소에 대한 설명을 표시합니다
 		        var infowindow = new daum.maps.InfoWindow({
-			    	content : dto.content
+			    	content : dto.content//글에 담을 내용. 생각해보면 infowindow 선언 이전에 content 선언후 거기서 수식해도 될것같음
 				});
 		        daum.maps.event.addListener(marker, 'mousedown', function() {
 				      // 마커 위에 인포윈도우를 표시합니다
@@ -254,7 +254,6 @@
 				    	  confirm("해당 마커를 숨깁니다");
 				    	  break;
 				      }
-				      //location.href="<c:url value='/backend/pages/Index.jsp'/>";//여기서 상세보기로 링크걸면 된다. 이제 소비자페이지 상세보기로 연결하는거 필요
 				});
 				// 마커에 마우스오버 이벤트를 등록합니다
 				daum.maps.event.addListener(marker, 'mouseover', function() {
