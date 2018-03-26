@@ -59,7 +59,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             	행사 일정 통계
-                            	<div class="pull-right">
+                            <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                         	기간 선택
@@ -88,7 +88,21 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            	회원 통계
+                            	회원 및 트럭 통계
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        	기간 선택
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a id='all'>모든 회원 수</a>
+                                        </li>
+                                        <li><a id='seller'>지역별 트럭분포</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -159,7 +173,7 @@
 				data:'term=3',
 				success:function(data){
 					console.log("성공"+data);
-					chart.setData(JSON.parse(data));
+					barChart.setData(JSON.parse(data));
 				},
 				error:function(data){
 					console.log("에러발생 : "+data);
@@ -175,7 +189,7 @@
 				data:'term=6',
 				success:function(data){
 					console.log("성공"+data);
-					chart.setData(JSON.parse(data));
+					barChart.setData(JSON.parse(data));
 				},
 				error:function(data){
 					console.log("에러발생 : "+data);
@@ -191,18 +205,51 @@
 				data:'term=12',
 				success:function(data){
 					console.log("성공"+data);
-					chart.setData(JSON.parse(data));
+					barChart.setData(JSON.parse(data));
 				},
 				error:function(data){
 					console.log("에러발생 : "+data);
 				}
 			});
 		});
-    	
+//////////////////////////////////////////////////////////////////이 아래부터 도넛그래프		
+		$("#all").click(function(){
+			console.log("버튼클릭함");
+			$.ajax({
+				url:"<c:url value='/Back/Graph.do'/>",
+				type:'post',
+				dataType:'text',
+				data:'type=all',
+				success:function(data){
+					console.log("성공"+data);
+					donutChart.setData(JSON.parse(data));
+				},
+				error:function(data){
+					console.log("에러발생 : "+data);
+				}
+			});
+		});
+		$("#seller").click(function(){
+			console.log("버튼클릭함");
+			$.ajax({
+				url:"<c:url value='/Back/Graph.do'/>",
+				type:'post',
+				dataType:'text',
+				data:'type=seller',
+				success:function(data){
+					console.log("성공"+data);
+					donutChart.setData(JSON.parse(data));
+				},
+				error:function(data){
+					console.log("에러발생 : "+data);
+				}
+			});
+		});		
+		
+////////////////////////////////////////////////////////////////////////////////////////////    	
         Morris.Area({
             element: 'morris-area-chart',
             data: //${data}
-        	
                 [{
                 period: '2010 Q1',
                 iphone: 2666,
@@ -242,13 +289,13 @@
             resize: true
         });
         
-        Morris.Donut({
+        var donutChart = Morris.Donut({//지역에 따른 트럭분포도 볼 수 있도록 해야 될 것 같다음...
             element: 'morris-donut-chart',
             data: ${memberCounts},
             resize: true
         });
 
-        var chart = Morris.Bar({
+        var barChart = Morris.Bar({
             element: 'morris-bar-chart',
             data: ${eventData},
             xkey: 'period',

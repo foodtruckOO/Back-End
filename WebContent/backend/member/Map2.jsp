@@ -67,7 +67,28 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-
+$(function(){
+	$("#memberOnly").click(function(){
+		$.ajax({
+			url:"<c:url value='/Back/Map.do'/>",
+			type:'post',
+			dataType:'text',
+			data:'member=yes',
+			success:function(data){
+				mapdata=data;
+			},
+			error:function(data){
+				
+			}
+		});
+	});
+	$("#nomemberOnly").click(function(){
+		
+	});
+	$("#allMember").click(function(){
+		
+	});
+});
 </script>
 </head>
 <body>
@@ -90,6 +111,22 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Area Chart Example
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        	필터
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a id='memberOnly'>회원만</a>
+                                        </li>
+                                        <li><a id='notmemberOnly'>비회원만</a>
+                                        </li>
+                                        <li><a id='allMember'>전체</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -185,6 +222,8 @@
 	}
 ///////////////////모달창 관련된 부분들/////////////////////////////
 /////////////////////////////////////////////////////////////
+	var mapData = ${json};
+
 	var markers = [];
 	var infowindow;
 	
@@ -202,28 +241,7 @@
 	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성
 	var zoomControl = new daum.maps.ZoomControl();
 	map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
-	var positions = ${json};
-	// 마커 이미지의 이미지 주소입니다
-	var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-	var overlays=[];
-	for (var i = 0; i < ${json}.length; i ++) {	    
-	    // 마커 이미지의 이미지 크기 입니다
-	    var imageSize = new daum.maps.Size(24, 35);   
-	    // 마커 이미지를 생성합니다    
-	    var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize); 	    
-	    // 마커를 생성합니다
-	    var marker = new daum.maps.Marker({
-	        map: map, // 마커를 표시할 지도
-	        position: positions[i].latlng, // 마커를 표시할 위치
-	        image : markerImage // 마커 이미지 
-	    });
-	   	var overlay = new daum.maps.CustomOverlay({
-	        content: positions[i].content,
-	        position: positions[i].latlng
-	    });
-	   	overlays.push(overlay);
-	    daum.maps.event.addListener(marker, 'click', openOverlay(map, marker, overlay));
-	} 
+
 	function openOverlay(map,marker,overlay){
 		 return function() {
 			overlay.setMap(map);
@@ -288,7 +306,7 @@
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////DB에 저장된 주소 받아서 위도/경도로 변환한 뒤 해당 지점에 마커 찍는 로직/////////////////////////
-	$.each(${json}, function() {
+	$.each(mapData, function() {
 		//여기서 넘겨줘야 하는 것은 결국 컨텐츠하고 회원여부, 번호 정도가 되겠습니다... 별도로 구글기준 지오코더 안써도 다음 지오코더가 더 나음
 		var dto = this;
 		////////////////////////////////
@@ -297,10 +315,26 @@
 			if (status === daum.maps.services.Status.OK) {
 
 		        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-
+				
+		        
+		        
+		        //마커이미지관련
+		        var imageSrc='';
+		        if(dto.cc=='9'){
+					imageSrc="<c:url value='/backend/img/map/Colorful.png'/>";
+				}
+		        else imageSrc="<c:url value='/backend/img/map/Monochrome.png'/>";
+		        var imageSize= new daum.maps.Size(24,24),
+		            imageOption={offset:new daum.maps.Point(27,69)};
+		        var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption);
+				//마커이미지 생성완료
+		         
+				
+				
 		        // 결과값으로 받은 위치를 마커로 표시합니다
 		        var marker = new daum.maps.Marker({
 		            map: map,
+		            image:markerImage,
 		            position: coords
 		        });
 

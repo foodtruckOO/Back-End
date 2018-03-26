@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>관리자 로그인</title>
+    <title>푸드트럭 - 놀랍도록 빠르고 굉장할 정도로 맛있습니다!</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value='/backend/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">

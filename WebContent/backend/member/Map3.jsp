@@ -11,6 +11,8 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
 	<style>
 	    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
 	    .wrap * {padding: 0;margin: 0;}
@@ -26,6 +28,14 @@
 	    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
 	    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
 	    .info .link {color: #5085BB;}
+	</style>
+	<style>
+	    label, input { display:block;}
+	    input.text { margin-bottom:12px; width:95%; padding: .4em; }
+	    fieldset { padding:0; border:0; margin-top:25px; }
+	    h1 { font-size: 1.2em; margin: .6em 0; }
+	    .ui-dialog .ui-state-error { padding: .3em; }
+	    .validateTips { border: 1px solid transparent; padding: 0.3em; }
 	</style>
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value='/backend/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">
@@ -54,9 +64,59 @@
 <script src="<c:url value='/backend/js/sojaeji2.js'/>"></script><!-- 소재지 파일 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgl1I9rm4B0-n7bZ-IyvDv3yyIv8sHM3c&"></script>
-
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(function(){
+	$("#memberOnly").click(function(){
+		$.ajax({
+			url:"<c:url value='/Back/Map.do'/>",
+			type:'post',
+			dataType:'text',
+			data:'member=yes',
+			success:function(data){
+				mapdata=data;
+				//var markerSetter = $.each(mapData, eachMarker);
+			},
+			error:function(data){
+				
+			}
+		});
+	});
+	$("#nomemberOnly").click(function(){
+		$.ajax({
+			url:"<c:url value='/Back/Map.do'/>",
+			type:'post',
+			dataType:'text',
+			data:'member=no',
+			success:function(data){
+				mapdata=data;
+				//var markerSetter = $.each(mapData, eachMarker);
+			},
+			error:function(data){
+				
+			}
+		});
+		
+	});
+	$("#allMember").click(function(){
+		$.ajax({
+			url:"<c:url value='/Back/Map.do'/>",
+			type:'post',
+			dataType:'text',
+			data:'member=all',
+			success:function(data){
+				mapdata=data;
+				//var markerSetter = $.each(mapData, eachMarker);
+			},
+			error:function(data){
+				
+			}
+		});
+		
+	});
+});
+</script>
 </head>
 <body>
 
@@ -78,9 +138,26 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Area Chart Example
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        	필터
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li><a id='memberOnly'>회원만</a>
+                                        </li>
+                                        <li><a id='notmemberOnly'>비회원만</a>
+                                        </li>
+                                        <li><a id='allMember'>전체</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
+	                        <button id="create-user">Create new user</button>
 	                       	<article>
 								<fieldset>
 									<legend>주소그룹</legend>
@@ -108,10 +185,72 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+    
+    <!-- ModalPage -->
+    <div id="dialog-form" title="Create new user">
+		<p class="validateTips">All form fields are required.</p>
+		<form>
+			<fieldset>
+				<label for="tname">상호명</label>
+				<input type="text" name="name" id="tname" value="" class="text ui-widget-content ui-corner-all">
+				<label for="tal">연락처</label>
+				<input type="text" name="email" id="tel" value="" class="text ui-widget-content ui-corner-all">
+				<label for="addr">위치</label>
+				<input type="text" name="email" id="addr" value="" class="text ui-widget-content ui-corner-all">
+	 			<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div>
+    <!-- /ModalPage -->
+    
+    
 <script type="text/javascript">
 	new sojaeji('sido', 'gugun', 'dong');
 </script>
 <script>
+/////////////////////////////////////////////////////////////
+///////////////////모달창 관련된 부분들/////////////////////////////
+	dialog = $( "#dialog-form" ).dialog({
+	  autoOpen: false,
+	  height: 400,
+	  width: 350,
+	  modal: true,
+	  buttons: {
+	    "수정": function(){
+	    	alert("수정버튼누름");
+	    },
+	    "삭제": function(){
+	    	alert("삭제버튼누름");
+	    },
+	    "취소": function() {
+	    	dialog.dialog( "close" );
+	    }
+	  },
+	  close: function() {
+	  		dialog.dialog( "close" );
+	  }
+	});
+	
+	form = dialog.find( "form" ).on( "submit", function( event ) {
+	  event.preventDefault();
+	  addUser();
+	});
+	
+	$( "#create-user" ).on( "click", function() {
+	  dialog.dialog( "open" );
+	});
+	function modalShow(no, cc, tname, loc, tel){
+		console.log(no+",   "+cc);//tname, tel, addr
+		$("#tname").val(tname);
+		$("#tel").val(tel);
+		$("#addr").val(loc);
+	    dialog.dialog( "open" );
+	}
+///////////////////모달창 관련된 부분들/////////////////////////////
+/////////////////////////////////////////////////////////////
+	var mapData = ${json};
+
 	var markers = [];
 	var infowindow;
 	
@@ -129,31 +268,7 @@
 	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성
 	var zoomControl = new daum.maps.ZoomControl();
 	map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
-	var positions = ${json};
-	// 마커 이미지의 이미지 주소입니다
-	var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-	var overlays=[];
 
-	for (var i = 0; i < ${json}.length; i ++) {	    
-	    // 마커 이미지의 이미지 크기 입니다
-	    var imageSize = new daum.maps.Size(24, 35);   
-	    // 마커 이미지를 생성합니다    
-	    var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize); 	    
-	    // 마커를 생성합니다
-	    var marker = new daum.maps.Marker({
-	        map: map, // 마커를 표시할 지도
-	        position: positions[i].latlng, // 마커를 표시할 위치
-	        image : markerImage // 마커 이미지 
-	    });
-	   	var overlay = new daum.maps.CustomOverlay({
-	        content: positions[i].content,
-	        position: positions[i].latlng
-	    });
-	   	overlays.push(overlay);
-	    daum.maps.event.addListener(marker, 'click', openOverlay(map, marker, overlay));
-	   
-	} 
-	
 	function openOverlay(map,marker,overlay){
 		 return function() {
 			overlay.setMap(map);
@@ -181,7 +296,6 @@
 			console.log(keyword);
 		});
 	});
-
 	// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 	function placesSearchCB (data, status, pagination) {
 	    if (status === daum.maps.services.Status.OK) {
@@ -190,7 +304,7 @@
 	        var bounds = new daum.maps.LatLngBounds();
 	        for (var i=0; i<data.length; i++) {
 	            bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
-	        }       
+	        }
 	        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
 	        map.setBounds(bounds);
 	     	// 지도의 중심좌표를 얻어옵니다 
@@ -206,7 +320,6 @@
 		    marker.setMap(map);
 		    // 생성된 마커를 배열에 추가합니다
 		    markers.push(marker);
-	
 		    var iwContent = '<div style="width:180px;">현위치 좌표<br><br> 위도:'+latlng.getLat()+'<br> 경도:'+latlng.getLng()+'<br/><br/></div>',
 		    iwPosition = new daum.maps.LatLng(latlng.getLat(), latlng.getLng());
 			// 인포윈도우를 생성합니다
@@ -220,7 +333,9 @@
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////DB에 저장된 주소 받아서 위도/경도로 변환한 뒤 해당 지점에 마커 찍는 로직/////////////////////////
-	$.each(${json}, function() {
+
+
+	var eachMarker = function(){
 		//여기서 넘겨줘야 하는 것은 결국 컨텐츠하고 회원여부, 번호 정도가 되겠습니다... 별도로 구글기준 지오코더 안써도 다음 지오코더가 더 나음
 		var dto = this;
 		////////////////////////////////
@@ -233,6 +348,7 @@
 		        // 결과값으로 받은 위치를 마커로 표시합니다
 		        var marker = new daum.maps.Marker({
 		            map: map,
+		            //image:markerImage,
 		            position: coords
 		        });
 
@@ -244,9 +360,8 @@
 				      // 마커 위에 인포윈도우를 표시합니다
 				      switch(event.button){
 				      case 0 : 
-					      alert("상세보기 페이지로 이동하는거 구현예정입니다");
-					      alert(dto.cc=='9'?'회원':'비회원');
-					      alert("트럭번호는 "+dto.no);
+						  infowindow.close();
+					      modalShow(dto.no, dto.cc, dto.tname, dto.location, dto.tel);//모달에서 필요로 하는 정보들은 다음과 같다
 				    	  break;
 				      case 2 : 
 					      alert(dto.cc=='9'?'회원':'비회원');
@@ -268,7 +383,13 @@
 				});
 		    } 
 		});//지오코드 종료
-	});///.each 종료
+	};
+	var markerSetter = $.each(mapData, eachMarker);
+	markerSetter(mapData, eachMarker);
+	
+	
+	
+	
 	//지도위에 추가된 마커를 삭제하는 함수
 	function removeMarker() {
 		for ( var i = 0; i < markers.length; i++ ) {
@@ -278,9 +399,6 @@
 	}
 ////////////////////////////////////////////////////////////////////////////
 </script>
-    <!-- jQuery -->
-    <script src="<c:url value='/backend/vendor/jquery/jquery.min.js'/>"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value='/backend/vendor/bootstrap/js/bootstrap.min.js'/>"></script>
 

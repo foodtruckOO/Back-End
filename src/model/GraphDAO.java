@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.naming.Context;
@@ -102,5 +104,26 @@ public class GraphDAO {
 			}
 		} catch (Exception e) {e.printStackTrace();}
 		return count;
+	}
+	
+	public List<Map> selectSellerGraph() {
+		List<Map> list = new Vector();
+		String sql="select do, count(*) from (select substr(addr, 0,(instr(addr , ' ', 1)-1)) do from seller union all ";
+		sql+="select substr(addr, 0,(instr(addr , ' ', 1)-1)) do from foodtrucks) group by do";
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				Map map = new HashMap();
+				map.put("label", rs.getString(1));
+				map.put("value", rs.getString(2));
+				list.add(map);
+			}
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }

@@ -83,33 +83,57 @@ public class GraphController extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println(req.getParameter("id"));
-		String id = req.getParameter("id");
-		System.out.println("기간선택버튼 클릭함 : "+req.getParameter("term"));
+		String eventData="";
+		resp.setCharacterEncoding("UTF-8");
 		GraphDAO dao = new GraphDAO(req.getServletContext());
-		Calendar cal = Calendar.getInstance();
-		int year = cal.get(cal.YEAR);
-		int month = cal.get(cal.MONTH)+1;
-		List<Map> eventCounts = new Vector<Map>();
-		int num=Integer.parseInt(req.getParameter("term"));
-
-		for(int i=0;i<num;i++) {
-			Map record = new HashMap();
-			
-			/*if(month<10) record.put("period", Integer.toString(year)+" 0"+Integer.toString(month));
-			else */record.put("period", Integer.toString(year)+"-"+Integer.toString(month));
-			
-			record.put("count", dao.selectEventGraph(Integer.toString(year), Integer.toString(month)));
-			if(month==12) {//12월이라 다음달이 1월이라는소리
-				year++;
-				month=1;
+		//////////////////////////////////첫번째 그래프 관련 요청일 경우 얘가 조치함
+		if(req.getParameter("term")!=null) {
+			System.out.println(req.getParameter("id"));
+			String id = req.getParameter("id");
+			System.out.println("기간선택버튼 클릭함 : "+req.getParameter("term"));
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(cal.YEAR);
+			int month = cal.get(cal.MONTH)+1;
+			List<Map> eventCounts = new Vector<Map>();
+			int num=Integer.parseInt(req.getParameter("term"));
+			for(int i=0;i<num;i++) {
+				Map record = new HashMap();
+				record.put("period", Integer.toString(year)+"-"+Integer.toString(month));
+				record.put("count", dao.selectEventGraph(Integer.toString(year), Integer.toString(month)));
+				if(month==12) {//12월이라 다음달이 1월이라는소리
+					year++;
+					month=1;
+				}
+				else month++;
+				eventCounts.add(record);
 			}
-			else month++;
-			eventCounts.add(record);
+			dao.close();
+			eventData = JSONArray.toJSONString(eventCounts);
 		}
-		dao.close();
-		String eventData = JSONArray.toJSONString(eventCounts);
+		////////////////////////////2번쨰 도넛그래프 요청은 얘가 처리함
+		else if(req.getParameter("type")!=null) {
+			if(req.getParameter("type").equals("all")) {
+				List<Map> memberCounts = new Vector<Map>();
+				Map rc1 = new HashMap();
+				rc1.put("label", "소비자회원 수");
+				rc1.put("value", dao.customerCount());
+				Map rc2 = new HashMap();
+				rc2.put("label", "판매자회원 수");
+				rc2.put("value", dao.sellerCount());
+				memberCounts.add(rc1);
+				memberCounts.add(rc2);
+				eventData = JSONArray.toJSONString(memberCounts);
+				System.out.println(eventData);
+			}
+			else if(req.getParameter("type").equals("seller")) {
+				List<Map> list = dao.selectSellerGraph();
+				eventData = JSONArray.toJSONString(list);
+				System.out.println(eventData);
+			}
+		}
+		
 		PrintWriter out = resp.getWriter();
 		out.print(eventData);
+		out.close();
 	}
 }

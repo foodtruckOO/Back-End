@@ -68,8 +68,7 @@ public class MapDAO {
 		}
 		return list;
 	}
-	
-	
+		
 	public int selectListSupport() {
 		String sql = "SELECT f_no no, tname, addr, tel FROM foodtrucks UNION ";
 		sql+="SELECT s_no no, tname, addr, tel FROM seller";
@@ -90,10 +89,36 @@ public class MapDAO {
 		return 0;//오류발생시 반환값
 	}
 	
-	
-	
-	
-	
+	public List<MapDTO> selectListbyMember(String type) {
+		List<MapDTO> list = new Vector();
+		String sql="";
+		switch(type) {
+			case "yes" : 
+				sql+="SELECT s_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
+				break;
+			case "no" : 
+				sql = "SELECT f_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks";
+				break;
+			default :
+				return selectListBasic();
+		}
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				MapDTO dto = new MapDTO();
+				dto.setNo(rs.getString(1));
+				dto.setTname(rs.getString(2));
+				dto.setAddr(rs.getString(3));
+				dto.setTel(rs.getString(4));
+				dto.setColumnCount(rs.getString(5));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 	public MapDTO selectOne(String no, String count) {
 		MapDTO dto = new MapDTO();
