@@ -40,6 +40,7 @@ public class MapController extends HttpServlet{
 			map.put("tname", dto.getTname());
 			map.put("no", dto.getNo());
 			map.put("cc", dto.getColumnCount());
+			map.put("corpNo", dto.getCorpNo());
 			collections.add(map);
 		}
 		String jsonString = JSONArray.toJSONString(collections);

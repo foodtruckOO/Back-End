@@ -15,7 +15,7 @@ public class RegisterController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//System.out.println("회원가입버튼 거쳐서 컨트롤러 타고 왔다");
-		req.getRequestDispatcher("/backend/pages/Register.jsp").forward(req, resp);
+		req.getRequestDispatcher("/backend/member/Register.jsp").forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

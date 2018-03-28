@@ -166,30 +166,21 @@ public class SellerDAO {
 		return list;
 	}
 	
-	/*
-	public static Float[] geoCoding(String location) {
-		if (location == null) return null;
-		Geocoder geocoder;
+	public int updateTruckOnly(SellerDTO dto) {
+		int affected=0;
+		String sql="UPDATE seller SET tname=?, addr=?, tel=?, corporate_no=? WHERE s_no=?";
 		try {
-			geocoder = new Geocoder("devilmajera@gmail.com", "AIzaSyDCprkL2NMBsilsOi_Xv3d94D7qF94oKb4");
-			// setAddress : 변환하려는 주소 (경기도 성남시 분당구 등)
-			// setLanguate : 인코딩 설정
-			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(location).setLanguage("ko").getGeocoderRequest();
-			GeocodeResponse geocoderResponse;
-			geocoderResponse = geocoder.geocode(geocoderRequest);
-			if (geocoderResponse.getStatus() == GeocoderStatus.OK & !geocoderResponse.getResults().isEmpty()) {	
-				GeocoderResult geocoderResult=geocoderResponse.getResults().iterator().next();
-				LatLng latitudeLongitude = geocoderResult.getGeometry().getLocation();
-				Float[] coords = new Float[2];
-				coords[0] = latitudeLongitude.getLat().floatValue();
-				coords[1] = latitudeLongitude.getLng().floatValue();
-				return coords;
-			}
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, dto.getTname());
+			psmt.setString(2, dto.getAddr());
+			psmt.setString(3, dto.getTel());
+			psmt.setString(4, dto.getCorporate_no());
+			psmt.setString(5, dto.getS_no());
+			affected = psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		catch (IOException | InvalidKeyException ex) {
-			ex.printStackTrace();
-		}
-		return null;
-	}*/
+		return affected;
+	}
 
 }

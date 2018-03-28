@@ -176,5 +176,4 @@
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
 </body>
-
 </html>

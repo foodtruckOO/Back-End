@@ -219,7 +219,7 @@
 		                            <a href="<c:url value='/Back/Map.do'/>"><i class="fa fa-map-marker fa-fw"></i>푸드트럭 위치보기</a>
 		                        </li>
 		                        <li>
-		                            <a href="#"><i class="fa fa-user fa-fw"></i>비회원 트럭 등록</a>
+		                            <a href="<c:url value='/Back/NoMemberRegister.do'/>"><i class="fa fa-user fa-fw"></i>비회원 트럭 등록</a>
 		                        </li>
 		                        <li>
 		                            <a href="#"><i class="fa fa-desktop fa-fw"></i>트럭 통합관리</a>

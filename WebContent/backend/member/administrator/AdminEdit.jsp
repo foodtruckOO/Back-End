@@ -86,7 +86,7 @@
 		                    	</tr>
 		                        <tr class="gradeA">
 		                        	<td>이메일</td>
-                                    <td><input class="form-control" placeholder="비밀번호" name="email" type="email" value="${dto.email}"></td>
+                                    <td><input class="form-control" placeholder="비밀번호" name="email" type="email" value="${dtto.email}"></td>
 		                    	</tr>
 		                    	<input type="hidden" name="a_no" value="${dtto.a_no}">
 		                    	<tr>

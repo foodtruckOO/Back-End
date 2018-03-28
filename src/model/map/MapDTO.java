@@ -6,6 +6,7 @@ public class MapDTO {
 	private String tel;//연락처
 	private String columnCount;//회원트럭인지 비회원트럭 하드로 치는지. 이거에 따라 어떤 테이블에 넣을지를 갈라야 한다.
 	private String sname;//해당 상호명 담는거
+	private String corpNo;
 	private String addr;//한글주소 담을거
 	
 	public String getNo() {
@@ -43,6 +44,12 @@ public class MapDTO {
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+	public String getCorpNo() {
+		return corpNo;
+	}
+	public void setCorpNo(String corpNo) {
+		this.corpNo = corpNo;
 	}
 	
 	

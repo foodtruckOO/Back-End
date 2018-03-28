@@ -12,17 +12,17 @@
 		</c:if>
 		<c:set var="SUC_URL" value="/Back/Login.do"/>
 	</c:when>
-	<c:when test="${WHERE eq 'USEREDIT' }">
+	<c:when test="${WHERE eq 'USEREDIT'}">
 		<c:set var="SUC_MSG" value="계정 정보 수정 성공"/>
 		<c:set var="FAIL_MSG" value="계정 정보 수정 실패"/>
 		<c:set var="SUC_URL" value="/Back/UserList.do?user=admin"/>
 	</c:when>
-	<c:when test="${WHERE eq 'EVENTWRITE' }">
+	<c:when test="${WHERE eq 'EVENTWRITE'}">
 		<c:set var="SUC_MSG" value="글 작성 성공"/>
 		<c:set var="FAIL_MSG" value="글 작성 실패"/>
 		<c:set var="SUC_URL" value="/Back/Board.do?type=admin&board=1"/>
 	</c:when>
-	<c:when test="${WHERE eq 'EVENTEDIT' }">
+	<c:when test="${WHERE eq 'EVENTEDIT'}">
 		<c:set var="SUC_MSG" value="글 수정 성공"/>
 		<c:set var="FAIL_MSG" value="글 수정 실패"/>
 		<c:set var="SUC_URL" value="/Back/EventView.do?eno=${eno}"/>
@@ -32,6 +32,22 @@
 		<c:set var="FAIL_MSG" value="글 삭제 실패"/>
 		<c:set var="SUC_URL" value="/Back/Board.do?type=admin&board=1"/>	
 	</c:when>
+	<c:when test="${WHERE eq 'NOMEMBERREGISTER'}">
+		<c:set var="SUC_MSG" value="등록 성공"/>
+		<c:set var="FAIL_MSG" value="등록 실패"/>
+		<c:set var="SUC_URL" value="/Back/NoMemberRegister.do"/>	
+	</c:when>
+	<c:when test="${WHERE eq 'NOMEMBEREDIT'}">
+		<c:set var="SUC_MSG" value="수정 성공"/>
+		<c:set var="FAIL_MSG" value="수정 실패"/>
+		<c:set var="SUC_URL" value="/Back/Map.do"/>	
+	</c:when>
+	<c:when test="${WHERE eq 'TRUCKDELETE'}">
+		<c:set var="SUC_MSG" value="삭제 성공"/>
+		<c:set var="FAIL_MSG" value="삭제 실패"/>
+		<c:set var="SUC_URL" value="/Back/Map.do"/>	
+	</c:when>		
+
 	<c:otherwise>
 		<c:set var="SUC_MSG" value="계정 삭제 성공"/>
 		<c:set var="FAIL_MSG" value="계정 삭제 실패"/>

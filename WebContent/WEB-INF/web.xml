@@ -138,6 +138,30 @@
     <url-pattern>/Back/EventDelete.do</url-pattern>
   </servlet-mapping> 
   <servlet>
+    <servlet-name>NoMemberRegister</servlet-name>
+    <servlet-class>controller.member.NoMemberRegisterController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>NoMemberRegister</servlet-name>
+    <url-pattern>/Back/NoMemberRegister.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>TruckEdit</servlet-name>
+    <servlet-class>controller.member.TruckEditController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TruckEdit</servlet-name>
+    <url-pattern>/Back/TruckEdit.do</url-pattern>
+  </servlet-mapping>  
+  <servlet>
+    <servlet-name>TruckDelete</servlet-name>
+    <servlet-class>controller.member.TruckDeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TruckDelete</servlet-name>
+    <url-pattern>/Back/TruckDelete.do</url-pattern>
+  </servlet-mapping> 
+  <servlet>
     <servlet-name>AjaxTest</servlet-name>
     <servlet-class>controller.AjaxController</servlet-class>
   </servlet>

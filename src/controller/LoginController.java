@@ -25,6 +25,7 @@ public class LoginController extends HttpServlet {
 		resp.setContentType("text/html;charset=UTF-8");
 		AdminDAO dao = new AdminDAO(req.getServletContext());
 		AdminDTO dto = dao.logIn(req.getParameter("id"), req.getParameter("password"));
+		dao.close();
 		if(dto!=null) {
 			System.out.println("로그인성공");
 			req.getSession().setAttribute("dto", dto);
