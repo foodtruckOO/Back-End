@@ -18,7 +18,7 @@ public class NoMemberRegisterController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-		String addr = req.getParameter("roadAddrPart1").equals("선택하신 곳에서 도로명주소를 얻을 수 없습니다.")?req.getParameter("roadAddrPart1.5"):req.getParameter("roadAddrPart1");
+		String addr = req.getParameter("roadAddrPart1").equals("선택하신 곳에서 도로명주소를 얻을 수 없습니다.")?req.getParameter("roadAddrPart1_5"):req.getParameter("roadAddrPart1");
 		System.out.println(addr);
 		NoMemberDTO dto = new NoMemberDTO();
 		NoMemberDAO dao = new NoMemberDAO(req.getServletContext());

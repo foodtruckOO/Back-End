@@ -75,15 +75,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-	                            	<tr class="gradeA">
-	                            		<td>1</td>
-	                                    <td class="center">김고객</td>
-	                                    <td class="center">이사장</td>
-	                                    <td class="center">닭꼬치 * 2<br/>컵밥 * 3</td>
-	                                    <td class="center">5000원</td>
-	                                    <td class="center">2020-03-03</td>
-	                                    <td class="center">진행중</td>
-	                                </tr>
+                                	<c:forEach var="dto" items="${list}">
+		                            	<tr class="gradeA">
+		                            		<td>${dto.o_no}</td>
+		                                    <td class="center">${dto.gname}</td>
+		                                    <td class="center">${dto.sname}</td>
+		                                    <td class="center">${dto.fname}</td>
+		                                    <td class="center">${dto.price}</td>
+		                                    <td class="center">${dto.num}</td>
+		                                    <td class="center">글쎄</td>
+		                                </tr>
+	                                </c:forEach>
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->

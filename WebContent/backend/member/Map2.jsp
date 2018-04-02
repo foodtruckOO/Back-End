@@ -332,6 +332,10 @@
 				    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
 				    infowindow.close();
 				});
+				daum.maps.event.addListener(marker, 'dragstart', function() {
+				    // 드래그 시작하는 시점에 인포윈도우가 켜져있으면 안보이니까 감춘다
+				    infowindow.close();
+				});
 				daum.maps.event.addListener(marker, 'dragend', function() {
 				    // 마커 위치를 클릭한 위치로 옮깁니다
 				    latlng = marker.getPosition();

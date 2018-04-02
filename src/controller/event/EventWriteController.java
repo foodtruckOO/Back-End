@@ -102,14 +102,14 @@ public class EventWriteController extends HttpServlet {
 		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
 		//디렉토리생성 끝
 		MultipartRequest mr = FileUtils.upload(req, savePath);//업로드하기
-		//파일 이름 바꾸는 로직(글번호_파)
+		/////////////////////////////////////////////파일 이름 바꾸는 로직(글번호_파일명 의 방식임)
 		File contentFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+dtto.getId())+File.separator+mr.getOriginalFileName("contentFile"));
 		File contentNewFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+dtto.getId())+File.separator+nowNum+mr.getOriginalFileName("contentFile"));
 		File titleFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+((AdminDTO)req.getSession().getAttribute("dto")).getId())+File.separator+mr.getOriginalFileName("titleFile"));
 		File titleNewFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+((AdminDTO)req.getSession().getAttribute("dto")).getId())+File.separator+nowNum+mr.getOriginalFileName("titleFile"));
 		contentFile.renameTo(contentNewFile);
 		titleFile.renameTo(titleNewFile);
-		//contentfile.renameT
+		/////////////////////////////////////////////
 		int affected=0;
 		if(mr!=null) {//업로드가 성공되었을 때 한해서 입력조치를 한다.
 			AdminEventDTO dto = new AdminEventDTO();

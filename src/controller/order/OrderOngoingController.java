@@ -1,16 +1,58 @@
 package controller.order;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.order.OrderDAO;
+import model.order.OrderDTO;
+
 public class OrderOngoingController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("주문현황체크로넘어옴");
+		OrderDAO dao = new OrderDAO(req.getServletContext());
+		List<OrderDTO> list = dao.selectList();
+		List<OrderDTO> migratedList = migrater(list);
+		req.setAttribute("list", migratedList);
 		req.getRequestDispatcher("/backend/order/OrderOngoingList.jsp").forward(req, resp);
 	}
+	
+	private List<OrderDTO> migrater(List<OrderDTO> list){
+		List<OrderDTO> resultList = new Vector();
+		OrderDTO dto = null;
+		int currento_no=0;
+		for(OrderDTO dtos : list) {
+			if(Integer.parseInt(dtos.getO_no())!=currento_no) {
+				currento_no=Integer.parseInt(dtos.getO_no());//다음 번호로 넘어갔다는 것을 공지시킴
+				if(dto!=null)resultList.add(dto);//null이 아닐때만 추가해 준다
+				dto = new OrderDTO();//여기서 새롭게 만들어냄
+				dto.setFname("");
+				dto.setPrice("0");
+				dto.setO_no(dtos.getO_no());
+				dto.setSname(dtos.getSname());
+				dto.setGname(dtos.getGname());//위 3항목은 중복되는 감이 있다. 따라서 1번만 더해주면 된다. 새로 바뀐 시점에...
+			}
+			dto.setFname(dto.getFname()+"</br>"+dtos.getFname()+"*"+dtos.getNum());//음식이름 누적해 나감. 이때 음식이름*주문갯수 형태로
+			dto.setPrice(Integer.toString(Integer.parseInt(dto.getPrice())+
+					(Integer.parseInt(dtos.getPrice())*Integer.parseInt(dtos.getNum()))));//음식가격합산하는거
+			
+		}
+		resultList.add(dto);//맨 마지막꺼 돌고 끝날 때 추가해주는 로직이 없으니까...셀프로 1개 추가해줄 필요 있음
+		return resultList;
+	}
 }
+
+/*
+ 
+			dto.setFname(dto.getFname()+"\r\n"+dtos.getFname()+"*"+dtos.getNum());
+			dto.setPrice(Integer.toString(Integer.parseInt(dto.getPrice())+(Integer.parseInt(dtos.getPrice())*Integer.parseInt(dtos.getNum()))));
+			dto.setO_no(dtos.getO_no());
+			dto.setSname(dtos.getSname());
+			dto.setGname(dtos.getGname());
+  
+ */

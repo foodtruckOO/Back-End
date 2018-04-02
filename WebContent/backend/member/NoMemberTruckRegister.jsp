@@ -58,8 +58,26 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2){//,en
 		document.form.roadFullAddr.value = roadFullAddr;//이부분에서 값이 안넘어온다는건가?뭐지?
 		document.form.roadAddrPart1.value = roadAddrPart1;
 		document.form.roadAddrPart2.value = roadAddrPart2;
-		document.form.addrDetail.value = addrDetail;		
+		document.form.addrDetail.value = addrDetail;
+		document.form.roadAddrPart1_5.value="";
 }
+$(function(){
+	$("#addMenu").click(function(){
+		$("#menuTbody").append("<tr>" +
+			"<td>" + $("#menuName").val() + "</td>" +
+			"<td>" + $("#menuPrice").val() + "</td>" +
+			"<td>" + "<a id='menuDelete'>삭제</a>" + "</td>" +
+			"</tr>");
+	
+		$("#menuName").val("");
+		$("#menuPrice").val("");
+	});
+	$(document).on("click","#menuDelete",function(){
+		if(confirm("해당 메뉴를 삭제합니다 : "+$(this).parent().parent().children("td:first").html())){
+			$(this).parent().parent().remove();
+		}
+	});
+});
 </script>
 </head>
 <body>
@@ -94,12 +112,27 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2){//,en
 										위도값 : <input type="text" id="lat" style="display: inline-block;">
 										경도값 : <input type="text" id="lng" style="display: inline-block;">
 									</div>
-		                        	<input type="button" onClick="goPopup();" class="form-control" value="검색해서 찾기" style="display: inline-block;"/>
+		                        	<input type="button" onClick="goPopup()" class="form-control" value="검색해서 찾기" style="display: inline-block;"/>
 									<input type="hidden" class="form-control" id="roadFullAddr" name="roadFullAddr"/><br>
 									도로명주소 <input type="text" class="form-control" id="roadAddrPart1" name="roadAddrPart1" readonly/><br>
-									지번주소 <input type="text" class="form-control" id="roadAddrPart1.5" name="roadAddrPart1.5" readonly/><br>
+									지번주소 <input type="text" class="form-control" id="roadAddrPart1_5" name="roadAddrPart1_5" readonly/><br>
 									고객입력 상세주소<input type="text" class="form-control" id="addrDetail" name="addrDetail"/><br>
 									<input type="hidden" class="form-control" id="roadAddrPart2" name="roadAddrPart2" /><br>
+									메뉴리스트
+									<table style="border: 1px red solid">
+										<thead>
+											<tr>
+												<th>메뉴명</th>
+												<th>가격</th>
+												<th>편집</th>
+											</tr>
+										</thead>
+										<tbody id="menuTbody" style="border: 1px green solid">
+										</tbody>
+									</table>
+									메뉴명 <input type="text" size="10" style="display: inline-block;" id="menuName">&nbsp;&nbsp;&nbsp;
+									가격<input type="text" size="8" style="display: inline-block;" id="menuPrice">&nbsp;&nbsp;&nbsp;
+									<input type="button" value="메뉴 추가" style="display: inline-block;" id="addMenu"></br>
 									사업자번호<input type="text" class="form-control" id="corpNo" name="corpNo" /><br>
 								 	<!-- Allow form submission with keyboard without duplicating the dialog button -->
 									<input type="submit" value="작성">
@@ -120,6 +153,7 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2){//,en
     <!-- ModalPage -->
     <!-- /ModalPage -->
 <script>
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new daum.maps.LatLng(37.566835, 126.978652), // 지도의 중심좌표
@@ -156,8 +190,8 @@ daum.maps.event.addListener(map, 'click', function(mouseEvent) {
             // 마커를 클릭한 위치에 표시합니다 
             marker.setPosition(mouseEvent.latLng);
             marker.setMap(map);
-			if(result[0].address==null) document.getElementById('roadAddrPart1.5').value='선택하신 곳에서 지번주소를 얻을 수 없습니다.';
-			else document.getElementById('roadAddrPart1.5').value=result[0].address.address_name;
+			if(result[0].address==null) document.getElementById('roadAddrPart1_5').value='선택하신 곳에서 지번주소를 얻을 수 없습니다.';
+			else document.getElementById('roadAddrPart1_5').value=result[0].address.address_name;
 			if(result[0].road_address==null) document.getElementById('roadAddrPart1').value='선택하신 곳에서 도로명주소를 얻을 수 없습니다.';
 			else document.getElementById('roadAddrPart1').value=result[0].road_address.address_name;
         }   
@@ -175,8 +209,8 @@ daum.maps.event.addListener(map, 'click', function(mouseEvent) {
         searchDetailAddrFromCoords(latlng, function(result, status) {
             if (status === daum.maps.services.Status.OK) {
                 marker.setPosition(latlng);
-    			if(result[0].address==null) document.getElementById('roadAddrPart1.5').value='선택하신 곳에서 지번주소를 얻을 수 없습니다.';
-    			else document.getElementById('roadAddrPart1.5').value=result[0].address.address_name;
+    			if(result[0].address==null) document.getElementById('roadAddrPart1_5').value='선택하신 곳에서 지번주소를 얻을 수 없습니다.';
+    			else document.getElementById('roadAddrPart1_5').value=result[0].address.address_name;
     			if(result[0].road_address==null) document.getElementById('roadAddrPart1').value='선택하신 곳에서 도로명주소를 얻을 수 없습니다.';
     			else document.getElementById('roadAddrPart1').value=result[0].road_address.address_name;
             }
