@@ -5,6 +5,7 @@ public class CustomerDTO {
 	private String id;
 	private String pwd;
 	private String name;
+	private String tel;
 	private java.sql.Date regidate;
 	public String getG_no() {
 		return g_no;
@@ -29,6 +30,12 @@ public class CustomerDTO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 	public java.sql.Date getRegidate() {
 		return regidate;

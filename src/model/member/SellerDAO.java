@@ -107,7 +107,7 @@ public class SellerDAO {
 	
 	public int delete(String no) {
 		int affected=0;
-		String sql = "DELETE FROM customer WHERE s_no=?";
+		String sql = "DELETE FROM seller WHERE s_no=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, no);

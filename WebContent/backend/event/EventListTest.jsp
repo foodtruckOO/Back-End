@@ -30,8 +30,8 @@
 
     <!-- Custom Fonts -->
     <link href="<c:url value='/backend/vendor/font-awesome/css/font-awesome.min.css'/>" rel="stylesheet" type="text/css">
-
-	<script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,74 +40,38 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
-var jsonData;
-function deleteOK(no){
-	if(confirm('정말로 삭제하시겠습니까?')){
-		location.href="<c:url value='/Back/EventDelete.do?no="+no+"'/>";
+	$(document).ready(function(){
+		$('#table').DataTable({
+			"order":[[0, "desc"]]
+		});
+	});
+
+
+
+	$("#frmDalete #delete").click(function(){
+		console.log('버튼클릭인식함');
+		if(confirm('정말로 삭제하시겠습니까?')){
+			$('#frmDelete').submit();
+			//
+		}
+	});
+	function deleteOK(no){
+		if(confirm('정말로 삭제하시겠습니까?')){
+			location.href="<c:url value='/Back/EventDelete.do?no="+no+"'/>";
+		}
 	}
-}
-function sendWrite(){
-	location.href="<c:url value='/Back/EventWrite.do'/>";
-}
-$(function(){
-	$("#all").click(function(){
-		console.log("모두선택 클릭함");
-		$.ajax({
-			url:"<c:url value='/Back/Ajax.do'/>",
-			type:"post",
-			dataType:"text",
-			data:"type=all",
-			success:function(data){
-				jsonData=data;
-			},
-			error:function(data){
-				console.log("에러발생:"+data)
-			}
-		});
+	function sendWrite(){
+		location.href="<c:url value='/Back/EventWrite.do'/>";
+	}
+	$(function(){
+		var title = "";
+		switch(${param.board}){
+		case 1 : title="홈페이지 주관 행사 안내글 목록";break;
+		case 2 : title="지역 행사 안내글 목록";break;
+		default : title="창업 안내 게시판 글 목록";break;
+		}
+		$("h1.page-header").html(title);
 	});
-	$("#type1").click(function(){
-		console.log("1선택 클릭함");
-		$.ajax({
-			url:"<c:url value='/Back/Ajax.do'/>",
-			type:"post",
-			dataType:"text",
-			data:"type=1",
-			success:function(data){
-				jsonData=data;
-			},
-			error:function(data){
-				console.log("에러발생:"+data)
-			}	
-		});
-		
-	});
-	$("#type2").click(function(){
-		console.log("2선택 클릭함");
-		$.ajax({
-			url:"<c:url value='/Back/Ajax.do'/>",
-			type:"post",
-			dataType:"text",
-			data:"type=2",
-			success:function(data){
-				jsonData=data;
-			},
-			error:function(data){
-				console.log("에러발생:"+data)
-			}
-		});
-		
-	});
-});
-function successAjax(data, target){
-	console.log('서버로부터 받은 데이터 : ', data, ', 자료형 : ', typeof data);
-	var tableString = "";
-	$.each(data, function(index, record) {
-		tableString+="<tr class='gradeA'>";
-		tableString+="<td>"+record.eno+"</td><td>"+record.id+"</td><td>"+record.title+"</td><td>"+record.boardtype+"</td><td>"+record.s_date+"</td><td>"+편집영역+"</td>";
-		tableString+="</tr>";
-	})
-	$(target).html(tableString);
-}
 </script>
 </head>
 
@@ -119,7 +83,7 @@ function successAjax(data, target){
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">지역 행사 안내글 목록</h1>
+                    <h1 class="page-header">게시판</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -129,27 +93,52 @@ function successAjax(data, target){
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             DataTables Advanced Tables
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        Actions
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a id="all" href="#">전체보기</a>
-                                        </li>
-                                        <li><a id="type1" href="#">홈페이지 행사글만 보기</a>
-                                        </li>
-                                        <li><a id="type2" href="#">지역 행사글만 보기</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                        	<table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                            </table>   
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="table">
+                                <thead>
+                                    <tr>
+                                        <th width="8%">번호</th>
+                                        <th width="10%">작성자</th>
+                                        <th width="35%">제목</th>
+                                        <th width="14%">분류</th>
+                                        <th width="18%">기간</th>
+                                        <th width="15%">편집</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+	                                <c:if test="${not empty list}">
+	                                	<c:forEach var="item" items="${list}" varStatus="loop">
+	                                		<tr class="gradeA">
+	                                			<td>${item.eno}</td>
+	                                			<td>${item.id}</td>
+	                                			<td><a href="<c:url value='/Back/EventView.do?eno=${item.eno}'/>">${item.title}</a></td>
+	                                			<td>${item.boardtype=='1'? '홈페이지 이벤트':'지역 이벤트'}</td>
+	                                			<c:if test="${item.s_date eq item.e_date}" var="oneday">
+	                                				<td>${item.s_date}</td>
+	                                			</c:if>
+	                                			<c:if test="${not oneday }">
+	                                				<td>${item.s_date} ~ ${item.e_date}</td>
+	                                			</c:if>
+	                                			<td>
+	                                				<c:if test="${dto.grade=='1' || dto.id == item.id }" var="canModify">
+		                                				<form method="get" action="<c:url value='/Back/EventEdit.do'/>" style="display: inline-block;">
+		                                					<input type="submit" class="btn btn-info" value="수정">
+		                                					<input type="hidden" value="${item.eno}"  name="no">
+		                                				</form>
+		                                				<button onclick="deleteOK(${item.eno})" class="btn btn-danger">삭제</button>
+	                                				</c:if>
+	                                				<c:if test="${not canModify}">
+	                                					편집 권한이 없습니다
+	                                				</c:if>
+	                                			</td>
+	                                		</tr>
+	                                	</c:forEach>
+	                                </c:if>
+                                </tbody>
+                            </table>
+                            
                             <!-- /.table-responsive -->
                             <button class="btn btn-success" onclick="sendWrite()">글 작성</button>
                         </div>
@@ -187,17 +176,7 @@ function successAjax(data, target){
     <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
-            responsive: true,
-            data: jsonData
-            	
-            ,columns:[
-            	{data:"eno"},
-            	{data:"id"},
-            	{data:"title"},
-            	{data:"boardtype"},
-            	{data:"s_date"},
-            	{data:"e_date"}            	
-            ]
+            responsive: true
         });
     });
     </script>

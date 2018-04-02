@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.event.AdminEventDAO;
 import model.event.AdminEventDTO;
 
-public class BoardController extends HttpServlet {
+public class BoardControllerOriginal extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<AdminEventDTO> list;

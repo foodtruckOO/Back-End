@@ -66,63 +66,25 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th width="20%">이름</th>
-                                        <th width="20%">소속</th>
-                                        <th width="20%">직책</th>
-                                        <th width="20%">권한</th>
-                                        <th width="20%">비고</th>
+                                        <th width="5%">번호</th>
+                                        <th width="10%">아이디</th>
+                                        <th width="10%">이름</th>
+                                        <th width="20%">트럭명</th>
+                                        <th width="20%">위치</th>
+                                        <th width="15%">연락처</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="gradeA">
-                                        <td>P7</td>
-                                        <td>독일</td>
-                                        <td>H&K</td>
-                                        <td class="center">4</td>
-                                        <td class="center">회피보조</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>MP5</td>
-                                        <td>독일</td>
-                                        <td>H&K</td>
-                                        <td class="center">4</td>
-                                        <td class="center">역장탱</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>HK416</td>
-                                        <td>독일</td>
-                                        <td>H&K</td>
-                                        <td class="center">5</td>
-                                        <td class="center">유탄</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>FNC</td>
-                                        <td>벨기에</td>
-                                        <td>FN</td>
-                                        <td class="center">3</td>
-                                        <td class="center">혜자</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>FAL</td>
-                                        <td>벨기에</td>
-                                        <td>FN</td>
-                                        <td class="center">5</td>
-                                        <td class="center">3단분리유탄</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>USAS</td>
-                                        <td>한국</td>
-                                        <td>대우정밀</td>
-                                        <td class="center">4</td>
-                                        <td class="center">뻐킹김치건</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>K2</td>
-                                        <td>한국</td>
-                                        <td>대우정밀</td>
-                                        <td class="center">5</td>
-                                        <td class="center">스킬설명이 길구나</td>
-                                    </tr>
+                                	<c:forEach var="dto" items="${list}">
+	                                    <tr class="gradeA">
+	                                        <td>${dto.s_no}</td>
+	                                        <td>${dto.id}</td>
+	                                        <td class="center">${dto.name}</td>
+	                                        <td class="center">${dto.tname}</td>
+	                                        <td class="center">${dto.addr}</td>
+	                                        <td class="center">${dto.tel}</td>
+	                                    </tr>
+                                    </c:forEach>
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->
@@ -164,6 +126,9 @@
         $('#dataTables-example').DataTable({
             responsive: true
         });
+		$('#table').DataTable({
+			"order":[[0, "desc"]]
+		});
     });
     </script>
 

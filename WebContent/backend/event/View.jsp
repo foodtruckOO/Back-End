@@ -85,12 +85,19 @@ function editOK(no){
                                 		<td width="80%">${eventdto.id}</td>
                                 	</tr>
                                 	<tr>
-                                		<td>제목</td>
+                                		<td rowspan="2">제목</td>
                                 		<td>${eventdto.title}</td>
                                 	</tr>
                                 	<tr>
-                                		<td>내용</td>
+                                		<td><img alt="${eventdto.title}" src="${titlePath}"></td>
+                                	</tr>
+            						
+                                	<tr>
+                                		<td rowspan="2">내용</td>
                                 		<td>${eventdto.content}</td>
+                                	</tr>
+                                	<tr>
+                                		<td><img alt="${eventdto.content}" src="${contentPath}"></td>
                                 	</tr>
                                 	<tr>
                                 		<td>작성일자</td>

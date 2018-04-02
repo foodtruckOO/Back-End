@@ -27,7 +27,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>Register</servlet-name>
-    <servlet-class>controller.RegisterController</servlet-class>
+    <servlet-class>controller.admin.RegisterController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Register</servlet-name>
@@ -40,7 +40,23 @@
   <servlet-mapping>
     <servlet-name>IdCheck</servlet-name>
     <url-pattern>/Back/IdCheck.do</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>OrderOngoing</servlet-name>
+    <servlet-class>controller.order.OrderOngoingController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderOngoing</servlet-name>
+    <url-pattern>/Back/OrderOngoing.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>OrderLog</servlet-name>
+    <servlet-class>controller.order.OrderLogController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderLog</servlet-name>
+    <url-pattern>/Back/OrderLog.do</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>Board</servlet-name>
     <servlet-class>controller.BoardController</servlet-class>
@@ -51,7 +67,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>UserList</servlet-name>
-    <servlet-class>controller.UserListController</servlet-class>
+    <servlet-class>controller.member.UserListController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserList</servlet-name>

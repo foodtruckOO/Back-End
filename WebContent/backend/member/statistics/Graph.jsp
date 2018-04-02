@@ -58,7 +58,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            	행사 일정 통계
+                            	행사 일정 통계 - <span id="barGraph">6개월</span>
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -66,11 +66,11 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a id='quarter'>3개월간</a>
+                                        <li><a id='quarter'>3개월</a>
                                         </li>
-                                        <li><a id='half'>6개월간</a>
+                                        <li><a id='half'>6개월</a>
                                         </li>
-                                        <li><a id='year'>1년간</a>
+                                        <li><a id='year'>1년</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -88,7 +88,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            	회원 및 트럭 통계
+                            	<span id="donutGraph">회원 및 트럭 통계</span>
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -173,6 +173,7 @@
 				data:'term=3',
 				success:function(data){
 					console.log("성공"+data);
+					$("#barGraph").html("3개월");
 					barChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -189,6 +190,7 @@
 				data:'term=6',
 				success:function(data){
 					console.log("성공"+data);
+					$("#barGraph").html("6개월");
 					barChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -205,6 +207,7 @@
 				data:'term=12',
 				success:function(data){
 					console.log("성공"+data);
+					$("#barGraph").html("1년");
 					barChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -222,6 +225,7 @@
 				data:'type=all',
 				success:function(data){
 					console.log("성공"+data);
+					$("#donutGraph").html("회원 및 트럭 통계");
 					donutChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -238,6 +242,7 @@
 				data:'type=seller',
 				success:function(data){
 					console.log("성공"+data);
+					$("#donutGraph").html("지역별 트럭 분포 통계");
 					donutChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -245,8 +250,9 @@
 				}
 			});
 		});		
-		
-////////////////////////////////////////////////////////////////////////////////////////////    	
+//////////////////////////그래프 선택메뉴 관련////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////그래프 데이터 관련/////////////////////////////////////
         Morris.Area({
             element: 'morris-area-chart',
             data: //${data}
@@ -289,7 +295,7 @@
             resize: true
         });
         
-        var donutChart = Morris.Donut({//지역에 따른 트럭분포도 볼 수 있도록 해야 될 것 같다음...
+        var donutChart = Morris.Donut({
             element: 'morris-donut-chart',
             data: ${memberCounts},
             resize: true
@@ -308,9 +314,7 @@
         
     });
     </script>
-
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
-
 	</body>
 </html>

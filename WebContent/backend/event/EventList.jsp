@@ -40,6 +40,14 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
+	$(document).ready(function(){
+		$('#table').DataTable({
+			"order":[[0, "desc"]]
+		});
+	});
+
+
+
 	$("#frmDalete #delete").click(function(){
 		console.log('버튼클릭인식함');
 		if(confirm('정말로 삭제하시겠습니까?')){
@@ -88,7 +96,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="table">
                                 <thead>
                                     <tr>
                                         <th width="8%">번호</th>

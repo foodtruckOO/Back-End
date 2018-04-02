@@ -226,6 +226,17 @@
 		                        </li>
                             </ul>
                         </li>
+	                    <li>
+	                        <a href="#"><i class="fa fa-leaf fa-fw"></i>주문관리<span class="fa arrow"></span></a>
+	                        <ul class="nav nav-second-level">
+			                	<li>
+			                		<a href="<c:url value='/Back/OrderOngoing.do'/>"><i class="fa fa-star fa-fw"></i>주문현황</a>
+			                	</li>
+			                    <li>
+			                        <a href="<c:url value='/Back/OrderLog.do'/>"><i class="fa fa-star-o fa-fw"></i>주문내역조회</a>
+			                    </li>
+	                        </ul>
+	                    </li>
                         <li>
                             <a href="<c:url value='/Back/Graph.do'/>"><i class="fa fa-bar-chart-o fa-fw"></i>각종 통계 확인</a>
                         </li>

@@ -61,7 +61,7 @@ public class MapController extends HttpServlet{
 			Map map = new HashMap();
 			String content = "";
 
-			content+="<div style='height:100px;'>업체명 : "+dto.getTname()+"</br>주소 : "+dto.getAddr();
+			content+="<div style='height:100px;'>업체명 : "+dto.getTname()+"</br>주소 : "+dto.getAddr()+"</br>";
 			map.put("content", content);
 			map.put("location", dto.getAddr());
 			map.put("tel", dto.getTel());

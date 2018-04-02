@@ -16,11 +16,48 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class FileUtils {
+	public static String getNewFileName(String path, String fileName, String uploaderNo){
+		//fileName=원격.txt
+		File file= new File(path+File.separator+fileName);
+		//파일이 존재할 경우
+		String ext = fileName.substring(fileName.lastIndexOf(".")+1).trim();//확장자만 뽑기
+		String fileNameExcludeExt =fileName.substring(0,fileName.lastIndexOf("."));//확장자 제외 파트만 뽑기
+		String newFileName;//새로 지정할 파일명
+		while(true){
+			newFileName="";
+			if(fileNameExcludeExt.indexOf("_") !=-1){//파일명에 _가 포함됨
+				String[] arrFiles=fileNameExcludeExt.split("_");
+				String lastName=arrFiles[arrFiles.length-1];
+				try{
+					int index=Integer.parseInt(lastName);
+					for(int i=0; i < arrFiles.length;i++){
+						if(i != arrFiles.length-1) newFileName+=arrFiles[i]+"_";
+						else newFileName+=String.valueOf(index+1);
+					}
+					newFileName+="."+ext;
+				}
+				catch(Exception e){
+					newFileName+=fileNameExcludeExt+"_1."+ext;
+				}
+			}
+			else{//_가 없음
+				newFileName+=fileNameExcludeExt+"_1."+ext;
+			}   
+			File f= new File(path+File.separator+newFileName);
+			if(f.exists()){     
+				fileNameExcludeExt=newFileName.substring(0,newFileName.lastIndexOf("."));
+				continue;   
+			}
+			else break;
+		}////////////while
+		return newFileName;
+	} 
+
 	//파일 업로드 로직
 	public static MultipartRequest upload(HttpServletRequest req, String saveDirectory) {
 		MultipartRequest mr = null;
 		try {
-			mr = new MultipartRequest(req, saveDirectory, 1024*500, "UTF-8", new DefaultFileRenamePolicy());
+			mr = new MultipartRequest(req, saveDirectory, 1024*5000, "UTF-8", new DefaultFileRenamePolicy());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,4 +121,53 @@ public class FileUtils {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	/*	수업간 받은 소스
+	public static String getNewFileName(String path, String fileName){
+		//fileName=원격.txt
+		File file= new File(path+File.separator+fileName);
+		if(!file.exists()){//파일이 존재하지 않으면 어떠한 수종조치도 하지 않음
+			return fileName;
+		}
+		else{//파일이 존재할 경우
+			String ext = fileName.substring(fileName.lastIndexOf(".")+1).trim();//확장자만 뽑기
+			String fileNameExcludeExt =fileName.substring(0,fileName.lastIndexOf("."));//확장자 제외 파트만 뽑기
+			String newFileName;//새로 지정할 파일명
+			while(true){
+				newFileName="";
+				if(fileNameExcludeExt.indexOf("_") !=-1){//파일명에 _가 포함됨
+					String[] arrFiles=fileNameExcludeExt.split("_");
+					String lastName=arrFiles[arrFiles.length-1];
+					try{				
+						int index=Integer.parseInt(lastName);
+						for(int i=0; i < arrFiles.length;i++){
+						if(i != arrFiles.length-1) newFileName+=arrFiles[i]+"_";
+						else newFileName+=String.valueOf(index+1);
+					}
+					newFileName+="."+ext;
+					}
+					catch(Exception e){
+					newFileName+=fileNameExcludeExt+"_1."+ext;
+					}
+				}
+				else{//_가 없음
+					newFileName+=fileNameExcludeExt+"_1."+ext;
+				}   
+				File f= new File(path+File.separator+newFileName);
+				if(f.exists()){     
+					fileNameExcludeExt=newFileName.substring(0,newFileName.lastIndexOf("."));
+					continue;   
+				}   
+				else break;
+			}////////////while
+		return newFileName;
+		}
+	} */
+	
+	
+	
+	
+	
+	
 }

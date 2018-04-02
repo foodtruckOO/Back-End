@@ -180,4 +180,22 @@ public class AdminEventDAO {
 		}
 		return affected;
 	}
+	
+	public int selectLatestNo() {
+		AdminEventDTO dto = new AdminEventDTO();
+		String sql = "SELECT max(eno) FROM event";
+		int result=0;
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				result = Integer.parseInt(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return result;
+		}
+		return result;
+	}
+	
 }

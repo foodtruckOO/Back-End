@@ -57,7 +57,7 @@ public class CustomerDAO {
 
 	public List<CustomerDTO> selectList() {
 		List<CustomerDTO> list = new Vector();
-		String sql = "SELECT * FROM customer ORDER BY a_no DESC";
+		String sql = "SELECT * FROM customer ORDER BY g_no DESC";
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
@@ -67,7 +67,8 @@ public class CustomerDAO {
 				dto.setId(rs.getString(2));
 				dto.setPwd(rs.getString(3));
 				dto.setName(rs.getString(4));
-				dto.setRegidate(rs.getDate(5));
+				dto.setTel(rs.getString(5));
+				dto.setRegidate(rs.getDate(6));
 				list.add(dto);
 				//System.out.println("리스트에 담음 : "+dto);
 			}

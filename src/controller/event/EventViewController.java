@@ -1,5 +1,6 @@
 package controller.event;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,11 @@ public class EventViewController extends HttpServlet {
 		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
 		AdminEventDTO dto = dao.selectOne(req.getParameter("eno"));
 		dao.close();
+		String contentfilePath = req.getServletContext().getRealPath("/backend/img/admin/"+dto.getId())+File.separator+dto.getContentfile();
+		String titlefilePath = req.getServletContext().getRealPath("/backend/img/admin/"+dto.getId())+File.separator+dto.getTitlefile();
+		dto.getContentfile();
+		req.setAttribute("contentPath", contentfilePath);
+		req.setAttribute("titlePath", titlefilePath);
 		req.setAttribute("eventdto", dto);
 		req.getRequestDispatcher("/backend/event/View.jsp").forward(req, resp);
 	}

@@ -50,7 +50,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Tables</h1>
+                    <h1 class="page-header">주문 목록</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -59,30 +59,31 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th width="15%">번호</th>
-                                        <th width="20%">아이디</th>
-                                        <th width="20%">이름</th>
-                                        <th width="20%">연락처</th>
-                                        <th width="20%">가입일</th>
+                                        <th width="7%">번호</th>
+                                        <th width="10%">주문자</th>
+                                        <th width="25%">판매자</th>
+                                        <th width="18%">상품</th>
+                                        <th width="10%">총액</th>
+                                        <th width="20%">주문일시</th>
+                                        <th width="10%">상태</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	<c:forEach var="dto" items="${list}">
-	                                    <tr class="gradeA">
-	                                        <td>${dto.g_no}</td>
-	                                        <td class="center">${dto.id}</td>
-	                                        <td class="center">${dto.name}</td>
-	                                        <td class="center">${dto.tel}</td>
-	                                        <td class="center">${dto.regidate}</td>
-	                                    </tr>
-                                    </c:forEach>
+	                            	<tr class="gradeA">
+	                            		<td>1</td>
+	                                    <td class="center">김고객</td>
+	                                    <td class="center">이사장</td>
+	                                    <td class="center">닭꼬치 * 2<br/>컵밥 * 3</td>
+	                                    <td class="center">5000원</td>
+	                                    <td class="center">2020-03-03</td>
+	                                    <td class="center">진행중</td>
+	                                </tr>
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->

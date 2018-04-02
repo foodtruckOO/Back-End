@@ -83,7 +83,7 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2){//,en
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 	                       	<fieldset>
-	                       		<form method="post" action="<c:url value='/Back/NoMemberRegister.do'/>">
+	                       		<form id="form" name="form" method="post" action="<c:url value='/Back/NoMemberRegister.do'/>">
 									<label for="tname">상호명</label>
 									<input type="text" name="tname" id="tname" value="" class="text ui-widget-content ui-corner-all">
 									<label for="tal">연락처</label>
@@ -148,7 +148,7 @@ function searchDetailAddrFromCoords(coords, callback) {
 }
 // 지도에 클릭 이벤트를 등록합니다
 // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
-daum.maps.event.addListener(map, 'click', function(mouseEvent) {        
+daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 	searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
         if (status === daum.maps.services.Status.OK) {
             var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
@@ -179,7 +179,7 @@ daum.maps.event.addListener(map, 'click', function(mouseEvent) {
     			else document.getElementById('roadAddrPart1.5').value=result[0].address.address_name;
     			if(result[0].road_address==null) document.getElementById('roadAddrPart1').value='선택하신 곳에서 도로명주소를 얻을 수 없습니다.';
     			else document.getElementById('roadAddrPart1').value=result[0].road_address.address_name;
-            }   
+            }
         });
     });
 });

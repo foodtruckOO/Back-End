@@ -66,57 +66,6 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-$(function(){
-	$("#memberOnly").click(function(){
-		$.ajax({
-			url:"<c:url value='/Back/Map.do'/>",
-			type:'post',
-			dataType:'text',
-			data:'member=yes',
-			success:function(data){
-				mapdata=data;
-				//var markerSetter = $.each(mapData, eachMarker);
-			},
-			error:function(data){
-				
-			}
-		});
-	});
-	$("#nomemberOnly").click(function(){
-		$.ajax({
-			url:"<c:url value='/Back/Map.do'/>",
-			type:'post',
-			dataType:'text',
-			data:'member=no',
-			success:function(data){
-				mapdata=data;
-				//var markerSetter = $.each(mapData, eachMarker);
-			},
-			error:function(data){
-				
-			}
-		});
-		
-	});
-	$("#allMember").click(function(){
-		$.ajax({
-			url:"<c:url value='/Back/Map.do'/>",
-			type:'post',
-			dataType:'text',
-			data:'member=all',
-			success:function(data){
-				mapdata=data;
-				//var markerSetter = $.each(mapData, eachMarker);
-			},
-			error:function(data){
-				
-			}
-		});
-		
-	});
-});
-</script>
 </head>
 <body>
 
@@ -137,23 +86,7 @@ $(function(){
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Area Chart Example
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                                        	필터
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a id='memberOnly'>회원만</a>
-                                        </li>
-                                        <li><a id='notmemberOnly'>비회원만</a>
-                                        </li>
-                                        <li><a id='allMember'>전체</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            	트럭리스트
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -171,9 +104,6 @@ $(function(){
 								</fieldset>
 							</article>
 	                        <div id="map" style="width:100%;height:500px;margin-top: 20px;"></div>
-	                        <c:if test="${not empty mapListResult }">
-	                        	
-	                        </c:if>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -188,15 +118,19 @@ $(function(){
     
     <!-- ModalPage -->
     <div id="dialog-form" title="Create new user">
-		<p class="validateTips">All form fields are required.</p>
-		<form>
+		<p class="validateTips">트럭 정보 수정 창</p>
+		<form id="frm" method="post" action="<c:url value='/Back/TruckEdit.do'/>">
 			<fieldset>
 				<label for="tname">상호명</label>
 				<input type="text" name="name" id="tname" value="" class="text ui-widget-content ui-corner-all">
 				<label for="tal">연락처</label>
-				<input type="text" name="email" id="tel" value="" class="text ui-widget-content ui-corner-all">
-				<label for="addr">위치</label>
-				<input type="text" name="email" id="addr" value="" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="tel" id="tel" value="" class="text ui-widget-content ui-corner-all">
+				<label for="addr">위치</label><input type="button" id="selectOnMap" value="지도에서 위치변경" style="display: inline-block;">
+				<input type="text" name="addr" id="addr" value="" class="text ui-widget-content ui-corner-all">
+				<label for="addr">사업자번호</label>
+				<input type="text" name="corpNo" id="corpNo" value="" class="text ui-widget-content ui-corner-all">
+				<input type="hidden" id="no" name="no" value="">
+				<input type="hidden" id="cc" name="cc" value="">
 	 			<!-- Allow form submission with keyboard without duplicating the dialog button -->
 				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
 			</fieldset>
@@ -213,15 +147,15 @@ $(function(){
 ///////////////////모달창 관련된 부분들/////////////////////////////
 	dialog = $( "#dialog-form" ).dialog({
 	  autoOpen: false,
-	  height: 400,
+	  height: 425,
 	  width: 350,
 	  modal: true,
 	  buttons: {
 	    "수정": function(){
-	    	alert("수정버튼누름");
+	    	if(confirm("이대로 수정하시겠습니까?"))$("#frm").submit();
 	    },
 	    "삭제": function(){
-	    	alert("삭제버튼누름");
+	    	if(confirm("정말로 삭제하시겠습니까?"))location.href="<c:url value='/Back/TruckDelete.do?no="+$("#no").val()+"&cc="+$("#cc").val()+"'/>";
 	    },
 	    "취소": function() {
 	    	dialog.dialog( "close" );
@@ -232,28 +166,28 @@ $(function(){
 	  }
 	});
 	
-	form = dialog.find( "form" ).on( "submit", function( event ) {
-	  event.preventDefault();
-	  addUser();
-	});
-	
 	$( "#create-user" ).on( "click", function() {
 	  dialog.dialog( "open" );
 	});
-	function modalShow(no, cc, tname, loc, tel){
-		console.log(no+",   "+cc);//tname, tel, addr
-		$("#tname").val(tname);
-		$("#tel").val(tel);
-		$("#addr").val(loc);
+	function modalShow(dto, marker){
+		//console.log(no+",   "+cc);//tname, tel, addr
+		$("#tname").val(dto.tname);
+		$("#tel").val(dto.tel);
+		$("#addr").val(dto.location);
+		$("#no").val(dto.no);
+		$("#corpNo").val(dto.corpNo);
+		$("#cc").val(dto.cc);
 	    dialog.dialog( "open" );
+	    $("#selectOnMap").click(function(){
+	    	marker.setDraggable(true);
+	    	
+	    });
 	}
 ///////////////////모달창 관련된 부분들/////////////////////////////
 /////////////////////////////////////////////////////////////
 	var mapData = ${json};
-
 	var markers = [];
 	var infowindow;
-	
 	var container = document.getElementById('map');
 	var options = {
 		center: new daum.maps.LatLng(37.47893444641687, 126.87900549310089),
@@ -333,25 +267,28 @@ $(function(){
 	}
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////DB에 저장된 주소 받아서 위도/경도로 변환한 뒤 해당 지점에 마커 찍는 로직/////////////////////////
-
-
-	var eachMarker = function(){
+	$.each(mapData, function() {
 		//여기서 넘겨줘야 하는 것은 결국 컨텐츠하고 회원여부, 번호 정도가 되겠습니다... 별도로 구글기준 지오코더 안써도 다음 지오코더가 더 나음
 		var dto = this;
 		////////////////////////////////
 		var geocoder = new daum.maps.services.Geocoder();
 		geocoder.addressSearch(this.location, function(result, status) {//첫 인자로 주소를 넣어야 한다. 따라서 json으로 주소를 넘겨주는 게 필수
 			if (status === daum.maps.services.Status.OK) {
-
 		        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-
+		        //마커이미지관련
+		        var imageSrc='';
+		        if(dto.cc=='9') imageSrc="<c:url value='/backend/img/map/Marker_Colored.png'/>";
+		        else imageSrc="<c:url value='/backend/img/map/Marker_Monochrome.png'/>";
+		        var imageSize= new daum.maps.Size(24,24),
+		            imageOption={offset:new daum.maps.Point(0,0)};
+		        var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption);
+				//마커이미지 생성완료
 		        // 결과값으로 받은 위치를 마커로 표시합니다
 		        var marker = new daum.maps.Marker({
 		            map: map,
-		            //image:markerImage,
+		            image:markerImage,
 		            position: coords
 		        });
-
 		        // 인포윈도우로 장소에 대한 설명을 표시합니다
 		        var infowindow = new daum.maps.InfoWindow({
 			    	content : dto.content//글에 담을 내용. 생각해보면 infowindow 선언 이전에 content 선언후 거기서 수식해도 될것같음
@@ -361,7 +298,7 @@ $(function(){
 				      switch(event.button){
 				      case 0 : 
 						  infowindow.close();
-					      modalShow(dto.no, dto.cc, dto.tname, dto.location, dto.tel);//모달에서 필요로 하는 정보들은 다음과 같다
+					      modalShow(dto, marker);//모달에서 필요로 하는 정보들은 다음과 같다
 				    	  break;
 				      case 2 : 
 					      alert(dto.cc=='9'?'회원':'비회원');
@@ -381,15 +318,10 @@ $(function(){
 				    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
 				    infowindow.close();
 				});
+				
 		    } 
 		});//지오코드 종료
-	};
-	var markerSetter = $.each(mapData, eachMarker);
-	markerSetter(mapData, eachMarker);
-	
-	
-	
-	
+	});///.each 종료
 	//지도위에 추가된 마커를 삭제하는 함수
 	function removeMarker() {
 		for ( var i = 0; i < markers.length; i++ ) {
@@ -401,10 +333,8 @@ $(function(){
 </script>
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value='/backend/vendor/bootstrap/js/bootstrap.min.js'/>"></script>
-
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<c:url value='/backend/vendor/metisMenu/metisMenu.min.js'/>"></script>
-	
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
 </body>
