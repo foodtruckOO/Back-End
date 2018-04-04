@@ -45,7 +45,8 @@ public class CustomerDAO {
 				dto.setId(rs.getString(2));
 				dto.setPwd(rs.getString(3));
 				dto.setName(rs.getString(4));
-				dto.setRegidate(rs.getDate(5));
+				dto.setTel(rs.getString(5));
+				dto.setRegidate(rs.getDate(6));
 				return dto;
 			}
 		} catch (SQLException e) {

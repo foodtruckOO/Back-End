@@ -61,7 +61,6 @@
     font-size: 1.2em;
     }
 </style> 
-<script src="<c:url value='/backend/js/sojaeji2.js'/>"></script><!-- 소재지 파일 -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -90,19 +89,6 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-	                        <button id="create-user">Create new user</button>
-	                       	<article>
-								<fieldset>
-									<legend>주소그룹</legend>
-									<div style="margin-left: 30px;">
-										<select class="form-control" name="sido" id="sido" style="width: 15%; float: left; margin-right: 5px"></select>
-										<select class="form-control" name="gugun" id="gugun" style="width: 15%; float: left; margin-right: 5px"></select>
-										<select class="form-control" name="dong" id="dong" style="width: 15%; float: left; margin-right: 5px"></select>
-										<input id="address" class="form-control" type="text" placeholder="상호명" style="width: 20%; float:left; margin-right: 5px"/>
-										<input id="submit" class="btn btn-primary" type="button" value="검색"/>
-									</div>
-								</fieldset>
-							</article>
 	                        <div id="map" style="width:100%;height:500px;margin-top: 20px;"></div>
                         </div>
                         <!-- /.panel-body -->
@@ -139,10 +125,7 @@
 	</div>
     <!-- /ModalPage -->
     
-    
-<script type="text/javascript">
-	new sojaeji('sido', 'gugun', 'dong');
-</script>
+
 <script>
 /////////////////////////////////////////////////////////////
 ///////////////////모달창 관련된 부분들/////////////////////////////

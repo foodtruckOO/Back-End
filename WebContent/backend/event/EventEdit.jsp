@@ -136,16 +136,20 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form id="frm" action="<c:url value='/Back/EventEdit.do'/>" method="post">
+                                    <form id="frm" action="<c:url value='/Back/EventEdit.do'/>" method="post" enctype="multipart/form-data">
                                     	<input type="hidden" name="no" value="${eventdto.eno}">
                                         <div class="form-group">
                                             <label>글 제목</label>
                                             <input class="form-control" placeholder="제목을 입력하세요" name="title" value="${eventdto.title}">
+                                            <label>제목파일</label>
+                                            <input type="file" name="titleFile">
                                             </br>
                                         </div>
                                         <div class="form-group">
                                             <label>내용</label>
                                             <textarea class="form-control" rows="3" name="content">${eventdto.content }</textarea>
+                                            <label>내용파일</label>
+                                            <input type="file" name="contentFile">
                                             </br>
                                         </div>
                                         <div class="form-group" >
@@ -165,11 +169,6 @@
                                         		종료일자 : <input type="text" id="edatepicker" name="enddate" size="15" value="${eventdto.e_date }">
                                         		<span id="span" style="color: red"></span>
                                         	</div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>첨부파일</label>
-                                            <input type="file" name="attachedfile">
-                                            </br>
                                         </div>
                                         <input type="button" class="btn btn-success" value="수정"/>
                                     </form>

@@ -17,6 +17,16 @@
 		<c:set var="FAIL_MSG" value="계정 정보 수정 실패"/>
 		<c:set var="SUC_URL" value="/Back/UserList.do?user=admin"/>
 	</c:when>
+	<c:when test="${WHERE eq 'CUSTOMEREDIT'}">
+		<c:set var="SUC_MSG" value="수정 성공"/>
+		<c:set var="FAIL_MSG" value="수정 실패"/>
+		<c:set var="SUC_URL" value="/Back/UserList.do?user=customer"/>
+	</c:when>
+	<c:when test="${WHERE eq 'SELLEREDIT'}">
+		<c:set var="SUC_MSG" value="수정 성공"/>
+		<c:set var="FAIL_MSG" value="수정 실패"/>
+		<c:set var="SUC_URL" value="/Back/UserList.do?user=seller"/>
+	</c:when>
 	<c:when test="${WHERE eq 'EVENTWRITE'}">
 		<c:set var="SUC_MSG" value="글 작성 성공"/>
 		<c:set var="FAIL_MSG" value="글 작성 실패"/>

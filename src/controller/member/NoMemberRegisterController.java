@@ -29,7 +29,7 @@ public class NoMemberRegisterController extends HttpServlet{
 		dto.setTname(req.getParameter("tname"));
 		dto.setTel(req.getParameter("tel"));
 		dto.setAddr(addr);
-		dto.setCorporate_no(req.getParameter("corpNo"));
+		dto.setAttachedFile(req.getParameter("attachedFile"));
 		int affected = dao.insert(dto);
 		if(affected==1&&menuString!=null) {//이 때 메뉴 추가조치 실시합니...다...
 			//여기서 jsonString을 map으로 변환하거나 해야 할 듯 하다

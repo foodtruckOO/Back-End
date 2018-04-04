@@ -45,7 +45,7 @@ public class NoMemberDAO {
 				psmt.setString(2, dto.getTname());
 				psmt.setString(3, dto.getAddr());
 				psmt.setString(4, dto.getTel());
-				psmt.setString(5, dto.getCorporate_no());
+				psmt.setString(5, dto.getAttachedFile());
 				return dto;
 			}
 		} catch (SQLException e) {
@@ -67,7 +67,7 @@ public class NoMemberDAO {
 				psmt.setString(2, dto.getTname());
 				psmt.setString(3, dto.getAddr());
 				psmt.setString(4, dto.getTel());
-				psmt.setString(5, dto.getCorporate_no());
+				psmt.setString(5, dto.getAttachedFile());
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -84,7 +84,7 @@ public class NoMemberDAO {
 			psmt.setString(1, dto.getTname());
 			psmt.setString(2, dto.getAddr());
 			psmt.setString(3, dto.getTel());
-			psmt.setString(4, dto.getCorporate_no());
+			psmt.setString(4, dto.getAttachedFile());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -109,13 +109,13 @@ public class NoMemberDAO {
 
 	public int update(NoMemberDTO dto) {
 		int affected=0;
-		String sql="UPDATE foodtrucks SET tname=?, addr=?, tel=?, corporate_no=? WHERE f_no=?";
+		String sql="UPDATE foodtrucks SET tname=?, addr=?, tel=?, attachedFile=? WHERE f_no=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getTname());
 			psmt.setString(2, dto.getAddr());
 			psmt.setString(3, dto.getTel());
-			psmt.setString(4, dto.getCorporate_no());
+			psmt.setString(4, dto.getAttachedFile());
 			psmt.setString(5, dto.getF_no());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {

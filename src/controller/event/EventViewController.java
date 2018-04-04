@@ -18,8 +18,9 @@ public class EventViewController extends HttpServlet {
 		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
 		AdminEventDTO dto = dao.selectOne(req.getParameter("eno"));
 		dao.close();
-		String contentfilePath = req.getServletContext().getRealPath("/backend/img/admin/"+dto.getId())+File.separator+dto.getContentfile();
-		String titlefilePath = req.getServletContext().getRealPath("/backend/img/admin/"+dto.getId())+File.separator+dto.getTitlefile();
+		String contentfilePath = "/backend/img/admin/"+dto.getId()+File.separator+dto.getContentfile();
+		System.out.println(contentfilePath);
+		String titlefilePath = "/backend/img/admin/"+dto.getId()+File.separator+dto.getTitlefile();
 		dto.getContentfile();
 		req.setAttribute("contentPath", contentfilePath);
 		req.setAttribute("titlePath", titlefilePath);

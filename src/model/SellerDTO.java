@@ -1,12 +1,14 @@
 package model;
 
+import java.sql.Date;
+
 public class SellerDTO {
 	public String s_no;
 	public String f_no;
 	public String id;
 	public String pwd;
 	public String sname;
-	public String regidate;
+	public Date regidate;
 	public String tname;
 	public String addr;
 	public String tel;
@@ -42,10 +44,10 @@ public class SellerDTO {
 	public void setSname(String sname) {
 		this.sname = sname;
 	}
-	public String getRegidate() {
+	public Date getRegidate() {
 		return regidate;
 	}
-	public void setRegidate(String regidate) {
+	public void setRegidate(Date regidate) {
 		this.regidate = regidate;
 	}
 	public String getTname() {

@@ -5,7 +5,7 @@ public class NoMemberDTO {
 	private String tname;
 	private String addr;
 	private String tel;
-	private String corporate_no;
+	private String attachedFile;
 	public String getF_no() {
 		return f_no;
 	}
@@ -30,10 +30,10 @@ public class NoMemberDTO {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String getCorporate_no() {
-		return corporate_no;
+	public String getAttachedFile() {
+		return attachedFile;
 	}
-	public void setCorporate_no(String corporate_no) {
-		this.corporate_no = corporate_no;
+	public void setAttachedFile(String attachedFile) {
+		this.attachedFile = attachedFile;
 	}
 }

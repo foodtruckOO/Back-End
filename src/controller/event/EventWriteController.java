@@ -93,11 +93,10 @@ public class EventWriteController extends HttpServlet {
 		//한글깨짐관련 조치사항
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html;charset=UTF-8");
-		
-		String savePath = req.getServletContext().getRealPath("/backend/img/admin/"+((AdminDTO)req.getSession().getAttribute("dto")).getId());
+		AdminDTO dtto = ((AdminDTO)req.getSession().getAttribute("dto"));
+		String savePath = req.getServletContext().getRealPath("/backend/img/admin/"+dtto.getId());
 		System.out.println(savePath);
 		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
-		AdminDTO dtto = ((AdminDTO)req.getSession().getAttribute("dto"));
 		String nowNum = (dao.selectLatestNo()+1)+"_";
 		//backend/img/admin/아이디로 할 생각
 		File targetDir = new File(savePath);

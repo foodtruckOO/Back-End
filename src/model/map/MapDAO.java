@@ -40,14 +40,14 @@ public class MapDAO {
 		String sql="";
 		switch(selectListSupport()) {
 			case 3 : 
-				sql = "SELECT f_no no, tname, addr, tel, corporate_no, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks UNION ";
-				sql+="SELECT s_no no, tname, addr, tel, corporate_no, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
+				sql = "SELECT f_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks UNION ";
+				sql+="SELECT s_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
 				break;
 			case 2 : 
-				sql+="SELECT s_no no, tname, addr, tel, corporate_no, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
+				sql+="SELECT s_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
 				break;
 			default :
-				sql = "SELECT f_no no, tname, addr, tel, corporate_no, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks";
+				sql = "SELECT f_no no, tname, addr, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks";
 				break;
 		}
 		
@@ -60,8 +60,7 @@ public class MapDAO {
 				dto.setTname(rs.getString(2));
 				dto.setAddr(rs.getString(3));
 				dto.setTel(rs.getString(4));
-				dto.setCorpNo(rs.getString(5));
-				dto.setColumnCount(rs.getString(6));
+				dto.setColumnCount(rs.getString(5));
 				list.add(dto);
 			}
 		} catch (SQLException e) {

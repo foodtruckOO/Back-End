@@ -44,61 +44,38 @@
 		//1]input type submit일 때
 		$("#frm").validate({
 			rules:{
-				title:{required:true, minlength:1},
-				content:{required:true, minlength:1},
-				titlefile:"required",
-				startdate:"required",
-				enddate:{required:true}
+				id:{required:true, minlength:3},
+				pwd:{required:true, minlength:4},
+				name:"required",
+				tname:"required",
+				addr:"required",
+				tel:{required:true},
+				corpNO:"required"
 			},
 			messages:{
-				title:		{
-					required:"제목을 입력하셔야 합니다",
-					minlength:"제목을 입력하셔야 합니다"
+				id:		{
+					required:"아이디를 입력하셔야 합니다",
+					minlength:"아이드는 3자 이상 입력하셔야 합니다"
 					},
-				content:	{
-					required:"내용을 입력하셔야 합니다",
-					minlength:"내용을 입력하셔야 합니다"
+				pwd:	{
+					required:"비밀번호를 입력하셔야 합니다",
+					minlength:"비밀번호는 4자 이상 입력하셔야 합니다"
 					},
-				titlefile : {
-					required:"파일을 첨부하셔야 합니다"
-				},
-				startdate:	{
-					required:"시작날짜를 설정하셔야 합니다"
+				name:	{
+					required:"이름을 입력하셔야 합니다"
 					},
-				enddate:	{
-					required:"종료날짜를 설정하셔야 합니다"//,
-					//lt: "종료날짜로 시작날짜보다 이전인 날짜를 고를 수 없습니다" , lt:$("#sdatepicker:last").val()
+				tel:	{
+					required:"연락처를 입력하셔야 합니다"
 					}
 			}
 		});
 		//type=submit이 아니라서 이렇게 적용. 가입전 모달 한번 띄워서 확인받기
 		$(":button").click(function(){
-			$("#span").html("");
-			//console.log("버튼클릭했고, "+$("#sdatepicker").val()+" "+$("#edatepicker").val()+typeof $("#edatepicker").val());
-			var sdate = parseInt($("#sdatepicker").val().replace("-", "").replace("-", ""));
-			var edate = parseInt($("#edatepicker").val().replace("-", "").replace("-", ""));
-			//console.log(edate>sdate?"종료날짜가 더 큼":"시작날짜가 더 큼");
-			//console.log(sdate+"  "+$("#sdatepicker").val()+"  "+$("#sdatepicker").val().replace("-", "").replace("-", ""));
-			if(sdate>edate){
-				dateerror="시작날짜는 종료날짜보다 클 수 없습니다";
-				$("#span").html("시작날짜는 종료날짜보다 클 수 없습니다");
-			}
-			else if($("#frm").valid()){
-				dateerror="";
-				if(confirm('이대로 작성하시겠습니까?')){
+			if($("#frm").valid()){
+				if(confirm('이대로 수정하시겠습니까?')){
 					$("#frm").submit();
 				}
 			}
-		});
-	});
-	//datepicker용
-	$(function(){
-		$("#sdatepicker, #edatepicker").datepicker({
-			dateFormat:"yy-mm-dd"/*,
-			showOn: "both" ,
-			buttonImage:"<c:url value='/Images/calendar-icon.jpg'/>",
-			buttonImageOnly:false */
-			
 		});
 	});
 </script>
@@ -135,40 +112,45 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form id="frm" action="<c:url value='/Back/EventWrite.do'/>" method="post" enctype="multipart/form-data">
+                                    <form id="frm" action="<c:url value='/Back/EventEdit.do'/>" method="post">
+                                    	<input type="hidden" name="no" value="${editDto.s_no}">
+                                    	<input type="hidden" name="type" value="seller">
                                         <div class="form-group">
-                                            <label>글 제목</label>
-                                            <input class="form-control" placeholder="제목을 입력하세요" name="title">
-                                            <label>제목 파일</label>
-                                            <input type="file" name="titleFile">
+                                            <label>아이디</label>
+                                            <input class="form-control" name="id" value="${editDto.id}">
                                             </br>
                                         </div>
                                         <div class="form-group">
-                                            <label>내용(내용파일이 없을 시 출력)</label>
-                                            <textarea class="form-control" rows="3" name="content"></textarea>
-                                            <label>내용파일</label>
-                                            <input type="file" name="contentFile">
+                                            <label>비밀번호</label>
+                                            <textarea class="form-control" rows="3" name="pwd">${editDto.pwd}</textarea>
                                             </br>
                                         </div>
                                         <div class="form-group" >
-                                            <label>게시판 분류</label>
-                                            <select class="form-control"name="boardtype">
-                                                <option value="1">메인페이지 이벤트 게시판</option>
-                                                <option value="2">지역 행사 게시판</option>
-                                            </select>
+                                            <label>이름</label>
+                                            <input class="form-control" value="${editDto.name}" name="name">
+                                            </br>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label>상호명</label>
+                                            <input class="form-control" value="${editDto.tname}" name="tname">
+                                            </br>
+                                        </div>
+                                        <div class="form-group" >
+                                            <label>위치</label>
+                                            <input class="form-control" value="${editDto.addr}" name="addr">
                                             </br>
                                         </div>
                                         <div class="form-group">
-                                        	<label>행사일자</label></br>
-                                        	<div style="display: inline-block; position: relative;"align="left">
-                                        		시작일자 : <input type="text" id="sdatepicker" name="startdate" value="${s_date}" size="15">
-                                        	</div>
-                                        	<div style="display: inline-block; position: relative;"align="left">
-                                        		종료일자 : <input type="text" id="edatepicker" name="enddate" size="15">
-                                        		<span id="span" style="color: red"></span>
-                                        	</div>
+                                            <label>연락처</label>
+                                            <input class="form-control" value="${editDto.tel}" name="tel">
+                                            </br>
                                         </div>
-                                        <input type="button" class="btn btn-success" value="작성"/>
+                                        <div class="form-group" >
+                                            <label>사업자등록번호</label>
+                                            <input class="form-control" value="${editDto.corporate_no}" name="corpno">
+                                            </br>
+                                        </div>
+                                        <input type="button" class="btn btn-success" value="수정"/>
                                     </form>
                                 </div>
                                 <!-- /.col-lg-6 (nested) -->
@@ -184,10 +166,8 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
-
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value='/backend/vendor/bootstrap/js/bootstrap.min.js'/>"></script>
 
@@ -198,5 +178,4 @@
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
 
 </body>
-
 </html>

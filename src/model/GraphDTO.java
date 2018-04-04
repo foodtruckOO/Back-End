@@ -3,6 +3,7 @@ package model;
 public class GraphDTO {
 	private String idx;
 	private java.sql.Date date;
+	private String dateString;
 	private String fir;
 	private String sec;
 	private String thr;
@@ -36,6 +37,10 @@ public class GraphDTO {
 	public void setThr(String thr) {
 		this.thr = thr;
 	}
-	
-	
+	public String getDateString() {
+		return dateString;
+	}
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
 }

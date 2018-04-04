@@ -154,7 +154,7 @@ $(function(){//메뉴추가
 									<input type="button" value="메뉴 추가" style="display: inline-block;" id="addMenu"></br>
 									<input type="hidden" id="menuList" name="menuList">
 									 -->
-									사업자번호<input type="text" class="form-control" id="corpNo" name="corpNo" /><br>
+									파일첨부<input type="text" class="form-control" id="attachedFile" name="attachedFile" /><br>
 								 	<!-- Allow form submission with keyboard without duplicating the dialog button -->
 									<input type="submit" value="작성">
 								</form>

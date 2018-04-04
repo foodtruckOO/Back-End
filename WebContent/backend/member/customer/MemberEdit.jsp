@@ -38,14 +38,43 @@
     <script src="<c:url value='/backend/js/jquery.validate.js'/>"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
-function deleteOK(no){
-	if(confirm('정말로 삭제하시겠습니까?')){
-		location.href="<c:url value='/Back/EventDelete.do?no="+no+"'/>";
-	}
-}
-function editOK(no){
-	location.href="<c:url value='/Back/EventEdit.do?no="+no+"'/>";
-}
+	//validator용
+	var dateerror="";
+	$(function(){
+		//1]input type submit일 때
+		$("#frm").validate({
+			rules:{
+				id:{required:true, minlength:3},
+				pwd:{required:true, minlength:4},
+				name:"required",
+				tel:{required:true}
+			},
+			messages:{
+				id:		{
+					required:"아이디를 입력하셔야 합니다",
+					minlength:"아이드는 3자 이상 입력하셔야 합니다"
+					},
+				pwd:	{
+					required:"비밀번호를 입력하셔야 합니다",
+					minlength:"비밀번호는 4자 이상 입력하셔야 합니다"
+					},
+				name:	{
+					required:"이름을 입력하셔야 합니다"
+					},
+				tel:	{
+					required:"연락처를 입력하셔야 합니다"
+					}
+			}
+		});
+		//type=submit이 아니라서 이렇게 적용. 가입전 모달 한번 띄워서 확인받기
+		$(":button").click(function(){
+			if($("#frm").valid()){
+				if(confirm('이대로 수정하시겠습니까?')){
+					$("#frm").submit();
+				}
+			}
+		});
+	});
 </script>
 <style>
 	.ui-datepicker-trigger{
@@ -59,12 +88,14 @@ function editOK(no){
 
 <body>
     <div id="wrapper">
+
         <!-- Navigation -->
         <jsp:include page="/backend/template/Top.jsp"/>
+
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">이벤트 상세보기페이지임</h1>
+                    <h1 class="page-header">이벤트 작성</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -76,43 +107,36 @@ function editOK(no){
                             	이벤트 게시판 내용 작성
                         </div>
                         <div class="panel-body">
-
                             <div class="row">
-                                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                	<tr>
-                                		<td width="20%">작성자</td>
-                                		<td width="80%">${eventdto.id}</td>
-                                	</tr>
-                                	<tr>
-                                		<td rowspan="2">제목</td>
-                                		<td>${eventdto.title}</td>
-                                	</tr>
-                                	<tr>
-                                		<td><img alt="${eventdto.title}" src="<c:url value='${titlePath}'/>" style='width: 100%'></td>
-                                	</tr>
-            						
-                                	<tr>
-                                		<td>내용</td>
-                                		<td><img alt="${eventdto.content}" src="<c:url value='${contentPath}'/>" style='width: 100%'></td>
-                                	</tr>
-                                	<tr>
-                                		<td>작성일자</td>
-                                		<td>${eventdto.postdate}</td>
-                                	</tr>
-                                	<tr>
-                                		<td>이벤트 기간</td>
-                                		<c:if test="${eventdto.s_date == eventdto.e_date}" var="oneDayOnly">
-                                			<td>${eventdto.s_date}</td>
-                                		</c:if>
-                                		<c:if test="${not oneDayOnly}">
-                                			<td>${eventdto.s_date} ~ ${eventdto.e_date}</td>
-                                		</c:if>
-                                	</tr>
-                                </table>
+                                <div class="col-lg-12">
+                                    <form id="frm" action="<c:url value='/Back/EventEdit.do'/>" method="post">
+                                    	<input type="hidden" name="no" value="${editDto.g_no}">
+                                    	<input type="hidden" name="type" value="customer">
+                                        <div class="form-group">
+                                            <label>아이디</label>
+                                            <input class="form-control" name="id" value="${editDto.id}">
+                                            </br>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>비밀번호</label>
+                                            <textarea class="form-control" rows="3" name="pwd">${editDto.pwd}</textarea>
+                                            </br>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>이름</label>
+                                            <input class="form-control" value="${editDto.name}" name="name">
+                                            </br>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>연락처</label>
+                                            <input class="form-control" value="${editDto.tel}" name="tel">
+                                            </br>
+                                        </div>
+                                        <input type="button" class="btn btn-success" value="수정"/>
+                                    </form>
+                                </div>
                                 <!-- /.col-lg-6 (nested) -->
                             </div>
-		                    <button onclick="editOK(${eventdto.eno})" class="btn btn-info">수정</button>
-		                    <button onclick="deleteOK(${eventdto.eno})" class="btn btn-danger">삭제</button>
                             <!-- /.row (nested) -->
                         </div>
                         <!-- /.panel-body -->
