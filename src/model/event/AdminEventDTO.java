@@ -10,6 +10,7 @@ public class AdminEventDTO {
 	private java.sql.Date s_date;
 	private java.sql.Date e_date;
 	private java.sql.Date postdate;
+	private String dateString;
 	private String boardtype;
 	private String id;
 	

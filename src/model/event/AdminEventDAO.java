@@ -189,7 +189,8 @@ public class AdminEventDAO {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			if(rs.next()) {
-				result = Integer.parseInt(rs.getString(1));
+				if(rs.getString(1)!=null) result = Integer.parseInt(rs.getString(1));
+				else result = 1;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
