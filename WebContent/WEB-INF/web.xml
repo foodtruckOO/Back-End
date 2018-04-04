@@ -122,6 +122,22 @@
     <url-pattern>/Back/AdminEdit.do</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>MemberEdit</servlet-name>
+    <servlet-class>controller.member.MemberEditController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemberEdit</servlet-name>
+    <url-pattern>/Back/MemberEdit.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>MemberDelete</servlet-name>
+    <servlet-class>controller.member.MemberDeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemberDelete</servlet-name>
+    <url-pattern>/Back/MemberDelete.do</url-pattern>
+  </servlet-mapping> 
+  <servlet>
     <servlet-name>EventWrite</servlet-name>
     <servlet-class>controller.event.EventWriteController</servlet-class>
   </servlet>

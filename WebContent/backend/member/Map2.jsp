@@ -193,8 +193,8 @@
 	var infowindow;
 	var container = document.getElementById('map');
 	var options = {
-		center: new daum.maps.LatLng(37.47893444641687, 126.87900549310089),
-		level: 3
+		center: new daum.maps.LatLng(37.56740987, 126.97881055),
+		level: 8
 	};
 	var map = new daum.maps.Map(container, options);
 	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성

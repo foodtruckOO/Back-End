@@ -44,8 +44,8 @@
     }
 </style> 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="<c:url value='/backend/js/jquery.tabletojson.min.js'/>"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script language="javascript">
 function goPopup(){
@@ -61,7 +61,7 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2){//,en
 		document.form.addrDetail.value = addrDetail;
 		document.form.roadAddrPart1_5.value="";
 }
-$(function(){
+$(function(){//메뉴추가
 	$("#addMenu").click(function(){
 		$("#menuTbody").append("<tr>" +
 			"<td>" + $("#menuName").val() + "</td>" +
@@ -71,10 +71,22 @@ $(function(){
 	
 		$("#menuName").val("");
 		$("#menuPrice").val("");
+		var table = $('#menuTable').tableToJSON({
+			ignoreColumns: [2]//인덱스 2번에 해당하는 칼럼-삭제 연결하는 a태그는 담지 않음
+		});
+		$("#menuList").val(JSON.stringify(table));
+		console.log($("#menuList").val());
+		alert(JSON.stringify(table));
 	});
-	$(document).on("click","#menuDelete",function(){
+	$(document).on("click","#menuDelete",function(){//메뉴삭제
 		if(confirm("해당 메뉴를 삭제합니다 : "+$(this).parent().parent().children("td:first").html())){
 			$(this).parent().parent().remove();
+			var table = $('#menuTable').tableToJSON({
+				ignoreColumns: [2]//인덱스 2번에 해당하는 칼럼-삭제 연결하는 a태그는 담지 않음
+			});
+			$("#menuList").val(JSON.stringify(table));
+			console.log($("#menuList").val());
+			alert(JSON.stringify(table));
 		}
 	});
 });
@@ -102,15 +114,21 @@ $(function(){
                         <div class="panel-body">
 	                       	<fieldset>
 	                       		<form id="form" name="form" method="post" action="<c:url value='/Back/NoMemberRegister.do'/>">
-									<label for="tname">상호명</label>
-									<input type="text" name="tname" id="tname" value="" class="text ui-widget-content ui-corner-all">
-									<label for="tal">연락처</label>
-									<input type="text" name="tel" id="tel" value="" class="text ui-widget-content ui-corner-all">
+	                       			<table style="width: 100%">
+	                       				<tr>
+	                       					<td width="50%">
+												<label for="tname">상호명</label>
+												<input type="text" name="tname" id="tname" value="" class="text ui-widget-content ui-corner-all">
+											</td>
+											<td width="50%">
+												<label for="tal">연락처</label>
+												<input type="text" name="tel" id="tel" value="" class="text ui-widget-content ui-corner-all">
+											</td>
+										</tr>
+									</table>
 									<label for="addr">위치</label>
 								    <div id="mapDiv">
-										<div id="map" style="width:90%;height:400px;"></div>
-										위도값 : <input type="text" id="lat" style="display: inline-block;">
-										경도값 : <input type="text" id="lng" style="display: inline-block;">
+										<div id="map" style="width:100%;height:350px;"></div>
 									</div>
 		                        	<input type="button" onClick="goPopup()" class="form-control" value="검색해서 찾기" style="display: inline-block;"/>
 									<input type="hidden" class="form-control" id="roadFullAddr" name="roadFullAddr"/><br>
@@ -118,8 +136,9 @@ $(function(){
 									지번주소 <input type="text" class="form-control" id="roadAddrPart1_5" name="roadAddrPart1_5" readonly/><br>
 									고객입력 상세주소<input type="text" class="form-control" id="addrDetail" name="addrDetail"/><br>
 									<input type="hidden" class="form-control" id="roadAddrPart2" name="roadAddrPart2" /><br>
+									<!-- 
 									메뉴리스트
-									<table style="border: 1px red solid">
+									<table width="100%" class="table table-striped table-bordered table-hover" id="menuTable">
 										<thead>
 											<tr>
 												<th>메뉴명</th>
@@ -133,6 +152,8 @@ $(function(){
 									메뉴명 <input type="text" size="10" style="display: inline-block;" id="menuName">&nbsp;&nbsp;&nbsp;
 									가격<input type="text" size="8" style="display: inline-block;" id="menuPrice">&nbsp;&nbsp;&nbsp;
 									<input type="button" value="메뉴 추가" style="display: inline-block;" id="addMenu"></br>
+									<input type="hidden" id="menuList" name="menuList">
+									 -->
 									사업자번호<input type="text" class="form-control" id="corpNo" name="corpNo" /><br>
 								 	<!-- Allow form submission with keyboard without duplicating the dialog button -->
 									<input type="submit" value="작성">
@@ -200,12 +221,8 @@ daum.maps.event.addListener(map, 'click', function(mouseEvent) {
     var latlng = mouseEvent.latLng;
     // 마커 위치를 클릭한 위치로 옮깁니다
     marker.setPosition(latlng);
-    document.getElementById('lat').value=latlng.getLat();
-    document.getElementById('lng').value=latlng.getLng();
     daum.maps.event.addListener(marker, 'dragend', function() {
     	latlng = marker.getPosition();
-        document.getElementById('lat').value=latlng.getLat();
-        document.getElementById('lng').value=latlng.getLng();
         searchDetailAddrFromCoords(latlng, function(result, status) {
             if (status === daum.maps.services.Status.OK) {
                 marker.setPosition(latlng);

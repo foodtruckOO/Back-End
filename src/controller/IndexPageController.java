@@ -2,15 +2,19 @@ package controller;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import controller.order.OrderOngoingController;
 import model.event.AdminEventDAO;
 import model.member.CustomerDAO;
 import model.member.SellerDAO;
+import model.order.OrderDAO;
+import model.order.OrderDTO;
 
 public class IndexPageController extends HttpServlet {
 	@Override
@@ -39,6 +43,17 @@ public class IndexPageController extends HttpServlet {
 		aedao.close();
 		customerdao.close();
 		sellerdao.close();
+		////////////////////두번쨰꺼 조치 끝
+		
+		///////////////////첫번째 표 조치 시작 - 주문상황으로?
+		OrderDAO dao = new OrderDAO(req.getServletContext());
+		List<OrderDTO> firstList =  OrderOngoingController.orderMigrater(dao.selectList());
+		req.setAttribute("firstList", firstList);
+		///////////////////첫번째 표 조치 끝
+		
+		
+		
+		
 		req.getRequestDispatcher("/backend/pages/Index.jsp").forward(req, resp);
 	}
 }

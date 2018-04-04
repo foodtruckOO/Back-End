@@ -159,7 +159,7 @@
                                         <div class="form-group">
                                         	<label>행사일자</label></br>
                                         	<div style="display: inline-block; position: relative;"align="left">
-                                        		시작일자 : <input type="text" id="sdatepicker" name="startdate" size="15">
+                                        		시작일자 : <input type="text" id="sdatepicker" name="startdate" value="${s_date}" size="15">
                                         	</div>
                                         	<div style="display: inline-block; position: relative;"align="left">
                                         		종료일자 : <input type="text" id="edatepicker" name="enddate" size="15">

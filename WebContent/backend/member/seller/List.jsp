@@ -37,7 +37,20 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+<script>
+	$("#frmDalete #delete").click(function(){
+		console.log('버튼클릭인식함');
+		if(confirm('정말로 삭제하시겠습니까?')){
+			$('#frmDelete').submit();
+			//
+		}
+	});
+	function deleteOK(no){
+		if(confirm('정말로 삭제하시겠습니까?')){
+			location.href="<c:url value='/Back/MemberDelete.do?no="+no+"&type=seller'/>";
+		}
+	}
+</script>
 </head>
 
 <body>
@@ -68,10 +81,10 @@
                                     <tr>
                                         <th width="5%">번호</th>
                                         <th width="10%">아이디</th>
-                                        <th width="10%">이름</th>
                                         <th width="20%">트럭명</th>
                                         <th width="20%">위치</th>
                                         <th width="15%">연락처</th>
+                                        <th width="10%">편집</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,10 +92,17 @@
 	                                    <tr class="gradeA">
 	                                        <td>${dto.s_no}</td>
 	                                        <td>${dto.id}</td>
-	                                        <td class="center">${dto.name}</td>
 	                                        <td class="center">${dto.tname}</td>
 	                                        <td class="center">${dto.addr}</td>
 	                                        <td class="center">${dto.tel}</td>
+	                                        <td class="center">
+	                                        	<form method="get" action="<c:url value='/Back/MemberEdit.do'/>" style="display: inline-block;">
+		                                			<input type="submit" class="btn btn-info" value="수정">
+		                                			<input type="hidden" value="${dto.s_no}" name="no">
+		                                			<input type="hidden" value="seller" name="type">
+		                                		</form>
+		                                		<button onclick="deleteOK(${dto.s_no})" class="btn btn-danger">삭제</button>
+											</td>
 	                                    </tr>
                                     </c:forEach>
                                 </tbody>

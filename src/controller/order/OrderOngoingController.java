@@ -17,12 +17,12 @@ public class OrderOngoingController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		OrderDAO dao = new OrderDAO(req.getServletContext());
 		List<OrderDTO> list = dao.selectList();
-		List<OrderDTO> migratedList = migrater(list);
+		List<OrderDTO> migratedList = orderMigrater(list);
 		req.setAttribute("list", migratedList);
 		req.getRequestDispatcher("/backend/order/OrderOngoingList.jsp").forward(req, resp);
 	}
 	
-	private List<OrderDTO> migrater(List<OrderDTO> list){
+	public static List<OrderDTO> orderMigrater(List<OrderDTO> list){
 		List<OrderDTO> resultList = new Vector();
 		OrderDTO dto = null;
 		int currento_no=0;
@@ -37,7 +37,8 @@ public class OrderOngoingController extends HttpServlet {
 				dto.setSname(dtos.getSname());
 				dto.setGname(dtos.getGname());//위 3항목은 중복되는 감이 있다. 따라서 1번만 더해주면 된다. 새로 바뀐 시점에...
 			}
-			dto.setFname(dto.getFname()+"</br>"+dtos.getFname()+"*"+dtos.getNum());//음식이름 누적해 나감. 이때 음식이름*주문갯수 형태로
+			if(dto.getFname().length()==0) dto.setFname(dtos.getFname()+"*"+dtos.getNum());//맨처음추가할때 </br>추가되는거 방지용
+			else dto.setFname(dto.getFname()+"</br>"+dtos.getFname()+"*"+dtos.getNum());//음식이름 누적해 나감. 이때 음식이름*주문갯수 형태로
 			dto.setPrice(Integer.toString(Integer.parseInt(dto.getPrice())+
 					(Integer.parseInt(dtos.getPrice())*Integer.parseInt(dtos.getNum()))));//음식가격합산하는거
 			

@@ -98,7 +98,27 @@
 
     </div>
     <!-- /#wrapper -->
-
+	
+	<!-- Modal -->
+<!-- 	<div id="dialog-form" title="Create new user">
+		<p class="validateTips">이걸 주문서 양식대로 뽑아주는게 예쁠 듯</p>
+		<form>
+			<fieldset>
+				<label for="orderNo">주문번호</label>
+				<input type="text" name="orderNo" id="orderNo" value="" class="text ui-widget-content ui-corner-all" style="display: inline-block;">
+				<label for="customerName">구매자명</label>
+				<input type="text" name="customerName" id="customerName" value="" class="text ui-widget-content ui-corner-all" style="display: inline-block;">
+				<label for="sellerName">판매자명</label>
+				<input type="text" name="sellerName" id="sellerName" value="" class="text ui-widget-content ui-corner-all" style="display: inline-block;">
+				<label for="sellerName">메뉴</label>
+				<textarea name="sellerName" id="sellerName" value="" class="form-control">
+				</textarea>
+				Allow form submission with keyboard without duplicating the dialog button
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div> -->
+	<!-- Modal -->	
     <!-- jQuery -->
     <script src="<c:url value='/backend/vendor/jquery/jquery.min.js'/>"></script>
 

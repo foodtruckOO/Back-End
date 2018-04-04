@@ -93,10 +93,7 @@ function editOK(no){
                                 	</tr>
             						
                                 	<tr>
-                                		<td rowspan="2">내용</td>
-                                		<td>${eventdto.content}</td>
-                                	</tr>
-                                	<tr>
+                                		<td>내용</td>
                                 		<td><img alt="${eventdto.content}" src="${contentPath}"></td>
                                 	</tr>
                                 	<tr>

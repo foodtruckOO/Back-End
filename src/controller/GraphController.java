@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -132,7 +133,7 @@ public class GraphController extends HttpServlet {
 				
 				///////////////////////도로명(풀명칭)과 지번(약칭)을 통합하는 과정
 				//서울 = 서울+서울특별시, 인천 = 인천+인천광역시...
-				List<Map> migratedList = migrator(list);
+				List<Map> migratedList = mapMigrator(list);
 				///////////////////////////////
 				eventData = JSONArray.toJSONString(migratedList);
 				System.out.println(eventData);
@@ -144,7 +145,7 @@ public class GraphController extends HttpServlet {
 		out.close();
 	}
 	
-	private List<Map> migrator(List<Map> list){
+	private List<Map> mapMigrator(List<Map> list){
 		int seoul=0;
 		int incheon=0;
 		int daejeon=0;
@@ -160,6 +161,7 @@ public class GraphController extends HttpServlet {
 		int jeonnam=0;
 		int gyeongbuk=0;
 		int gyeongnam=0;
+		///////list.reomove파트에서 에러남 - 반복도는도중에 제거 안된다 어쩌구 같음
 		for(Map map : list) {
 			if(map.get("label").equals("서울")) {
 				seoul=Integer.parseInt(map.get("value").toString());
@@ -222,6 +224,7 @@ public class GraphController extends HttpServlet {
 				list.remove(map);
 			}
 		}//1. 뽑아내기
+		
 		for(Map map : list) {
 			if(map.get("label").equals("서울특별시")) map.put("value", Integer.parseInt(map.get("value").toString())+seoul);
 			else if(map.get("label").equals("인천광역시")) map.put("value", Integer.parseInt(map.get("value").toString())+incheon);

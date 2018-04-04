@@ -112,7 +112,7 @@ public class SellerDAO {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, no);
 			affected = psmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return affected;

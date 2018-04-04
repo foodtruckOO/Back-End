@@ -32,6 +32,8 @@ public class EventWriteController extends HttpServlet {
 			String newDate = datearray[3]+"-"+getMonthNumberByName(datearray[1])+"-"+datearray[2];
 			System.out.println(newDate);
 			req.setAttribute("s_date", newDate);
+			AdminDTO dtto = ((AdminDTO)req.getSession().getAttribute("dto"));
+			System.out.println(req.getServletContext().getContextPath()+"/backend/img/"+dtto.getId());
 			req.getRequestDispatcher("/backend/event/EventWrite.jsp").forward(req, resp);
 		}
 		else resp.sendRedirect(req.getContextPath()+"/backend/event/EventWrite.jsp");
@@ -100,6 +102,8 @@ public class EventWriteController extends HttpServlet {
 		//backend/img/admin/아이디로 할 생각
 		File targetDir = new File(savePath);
 		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
+		targetDir = new File(req.getServletContext().getContextPath()+"/backend/img/admin"+dtto.getId());
+		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임(이동할 위치에다가...)
 		//디렉토리생성 끝
 		MultipartRequest mr = FileUtils.upload(req, savePath);//업로드하기
 		/////////////////////////////////////////////파일 이름 바꾸는 로직(글번호_파일명 의 방식임)
