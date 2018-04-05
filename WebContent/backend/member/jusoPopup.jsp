@@ -44,16 +44,13 @@ function init(){
 	var confmKey = "U01TX0FVVEgyMDE4MDMwODE1MzU0MzEwNzcxMzg=";
 	var resultType = "4"; // 도로명주소 검색결과 화면 출력내용, 1 : 도로명, 2 : 도로명+지번, 3 : 도로명+상세건물명, 4 : 도로명+지번+상세건물명
 	var inputYn= "<%=inputYn%>";
-	alert(url);
 	if(inputYn != "Y"){
-		alert("검색들어옴");
 		document.form.confmKey.value = confmKey;
 		document.form.returnUrl.value = url;
 		document.form.resultType.value = resultType;
 		document.form.action="http://www.juso.go.kr/addrlink/addrCoordUrl.do"; //인터넷망
 		document.form.submit();
 	}else{
-		alert("값전달?"+"<%=roadFullAddr%>");
 		self.close();
 		opener.jusoCallBack("<%=roadFullAddr%>","<%=roadAddrPart1%>","<%=addrDetail%>","<%=roadAddrPart2%>");
 	}

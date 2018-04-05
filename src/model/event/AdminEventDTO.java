@@ -82,5 +82,11 @@ public class AdminEventDTO {
 	public void setBoardtype(String boardtype) {
 		this.boardtype = boardtype;
 	}
+	public String getDateString() {
+		return dateString;
+	}
+	public void setDateString(String dateString) {
+		this.dateString = dateString;
+	}
 	
 }

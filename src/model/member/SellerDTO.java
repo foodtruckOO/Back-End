@@ -7,6 +7,7 @@ public class SellerDTO {
 	private String name;
 	private String tname;
 	private String addr;
+	private String addr2;
 	private String tel;
 	private String corporate_no;
 	private String latitude;
@@ -47,6 +48,12 @@ public class SellerDTO {
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+	public String getAddr2() {
+		return addr2;
+	}
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
 	}
 	public String getTel() {
 		return tel;

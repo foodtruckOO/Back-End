@@ -109,7 +109,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form id="frm" action="<c:url value='/Back/EventEdit.do'/>" method="post">
+                                    <form id="frm" action="<c:url value='/Back/MemberEdit.do'/>" method="post">
                                     	<input type="hidden" name="no" value="${editDto.g_no}">
                                     	<input type="hidden" name="type" value="customer">
                                         <div class="form-group">

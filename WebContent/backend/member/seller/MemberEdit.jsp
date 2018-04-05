@@ -112,7 +112,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form id="frm" action="<c:url value='/Back/EventEdit.do'/>" method="post">
+                                    <form id="frm" action="<c:url value='/Back/MemberEdit.do'/>" method="post">
                                     	<input type="hidden" name="no" value="${editDto.s_no}">
                                     	<input type="hidden" name="type" value="seller">
                                         <div class="form-group">
@@ -138,6 +138,8 @@
                                         <div class="form-group" >
                                             <label>위치</label>
                                             <input class="form-control" value="${editDto.addr}" name="addr">
+                                            <label>상세주소</label>
+                                            <input class="form-control" value="${editDto.addr2}" name="addr2">
                                             </br>
                                         </div>
                                         <div class="form-group">

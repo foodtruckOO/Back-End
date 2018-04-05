@@ -49,9 +49,10 @@ public class SellerDAO {
 				dto.setName(rs.getString(4));
 				dto.setTname(rs.getString(5));
 				dto.setAddr(rs.getString(6));
-				dto.setTel(rs.getString(7));
-				dto.setCorporate_no(rs.getString(8));
-				dto.setRegidate(rs.getDate(9));
+				dto.setAddr2(rs.getString(7));
+				dto.setTel(rs.getString(8));
+				dto.setCorporate_no(rs.getString(9));
+				dto.setRegidate(rs.getDate(10));
 				return dto;
 			}
 		} catch (SQLException e) {
@@ -75,9 +76,10 @@ public class SellerDAO {
 				dto.setName(rs.getString(4));
 				dto.setTname(rs.getString(5));
 				dto.setAddr(rs.getString(6));
-				dto.setTel(rs.getString(7));
-				dto.setCorporate_no(rs.getString(8));
-				dto.setRegidate(rs.getDate(9));
+				dto.setAddr2(rs.getString(7));
+				dto.setTel(rs.getString(8));
+				dto.setCorporate_no(rs.getString(9));
+				dto.setRegidate(rs.getDate(10));
 				list.add(dto);
 				//System.out.println("리스트에 담음 : "+dto);
 			}
@@ -87,13 +89,11 @@ public class SellerDAO {
 		return list;
 	}
 	
-	public String selectToday(String today) {
+	public String selectToday() {
 		String count="";
-		System.out.println("넘어온 값 : "+today);
-		String sql = "SELECT count(*) FROM seller WHERE regidate >= TO_DATE(?,'YYYY-MM-DD')";
+		String sql = "SELECT count(*) FROM seller WHERE TO_DATE(regidate, 'YYYY-MM-DD') = TO_DATE(sysdate,'YYYY-MM-DD')";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, today);
 			rs = psmt.executeQuery();
 			if(rs.next()) {
 				count=rs.getString(1);
@@ -101,7 +101,6 @@ public class SellerDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(count+"개");
 		return count;
 	}
 	
@@ -120,7 +119,7 @@ public class SellerDAO {
 
 	public int update(SellerDTO dto) {
 		int affected=0;
-		String sql="UPDATE seller SET id=?, pwd=?, name=?, tname=?, addr=?, tel=?, corporate_no=? WHERE s_no=?";
+		String sql="UPDATE seller SET id=?, pwd=?, name=?, tname=?, addr=?, addr2=?, tel=?, corporate_no=? WHERE s_no=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getId());
@@ -128,9 +127,10 @@ public class SellerDAO {
 			psmt.setString(3, dto.getName());
 			psmt.setString(4, dto.getTname());
 			psmt.setString(5, dto.getAddr());
-			psmt.setString(6, dto.getTel());
-			psmt.setString(7, dto.getCorporate_no());
-			psmt.setString(8, dto.getS_no());
+			psmt.setString(6, dto.getAddr2());
+			psmt.setString(7, dto.getTel());
+			psmt.setString(8, dto.getCorporate_no());
+			psmt.setString(9, dto.getS_no());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -168,14 +168,15 @@ public class SellerDAO {
 	
 	public int updateTruckOnly(SellerDTO dto) {
 		int affected=0;
-		String sql="UPDATE seller SET tname=?, addr=?, tel=?, corporate_no=? WHERE s_no=?";
+		String sql="UPDATE seller SET tname=?, addr=?, addr2=?, tel=?, corporate_no=? WHERE s_no=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getTname());
 			psmt.setString(2, dto.getAddr());
-			psmt.setString(3, dto.getTel());
-			psmt.setString(4, dto.getCorporate_no());
-			psmt.setString(5, dto.getS_no());
+			psmt.setString(3, dto.getAddr2());
+			psmt.setString(4, dto.getTel());
+			psmt.setString(5, dto.getCorporate_no());
+			psmt.setString(6, dto.getS_no());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

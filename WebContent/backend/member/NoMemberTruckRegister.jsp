@@ -113,7 +113,7 @@ $(function(){//메뉴추가
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 	                       	<fieldset>
-	                       		<form id="form" name="form" method="post" action="<c:url value='/Back/NoMemberRegister.do'/>">
+	                       		<form id="form" name="form" method="post" action="<c:url value='/Back/NoMemberRegister.do'/>" enctype="multipart/form-data">
 	                       			<table style="width: 100%">
 	                       				<tr>
 	                       					<td width="50%">
@@ -154,7 +154,7 @@ $(function(){//메뉴추가
 									<input type="button" value="메뉴 추가" style="display: inline-block;" id="addMenu"></br>
 									<input type="hidden" id="menuList" name="menuList">
 									 -->
-									파일첨부<input type="text" class="form-control" id="attachedFile" name="attachedFile" /><br>
+									파일첨부<input type="file" id="attachedFile" name="attachedFile"/><br>
 								 	<!-- Allow form submission with keyboard without duplicating the dialog button -->
 									<input type="submit" value="작성">
 								</form>
@@ -239,10 +239,8 @@ daum.maps.event.addListener(map, 'click', function(mouseEvent) {
 </script>
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value='/backend/vendor/bootstrap/js/bootstrap.min.js'/>"></script>
-
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<c:url value='/backend/vendor/metisMenu/metisMenu.min.js'/>"></script>
-	
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
 </body>

@@ -62,7 +62,7 @@
     }
 </style> 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services,clusterer"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
@@ -105,7 +105,7 @@
     <!-- ModalPage -->
     <div id="dialog-form" title="Create new user">
 		<p class="validateTips">트럭 정보 수정 창</p>
-		<form id="frm" method="post" action="<c:url value='/Back/TruckEdit.do'/>">
+		<form id="frm" method="post" action="<c:url value='/Back/TruckEdit.do'/>" enctype="multipart/form-data">
 			<fieldset>
 				<label for="tname">상호명</label>
 				<input type="text" name="name" id="tname" value="" class="text ui-widget-content ui-corner-all">
@@ -113,8 +113,12 @@
 				<input type="text" name="tel" id="tel" value="" class="text ui-widget-content ui-corner-all">
 				<label for="addr">위치</label><input type="button" id="selectOnMap" value="지도에서 위치변경" style="display: inline-block;">
 				<input type="text" name="addr" id="addr" value="" class="text ui-widget-content ui-corner-all">
-				<label for="addr">사업자번호</label>
+				<label for="addr">상세위치</label>
+				<input type="text" name="addr2" id="addr2" value="" class="text ui-widget-content ui-corner-all">
+				<label for="corpNo">사업자번호</label>
 				<input type="text" name="corpNo" id="corpNo" value="" class="text ui-widget-content ui-corner-all">
+				<label for="attachedFile">첨부이미지파일</label>
+				<input type="file" name="attachedFile" id="attachedFile">
 				<input type="hidden" id="no" name="no" value="">
 				<input type="hidden" id="cc" name="cc" value="">
 				<input type="hidden" id="originalAddr" name="originalAddr" value="">
@@ -124,8 +128,6 @@
 		</form>
 	</div>
     <!-- /ModalPage -->
-    
-
 <script>
 /////////////////////////////////////////////////////////////
 ///////////////////모달창 관련된 부분들/////////////////////////////
@@ -156,13 +158,26 @@
 	  dialog.dialog( "open" );
 	});
 	function modalShow(dto, marker, infowindow){
-		//console.log(no+",   "+cc);//tname, tel, addr
+		console.log(dto.no+", "+dto.etc+", "+", "+dto.tname);//tname, tel, addr
 		$("#tname").val(dto.tname);
 		$("#tel").val(dto.tel);
 		$("#addr").val(dto.location);
+		$("#addr2").val(dto.addr2);
 		$("#no").val(dto.no);
-		$("#corpNo").val(dto.corpNo);
+		$("#corpNo").val(dto.etc);
 		$("#cc").val(dto.cc);
+		if(dto.cc=='10'){//회원의 경우
+			$("#attachedFile").hide();
+			$("label[for=attachedFile]").hide();
+			$("#corpNo").show();
+			$("label[for=corpNo]").show();
+		}
+		else if(dto.cc=='6'){//비회원의 경우
+			$("#corpNo").hide();
+			$("label[for=corpNo]").hide();
+			$("#attachedFile").show();
+			$("label[for=attachedFile]").show();
+		}
 	    dialog.dialog( "open" );
 	    $("#selectOnMap").click(function(){
 	    	marker.setDraggable(true);
@@ -198,60 +213,6 @@
 	function closeOverlay(index) {
 	    	overlays[index].setMap(null);     	
 	}
-	// 장소 검색 객체를 생성합니다
-	var ps = new daum.maps.services.Places();
-	// 키워드를 생성한다
-	var keyword="";
-	$(function(){
-		$('#submit').click(function(){
-			var a=$('#sido').val();			
-			var b=$('#gugun').val();
-			var c=$('#dong').val();
-			var d=$('#address').val()==null?" ":$('#address').val();
-			keyword = a+" "+b+" "+d;
-			// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-			removeMarker();
-			// 키워드로 장소를 검색합니다
-			ps.keywordSearch(keyword, placesSearchCB); 
-			console.log(keyword);
-		});
-	});
-	// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-	function placesSearchCB (data, status, pagination) {
-	    if (status === daum.maps.services.Status.OK) {
-	        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-	        // LatLngBounds 객체에 좌표를 추가합니다
-	        var bounds = new daum.maps.LatLngBounds();
-	        for (var i=0; i<data.length; i++) {
-	            bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
-	        }
-	        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-	        map.setBounds(bounds);
-	     	// 지도의 중심좌표를 얻어옵니다 
-		    var latlng = map.getCenter();
-		    //var message = '<p>중심 좌표는 위도 ' + latlng.getLat() + ', 경도 ' + latlng.getLng() + '입니다</p>';
-			// 마커가 표시될 위치입니다 
-		    var markerPosition  = new daum.maps.LatLng(latlng.getLat(), latlng.getLng()); 
-		    // 마커를 생성합니다
-		    var marker = new daum.maps.Marker({
-		        position: markerPosition
-		    });
-		    // 마커가 지도 위에 표시되도록 설정합니다
-		    marker.setMap(map);
-		    // 생성된 마커를 배열에 추가합니다
-		    markers.push(marker);
-		    var iwContent = '<div style="width:180px;">현위치 좌표<br><br> 위도:'+latlng.getLat()+'<br> 경도:'+latlng.getLng()+'<br/><br/></div>',
-		    iwPosition = new daum.maps.LatLng(latlng.getLat(), latlng.getLng());
-			// 인포윈도우를 생성합니다
-			infowindow = new daum.maps.InfoWindow({
-		    position : iwPosition, 
-		    content : iwContent 
-			});
-			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-			infowindow.open(map, marker);
-	    } 
-	}
-////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////DB에 저장된 주소 받아서 위도/경도로 변환한 뒤 해당 지점에 마커 찍는 로직/////////////////////////
 	var mark;
 	var infodow;
@@ -265,6 +226,11 @@
 	    // 좌표로 법정동 상세 주소 정보를 요청합니다
 	    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 	}
+    var clusterer = new daum.maps.MarkerClusterer({
+        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+        minLevel: 10 // 클러스터 할 최소 지도 레벨 
+    });	
 	$.each(mapData, function() {
 		//여기서 넘겨줘야 하는 것은 결국 컨텐츠하고 회원여부, 번호 정도가 되겠습니다... 별도로 구글기준 지오코더 안써도 다음 지오코더가 더 나음
 		var dto = this;
@@ -274,7 +240,7 @@
 		        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
 		        //마커이미지관련
 		        var imageSrc='';
-		        if(dto.cc=='9') imageSrc="<c:url value='/backend/img/map/Marker_Colored.png'/>";
+		        if(dto.cc=='10') imageSrc="<c:url value='/backend/img/map/Marker_Colored.png'/>";
 		        else imageSrc="<c:url value='/backend/img/map/Marker_Monochrome.png'/>";
 		        var imageSize= new daum.maps.Size(24,24),
 		            imageOption={offset:new daum.maps.Point(0,0)};
@@ -286,6 +252,7 @@
 		            image:markerImage,
 		            position: coords
 		        });
+				clusterer.addMarker(marker);
 		        // 인포윈도우로 장소에 대한 설명을 표시합니다
 		        var infowindow = new daum.maps.InfoWindow({
 			    	content : dto.content//글에 담을 내용. 생각해보면 infowindow 선언 이전에 content 선언후 거기서 수식해도 될것같음
@@ -298,7 +265,7 @@
 					      modalShow(dto, marker);//모달에서 필요로 하는 정보들은 다음과 같다
 				    	  break;
 				      case 2 : 
-					      alert(dto.cc=='9'?'회원':'비회원');
+					      alert(dto.cc=='10'?'회원':'비회원');
 					      alert("트럭번호는 "+dto.no);
 				    	  confirm("해당 마커를 숨깁니다");
 				    	  break;

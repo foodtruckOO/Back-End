@@ -76,7 +76,6 @@ function editOK(no){
                             	이벤트 게시판 내용 작성
                         </div>
                         <div class="panel-body">
-
                             <div class="row">
                                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 	<tr>
@@ -88,12 +87,14 @@ function editOK(no){
                                 		<td>${eventdto.title}</td>
                                 	</tr>
                                 	<tr>
-                                		<td><img alt="${eventdto.title}" src="<c:url value='${titlePath}'/>" style='width: 100%'></td>
+                                		<td><img alt="이미지를 찾을 수 없습니다" src="<c:url value='${titlePath}'/>" style='width: 100%;max-width: 400px;max-height: 300px;'></td>
                                 	</tr>
-            						
                                 	<tr>
-                                		<td>내용</td>
-                                		<td><img alt="${eventdto.content}" src="<c:url value='${contentPath}'/>" style='width: 100%'></td>
+                                		<td rowspan="2">내용</td>
+                                		<td>${eventdto.content}</td>
+                                	</tr>
+                                	<tr>
+                                		<td><img alt="이미지를 찾을 수 없습니다" src="<c:url value='${contentPath}'/>" style='width: 100%'></td>
                                 	</tr>
                                 	<tr>
                                 		<td>작성일자</td>
@@ -124,7 +125,6 @@ function editOK(no){
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
 
@@ -136,7 +136,6 @@ function editOK(no){
 
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
-
 </body>
 
 </html>

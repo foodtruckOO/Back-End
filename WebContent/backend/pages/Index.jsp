@@ -104,14 +104,14 @@
                                     <i class="fa fa-shopping-cart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div>진행중인 주문</div>
+                                    <div class="huge">${onGoingOrderCount==null?0:onGoingOrderCount}</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<c:url value='/Back/OrderOngoing.do'/>">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
+                                <span class="pull-left">상세보기</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -126,14 +126,14 @@
                                     <i class="fa fa-support fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
+                                    <div>진행중인 행사</div>
+                                    <div class="huge">${todayEventCount==null?0:todayEventCount}</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<c:url value='/Back/Board.do?type=admin&board=recent'/>">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
+                                <span class="pull-left">상세보기</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>

@@ -79,13 +79,11 @@ public class CustomerDAO {
 		return list;
 	}
 	
-	public String selectToday(String today) {
+	public String selectToday() {
 		String count="";
-		System.out.println("넘어온 값 : "+today);
-		String sql = "SELECT count(*) FROM customer WHERE regidate >= TO_DATE(?,'YYYY-MM-DD')";
+		String sql = "SELECT count(*) FROM customer WHERE TO_DATE(regidate, 'YYYY-MM-DD') >= TO_DATE(sysdate,'YYYY-MM-DD')";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, today);
 			rs = psmt.executeQuery();
 			if(rs.next()) {
 				count=rs.getString(1);
@@ -93,7 +91,6 @@ public class CustomerDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(count+"개");
 		return count;
 	}
 	

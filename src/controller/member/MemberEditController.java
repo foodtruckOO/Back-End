@@ -15,6 +15,7 @@ import model.member.SellerDTO;
 public class MemberEditController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
 		String type = req.getParameter("type");
 		String no = req.getParameter("no");
 		System.out.println(type);
@@ -35,6 +36,7 @@ public class MemberEditController extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("UTF-8");
 		String type=req.getParameter("type");
 		String no = req.getParameter("no");
 		int affected = 0;
@@ -58,6 +60,7 @@ public class MemberEditController extends HttpServlet {
 			dto.setName(req.getParameter("name"));
 			dto.setTname(req.getParameter("tname"));
 			dto.setAddr(req.getParameter("addr"));
+			dto.setAddr2(req.getParameter("addr2"));
 			dto.setTel(req.getParameter("tel"));
 			dto.setCorporate_no(req.getParameter("corpno"));
 			SellerDAO dao = new SellerDAO(req.getServletContext());

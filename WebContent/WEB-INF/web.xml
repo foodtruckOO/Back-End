@@ -213,6 +213,9 @@
     <param-name>TOMCAT_JNDI_ROOT</param-name>
     <param-value>java:comp/env</param-value>
   </context-param>
+  <session-config>
+  	<session-timeout>30</session-timeout>
+  </session-config>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

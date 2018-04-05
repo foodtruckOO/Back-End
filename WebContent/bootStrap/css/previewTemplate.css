@@ -1,0 +1,257 @@
+/*****************body**********************/
+table, table th {
+	text-align: center;
+}
+/*top/ 회원가입 로그인*/
+header .hd_flex div ul li{ 
+	display: inline;
+	background-color: yellow
+}
+/******************screen***********************/
+@media screen and (min-width: 1501px) {
+	body  {
+		padding-top:150px;
+		margin-left:15%;
+		width: 70%;
+	}
+	/*top logo*/
+	.navbar-header {
+		font-size: 1.3em;
+	}
+
+	/*top 전체 영역*/
+	#top_top {
+		border: none;
+		padding-top: 40px;
+		background-image: none;
+		background-color: white;
+		box-shadow: none;
+	}
+		
+	/*login join left정렬*/ 
+	#top_login{
+		text-align: right;
+		margin-bottom: -1%;
+	}
+	
+	#navbar{
+		margin-top: 10px;
+	}
+
+	/*right*/	
+	#sidebox{ 
+	right: 8% !important;
+	}
+}
+
+@media screen and (min-width: 1221px) and (max-width: 1500px){
+	body  {
+		padding-top:100px;
+		margin-left:10%;
+		width: 80%;
+	}
+	/*top logo*/
+	.navbar-header {
+		font-size: 1em;
+	}
+
+	/*top 전체 영역*/
+	#top_top {
+		border: none;
+		padding-top: 30px;
+		padding-bottom: 10px;
+		background-image: none;
+		background-color: white;
+		box-shadow: none;
+	}
+		
+	/*login join left정렬*/ 
+	#top_login{
+		text-align: right;
+		margin-bottom: -1%;
+	}
+	
+	#navbar{
+		margin-top: 10px;
+	}
+	
+}
+@media screen and (min-width: 770px) and (max-width: 1220px){
+	body  {
+		padding-top:100px;
+		margin-left:10%;
+		width: 80%;
+	}
+	/*top logo*/
+	.navbar-header {
+		font-size: 0.8em;
+	}
+
+	/*top 전체 영역*/
+	#top_top {
+		border: none;
+		padding-top: 20px;
+		padding-bottom: 5px;
+		background-image: none;
+		background-color: white;
+		box-shadow: none;
+	}
+		
+	/*login join left정렬*/ 
+	#top_login{
+		text-align: right;
+		margin-bottom: -1%;
+	}
+	
+	#navbar{
+		margin-top: 10px;
+	}
+	
+	#RIGHT{
+		visibility: hidden;
+	}
+}
+
+@media screen and (min-width: 400px) and (max-width: 769px){
+	body  {
+		padding-top:80px;
+		margin-left:5%;
+		width: 90%;
+	}
+	/*top logo*/
+	.navbar-header {
+		font-size: 0.7em;
+	}
+
+	/*top 전체 영역*/
+	#top_top {
+		border: none;
+		padding-top: 10px;
+		padding-bottom: 5px;
+		background-image: none;
+		background-color: white;
+		box-shadow: none;
+	}
+		
+	/*login join left정렬*/ 
+	#top_login{
+		text-align: right;
+		margin-bottom: -1%;
+	}
+	
+	#navbar{
+		margin-top: 10px;
+	}
+	
+	#RIGHT{
+		visibility: hidden;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	body  {
+		padding-top:70px;
+		margin-left:3%;
+		width: 94%;
+	}
+	/*top logo*/
+	.navbar-header {
+		font-size: 0.5em;
+	}
+
+	/*top 전체 영역*/
+	#top_top {
+		border: none;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		background-image: none;
+		background-color: white;
+		box-shadow: none;
+	}
+		
+	/*login join left정렬*/ 
+	#top_login{
+		text-align: right;
+		margin-bottom: -1%;
+	}
+	
+	#RIGHT{
+		visibility: hidden;
+	}
+}
+/**************************************************/
+
+
+/*login join inline정렬*/
+#top_login li{
+	text-decoration: none;
+	color: black;
+	display: inline;
+}
+
+/*login join 폰트 사이즈 */
+.navbar-header .navbar-brand{
+	font-size: 3em;
+	color: orange;
+}
+
+
+#top_login li a{
+	font-weight: bold;
+	color: orange;
+}
+
+#top_menu li{
+	font-size: 1.2em;
+}
+
+
+#top_menu li a{
+	font-weight: bold;
+	color: gray;
+}
+
+/****************footer**************************/
+
+/*template/footer/인재채용~이용약관 까지의 링크 색 조정*/
+.page-header h5 a {
+	text-decoration: none;
+	color: black;
+	display: inline;
+	border-right: 2px #ffc04d solid;
+	padding-right: 5px;
+}
+
+/*template/footer/인재채용~이용약관 마지막 | none*/
+.page-header h5 a:last-child {
+	border: none;
+}
+
+/*footer | 선색*/
+.footer_line li{
+	text-decoration: none;
+	color: black;
+	display: inline;
+	border-right: 2px #ffc04d solid;
+	padding-right: 5px;
+}
+
+.footer_line li:last-child, li:nth-child(4){
+	border: none;
+}
+
+
+/*****************right********************/
+#sidebox{ 
+	position:absolute; 
+	top: 25%;
+	right: 2%;
+}
+
+div #side{
+	background-color: orange;
+	color: white;
+	font-weight: bold;
+}
+
+

@@ -41,7 +41,7 @@
 </head>
 
 <body>
-
+<!-- 이 페이지는 실시간으로 처리되어야 한다. 웹소켓을 쓰던지 하지 않으면 매우 난처해지지 싶은 느낌이다. -->
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -75,17 +75,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	<c:forEach var="dto" items="${list}">
-		                            	<tr class="gradeA">
-		                            		<td>${dto.o_no}</td>
-		                                    <td class="center">${dto.gname}</td>
-		                                    <td class="center">${dto.sname}</td>
-		                                    <td class="center">${dto.fname}</td>
-		                                    <td class="center">${dto.price}</td>
-		                                    <td class="center">${dto.num}</td>
-		                                    <td class="center">글쎄</td>
-		                                </tr>
-	                                </c:forEach>
+                                	<c:if test="${not empty list}">
+	                                	<c:forEach var="order" items="${list}">
+			                            	<tr class="gradeA">
+			                            		<td>${order.o_no}</td>
+			                                    <td class="center">${order.gname}</td>
+			                                    <td class="center">${order.sname}</td>
+			                                    <td class="center">${order.fname}</td>
+			                                    <td class="center">${order.price}</td>
+			                                    <td class="center">${order.num}</td>
+			                                    <td class="center">글쎄</td>
+			                                </tr>
+		                                </c:forEach>
+	                                </c:if>
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->

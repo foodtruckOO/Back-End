@@ -144,8 +144,11 @@ public class GraphController extends HttpServlet {
 		out.print(eventData);
 		out.close();
 	}
-	
+	//////////////////////////////행정구역의 약칭과 총명칭을 통합하는 용도의 메소드
 	private List<Map> mapMigrator(List<Map> list){
+		List<Map> collections = new Vector();
+		String jsonString = JSONArray.toJSONString(list);
+		
 		int seoul=0;
 		int incheon=0;
 		int daejeon=0;
@@ -162,85 +165,161 @@ public class GraphController extends HttpServlet {
 		int gyeongbuk=0;
 		int gyeongnam=0;
 		///////list.reomove파트에서 에러남 - 반복도는도중에 제거 안된다 어쩌구 같음
-		for(Map map : list) {
+		for(Iterator<Map> ite = list.iterator(); ite.hasNext();) {
+			Map map = ite.next();
 			if(map.get("label").equals("서울")) {
-				seoul=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("서울특별시")!=-1) {//서울만 있고 서울특별시는 없다면?
+					seoul=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "서울특별시");
 			}
 			else if(map.get("label").equals("인천")) {
-				incheon=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("인천광역시")!=-1) {
+					incheon=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "인천광역시");
 			}
 			else if(map.get("label").equals("대전")) {
-				daejeon=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("대전광역시")!=-1) {
+					daejeon=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "대전광역시");
 			}
 			else if(map.get("label").equals("대구")) {
-				daegu=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("대구광역시")!=-1) {
+					daegu=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "대구광역시");
 			}
 			else if(map.get("label").equals("광주")) {
-				gwangju=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("광주광역시")!=-1) {
+					gwangju=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "광주광역시");
 			}
 			else if(map.get("label").equals("부산")) {
-				busan=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("부산광역시")!=-1) {
+					busan=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "부산광역시");
 			}
 			else if(map.get("label").equals("울산")) {
-				ulsan=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("울산광역시")!=-1) {
+					ulsan=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "울산광역시");
 			}
 			else if(map.get("label").equals("경기")) {
-				gyeongi=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("경기도")!=-1) {
+					gyeongi=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "경기도");
 			}
 			else if(map.get("label").equals("강원")) {
-				gangwon=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("강원도")!=-1) {
+					gangwon=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "강원도");
 			}
 			else if(map.get("label").equals("충남")) {
-				chungnam=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("충청남도")!=-1) {
+					chungnam=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "충청남도");
 			}
 			else if(map.get("label").equals("충북")) {
-				chungbuk=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("충청북도")!=-1) {
+					chungbuk=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "충청북도");
 			}
 			else if(map.get("label").equals("전남")) {
-				jeonnam=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("전라남도")!=-1) {
+					jeonnam=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "전라남도");
 			}
 			else if(map.get("label").equals("전북")) {
-				jeonbuk=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("전라북도")!=-1) {
+					jeonbuk=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "전라북도");
 			}
 			else if(map.get("label").equals("경남")) {
-				gyeongnam=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("경상남도")!=-1) {
+					gyeongnam=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "경상남도");
 			}
 			else if(map.get("label").equals("경북")) {
-				gyeongbuk=Integer.parseInt(map.get("value").toString());
-				list.remove(map);
+				if(jsonString.indexOf("경상북도")!=-1) {
+					gyeongbuk=Integer.parseInt(map.get("value").toString());
+					ite.remove();//만약 서울특별시가 있으면 얘는 지움. 아니면 서울특별시로 바꿈
+				}
+				else map.put("label", "경상북도");
 			}
 		}//1. 뽑아내기
 		
 		for(Map map : list) {
-			if(map.get("label").equals("서울특별시")) map.put("value", Integer.parseInt(map.get("value").toString())+seoul);
-			else if(map.get("label").equals("인천광역시")) map.put("value", Integer.parseInt(map.get("value").toString())+incheon);
-			else if(map.get("label").equals("대전광역시")) map.put("value", Integer.parseInt(map.get("value").toString())+daejeon);
-			else if(map.get("label").equals("대구광역시")) map.put("value", Integer.parseInt(map.get("value").toString())+daegu);
-			else if(map.get("label").equals("광주광역시")) map.put("value", Integer.parseInt(map.get("value").toString())+gwangju);
-			else if(map.get("label").equals("부산광역시")) map.put("value", Integer.parseInt(map.get("value").toString())+busan);
-			else if(map.get("label").equals("울산광역시")) map.put("value", Integer.parseInt(map.get("value").toString())+ulsan);
-			else if(map.get("label").equals("경기도")) map.put("value", Integer.parseInt(map.get("value").toString())+gyeongi);
-			else if(map.get("label").equals("강원도")) map.put("value", Integer.parseInt(map.get("value").toString())+gangwon);
-			else if(map.get("label").equals("충청남도")) map.put("value", Integer.parseInt(map.get("value").toString())+chungnam);
-			else if(map.get("label").equals("충청북도")) map.put("value", Integer.parseInt(map.get("value").toString())+chungbuk);
-			else if(map.get("label").equals("전라남도")) map.put("value", Integer.parseInt(map.get("value").toString())+jeonnam);
-			else if(map.get("label").equals("전라북도")) map.put("value", Integer.parseInt(map.get("value").toString())+jeonbuk);
-			else if(map.get("label").equals("경상북도")) map.put("value", Integer.parseInt(map.get("value").toString())+gyeongbuk);
-			else if(map.get("label").equals("경상남도")) map.put("value", Integer.parseInt(map.get("value").toString())+gyeongnam);
+			if(map.get("label").equals("서울특별시")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+seoul);
+			}
+			else if(map.get("label").equals("인천광역시")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+incheon);
+			}
+			else if(map.get("label").equals("대전광역시")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+daejeon);
+			}
+			else if(map.get("label").equals("대구광역시")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+daegu);
+			}
+			else if(map.get("label").equals("광주광역시")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+gwangju);
+			}
+			else if(map.get("label").equals("부산광역시")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+busan);
+			}
+			else if(map.get("label").equals("울산광역시")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+ulsan);
+			}
+			else if(map.get("label").equals("경기도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+gyeongi);
+			}
+			else if(map.get("label").equals("강원도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+gangwon);
+			}
+			else if(map.get("label").equals("충청남도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+chungnam);
+			}
+			else if(map.get("label").equals("충청북도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+chungbuk);
+			}
+			else if(map.get("label").equals("전라남도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+jeonnam);
+			}
+			else if(map.get("label").equals("전라북도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+jeonbuk);
+			}
+			else if(map.get("label").equals("경상북도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+gyeongbuk);
+			}
+			else if(map.get("label").equals("경상남도")) {
+				map.put("value", Integer.parseInt(map.get("value").toString())+gyeongnam);
+			}
 		}
 		return list;
 	}

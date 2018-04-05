@@ -58,13 +58,13 @@ public class EventEditController extends HttpServlet{
 			}
 			//파일 바꿨는지 안바꿨는지에 따라서 조치하는 로직 시작//
 			
-			if(mr.getParameter("titleFile")!=null) {
+			if(mr.getOriginalFileName("titleFile")!=null) {
 				dto.setTitlefile(mr.getOriginalFileName("titleFile"));
 				System.out.println(mr.getOriginalFileName("titleFile")+", "+dto.getTitlefile());
 			}
 			else dto.setTitlefile(originalDTO.getTitlefile());
 			
-			if(mr.getParameter("contentFile")!=null) {
+			if(mr.getOriginalFileName("contentFile")!=null) {
 				dto.setContentfile(mr.getOriginalFileName("contentFile"));//새로운 이름의 파일을 저장함
 				//기존파일 삭제하는 로직을 여기 넣어야 하는데... 싫다. 일단 저 안에 같은 파일이 존재하냐 마냐도 따져야 할 거 같은데 어렵다.일단은.
 				System.out.println(mr.getOriginalFileName("contentFile")+", "+dto.getContentfile());
@@ -72,7 +72,7 @@ public class EventEditController extends HttpServlet{
 			else dto.setContentfile(originalDTO.getContentfile());
 			
 			System.out.println(String.format("%s, %s, %s, %s, %s, %s", mr.getParameter("no"), mr.getParameter("title"), mr.getParameter("content"),
-					mr.getParameter("boardtype"), mr.getParameter("titleFile"), mr.getParameter("contentFile")));
+					mr.getParameter("boardtype"), mr.getOriginalFileName("titleFile"), mr.getOriginalFileName("contentFile")));
 			//파일 바꿨는지 안바꿨는지에 따라서 조치하는 로직 끝//
 			affected = dao.edit(dto);
 		}

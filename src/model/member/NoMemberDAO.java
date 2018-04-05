@@ -34,18 +34,20 @@ public class NoMemberDAO {
 	}
 	
 	public NoMemberDTO selectOne(String no) {	
-		String sql = "SELECT * FROM foodtrucks WHERE s_no=?";
+		String sql = "SELECT * FROM foodtrucks WHERE f_no=?";
+		NoMemberDTO dto;
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, no);
 			rs = psmt.executeQuery();
-			while(rs.next()) {
-				NoMemberDTO dto = new NoMemberDTO();
-				psmt.setString(1, dto.getF_no());
-				psmt.setString(2, dto.getTname());
-				psmt.setString(3, dto.getAddr());
-				psmt.setString(4, dto.getTel());
-				psmt.setString(5, dto.getAttachedFile());
+			if(rs.next()) {
+				dto = new NoMemberDTO();
+				dto.setF_no(rs.getString(1));
+				dto.setTname(rs.getString(2));
+				dto.setAddr(rs.getString(3));
+				dto.setAddr2(rs.getString(4));
+				dto.setTel(rs.getString(5));
+				dto.setAttachedFile(rs.getString(6));
 				return dto;
 			}
 		} catch (SQLException e) {
@@ -66,8 +68,9 @@ public class NoMemberDAO {
 				psmt.setString(1, dto.getF_no());
 				psmt.setString(2, dto.getTname());
 				psmt.setString(3, dto.getAddr());
-				psmt.setString(4, dto.getTel());
-				psmt.setString(5, dto.getAttachedFile());
+				psmt.setString(4, dto.getAddr2());
+				psmt.setString(5, dto.getTel());
+				psmt.setString(6, dto.getAttachedFile());
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -78,13 +81,14 @@ public class NoMemberDAO {
 	
 	public int insert(NoMemberDTO dto) {
 		int affected=0;
-		String sql="INSERT INTO foodtrucks VALUES(seq_foodtrucks.nextval, ?, ?, ?, ?)";
+		String sql="INSERT INTO foodtrucks VALUES(seq_foodtrucks.nextval, ?, ?, ?, ?, ?)";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getTname());
 			psmt.setString(2, dto.getAddr());
-			psmt.setString(3, dto.getTel());
-			psmt.setString(4, dto.getAttachedFile());
+			psmt.setString(3, dto.getAddr2());
+			psmt.setString(4, dto.getTel());
+			psmt.setString(5, dto.getAttachedFile());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -109,18 +113,35 @@ public class NoMemberDAO {
 
 	public int update(NoMemberDTO dto) {
 		int affected=0;
-		String sql="UPDATE foodtrucks SET tname=?, addr=?, tel=?, attachedFile=? WHERE f_no=?";
+		String sql="UPDATE foodtrucks SET tname=?, addr=?, addr2=?, tel=?, attachedFile=? WHERE f_no=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getTname());
 			psmt.setString(2, dto.getAddr());
-			psmt.setString(3, dto.getTel());
-			psmt.setString(4, dto.getAttachedFile());
-			psmt.setString(5, dto.getF_no());
+			psmt.setString(3, dto.getAddr2());
+			psmt.setString(4, dto.getTel());
+			psmt.setString(5, dto.getAttachedFile());
+			psmt.setString(6, dto.getF_no());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return affected;
+	}
+	
+	public int maxNum() {
+		String sql = "SELECT max(f_no) FROM foodtrucks";
+		int maxNum=0;
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getString(1)!=null)maxNum=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return maxNum;
+		}
+		return maxNum;
 	}
 }

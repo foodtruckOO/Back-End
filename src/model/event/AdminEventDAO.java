@@ -57,6 +57,34 @@ public class AdminEventDAO {
 		}
 		return list;
 	}
+	
+	public List<AdminEventDTO> selectList() {
+		List<AdminEventDTO> list = new Vector();
+		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no "
+				+ "WHERE TO_CHAR(SYSDATE,'YYYY-MM-DD') BETWEEN TO_CHAR(s_date, 'YYYY-MM-DD') AND TO_CHAR(e_date, 'YYYY-MM-DD')";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				AdminEventDTO dto = new AdminEventDTO();
+				dto.setEno(rs.getString(1));
+				dto.setA_no(rs.getString(2));
+				dto.setTitle(rs.getString(3));
+				dto.setContent(rs.getString(4));
+				dto.setTitlefile(rs.getString(5));
+				dto.setContentfile(rs.getString(6));
+				dto.setS_date(rs.getDate(7));
+				dto.setE_date(rs.getDate(8));
+				dto.setPostdate(rs.getDate(9));
+				dto.setBoardtype(rs.getString(10));
+				dto.setId(rs.getString(11));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	/*
 	public List<AdminEventDTO> selectList2(String type) {
 		List<AdminEventDTO> list = new Vector();
@@ -110,13 +138,11 @@ public class AdminEventDAO {
 		return dto;
 	}
 	
-	public String selectToday(String today) {
+	public String selectToday() {
 		String count="";
-		System.out.println("넘어온 값 : "+today);
-		String sql = "SELECT count(*) FROM event WHERE postdate >= TO_DATE(?,'YYYY-MM-DD')";
+		String sql = "SELECT count(*) FROM event WHERE TO_DATE(postdate, 'YYYY-MM-DD') = TO_DATE(sysdate,'YYYY-MM-DD')";
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, today);
 			rs = psmt.executeQuery();
 			if(rs.next()) {
 				count=rs.getString(1);
@@ -124,7 +150,6 @@ public class AdminEventDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(count+"개");
 		return count;
 	}
 	
@@ -197,6 +222,22 @@ public class AdminEventDAO {
 			return result;
 		}
 		return result;
+	}
+	
+	public int todayEventCount() {
+		int count=0;
+		String sql = "select count(*) from event where to_char(sysdate, 'YYYY-MM-DD') between to_char(s_date, 'YYYY-MM-DD') and to_char(e_date, 'YYYY-MM-DD')";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				count = Integer.parseInt(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return count;
+		}
+		return count;
 	}
 	
 }

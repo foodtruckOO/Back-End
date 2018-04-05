@@ -1,18 +1,24 @@
 package controller.order;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Vector;
 
+import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sun.istack.internal.logging.Logger;
+
 import model.order.OrderDAO;
 import model.order.OrderDTO;
-
-public class OrderOngoingController extends HttpServlet {
+@WebServlet()
+public class OrderOngoingWebSocket extends HttpServlet {
+	private Logger logger = Logger.getLogger(getClass());
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		OrderDAO dao = new OrderDAO(req.getServletContext());
@@ -24,10 +30,6 @@ public class OrderOngoingController extends HttpServlet {
 		}
 		req.getRequestDispatcher("/backend/order/OrderOngoingList.jsp").forward(req, resp);
 	}
-	
-	
-	
-	
 	
 	public static List<OrderDTO> orderMigrater(List<OrderDTO> list){
 		List<OrderDTO> resultList = new Vector();
@@ -53,14 +55,18 @@ public class OrderOngoingController extends HttpServlet {
 		resultList.add(dto);//맨 마지막꺼 돌고 끝날 때 추가해주는 로직이 없으니까...셀프로 1개 추가해줄 필요 있음
 		return resultList;
 	}
+	private void processConnectionRequest(HttpServletRequest req, HttpServletResponse resp) {
+		logger.info("RECEIVER ENTER REQUEST");
+		resp.setContentType("text/html; charset=UTF-8");
+        resp.setHeader("Cache-Control", "private");
+        resp.setHeader("Pragma", "no-cache");
+        resp.setCharacterEncoding("UTF-8");
+        PrintWriter out;
+        try {
+			out = resp.getWriter();
+		} catch (IOException e) {e.printStackTrace();}
+        AsyncContext asynCtx = req.startAsync();
+        
+	}
 }
 
-/*
- 
-			dto.setFname(dto.getFname()+"\r\n"+dtos.getFname()+"*"+dtos.getNum());
-			dto.setPrice(Integer.toString(Integer.parseInt(dto.getPrice())+(Integer.parseInt(dtos.getPrice())*Integer.parseInt(dtos.getNum()))));
-			dto.setO_no(dtos.getO_no());
-			dto.setSname(dtos.getSname());
-			dto.setGname(dtos.getGname());
-  
- */

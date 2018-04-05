@@ -42,11 +42,10 @@
 <script>
 	$(document).ready(function(){
 		$('#table').DataTable({
-			"order":[[0, "desc"]]
+			"order":[[0, "desc"]],
+            responsive: true
 		});
 	});
-
-
 
 	$("#frmDalete #delete").click(function(){
 		console.log('버튼클릭인식함');
@@ -66,9 +65,9 @@
 	$(function(){
 		var title = "";
 		switch(${param.board}){
-		case 1 : title="홈페이지 주관 행사 안내글 목록";break;
-		case 2 : title="지역 행사 안내글 목록";break;
-		default : title="창업 안내 게시판 글 목록";break;
+			case 1 : title="홈페이지 주관 행사 안내글 목록";break;
+			case 2 : title="지역 행사 안내글 목록";break;
+			default : title="오늘의 행사들";break;
 		}
 		$("h1.page-header").html(title);
 	});
@@ -114,7 +113,7 @@
 	                                			<td>${item.eno}</td>
 	                                			<td>${item.id}</td>
 	                                			<td><a href="<c:url value='/Back/EventView.do?eno=${item.eno}'/>">${item.title}</a></td>
-	                                			<td>${item.boardtype=='1'? '홈페이지 이벤트':'지역 이벤트'}</td>
+	                                			<td>${item.boardtype=='1'? '홈페이지 이벤트':item.boardtype=='1' ? '지역 이벤트':'진행중인 이벤트'}</td>
 	                                			<c:if test="${item.s_date eq item.e_date}" var="oneday">
 	                                				<td>${item.s_date}</td>
 	                                			</c:if>
@@ -174,11 +173,6 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
     </script>
 
 </body>

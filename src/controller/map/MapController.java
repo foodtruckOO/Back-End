@@ -32,26 +32,24 @@ public class MapController extends HttpServlet{
 		for(MapDTO dto : list) {
 			Map map = new HashMap();
 			String content = "";
-
 			content+="<div style='height:100px;'>업체명 : "+dto.getTname()+"</br>주소 : "+dto.getAddr();
 			map.put("content", content);
 			map.put("location", dto.getAddr());
+			map.put("addr2", dto.getAddr2());
 			map.put("tel", dto.getTel());
 			map.put("tname", dto.getTname());
 			map.put("no", dto.getNo());
+			map.put("etc", dto.getEtc());
 			map.put("cc", dto.getColumnCount());
-			map.put("corpNo", dto.getCorpNo());
 			collections.add(map);
 		}
 		String jsonString = JSONArray.toJSONString(collections);
 		req.setAttribute("json", jsonString);
-		System.out.println(jsonString);
-		//req.getRequestDispatcher("/backend/member/Map.jsp").forward(req, resp);
 		req.getRequestDispatcher("/backend/member/Map2.jsp").forward(req, resp);
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//여기서는 검색결과에 해당하는 녀석들만을 보여주는 것으로 해야 할 것 같은 느낌이다!
+		//여기서는 검색결과에 해당하는 녀석들만을 보여주는 것으로 해야 할 것 같은 느낌이다. 아직까지 미구현이라 이쪽은 한번도 안들어왔음
 		String type=req.getParameter("member");
 		MapDAO dao = new MapDAO(req.getServletContext());
 		List<MapDTO> list = dao.selectListbyMember(type);
@@ -64,9 +62,11 @@ public class MapController extends HttpServlet{
 			content+="<div style='height:100px;'>업체명 : "+dto.getTname()+"</br>주소 : "+dto.getAddr()+"</br>";
 			map.put("content", content);
 			map.put("location", dto.getAddr());
+			map.put("addr2", dto.getAddr2());
 			map.put("tel", dto.getTel());
 			map.put("tname", dto.getTname());
 			map.put("no", dto.getNo());
+			map.put("etc", dto.getEtc());
 			map.put("cc", dto.getColumnCount());
 			collections.add(map);
 		}

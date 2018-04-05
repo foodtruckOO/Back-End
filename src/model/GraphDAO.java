@@ -50,13 +50,12 @@ public class GraphDAO {
 				list.add(dto);
 			}
 		} catch (Exception e) {e.printStackTrace();}
-		System.out.println("성공적으로 데이터 받았을지도 모름");
-		System.out.println("list사이즈 = "+list.size());
 		return list;
 	}
 	public String selectEventGraph(String year, String month){
 		String count="0";
 		String sql = "SELECT COUNT(*) FROM EVENT WHERE S_DATE BETWEEN TO_DATE(?,'YYYY-MM-DD') and TO_DATE(?,'YYYY-MM-DD') or E_DATE BETWEEN TO_DATE(?,'YYYY-MM-DD') and TO_DATE(?,'YYYY-MM-DD')";
+		//String sql = "SELECT COUNT(*) FROM event WHERE TO_CHAR(S_DATE, 'YYYY-MM') <= ? AND TO_CHAR(E_DATE, 'YYYY-MM') >= ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, year+"-"+month+"-01");
