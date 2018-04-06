@@ -66,7 +66,7 @@ public class OrderOngoingWebSocket extends HttpServlet {
 			out = resp.getWriter();
 		} catch (IOException e) {e.printStackTrace();}
         AsyncContext asynCtx = req.startAsync();
-        
 	}
+	
 }
 

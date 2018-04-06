@@ -123,7 +123,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-support fa-5x"></i>
+                                    <i class="fa fa-calendar-o fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div>진행중인 행사</div>

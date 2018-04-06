@@ -37,7 +37,15 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+<script>
+$(function(){
+	wsocket = new WebSocket("ws//localhost:8080/${pageContext.request.contextPath}/order-ws-do");
+	wsocket.onopen = socketOpen;
+	wsocket.onclose = socketClose;
+	wsocket.addEventListener("message", socketMessage);	
+});
 
+</script>
 </head>
 
 <body>
@@ -126,15 +134,11 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
 		$('#table').DataTable({
+            responsive: true,
 			"order":[[0, "desc"]]
 		});
     });
     </script>
-
 </body>
-
 </html>
