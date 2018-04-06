@@ -134,8 +134,8 @@ public class EventWriteController extends HttpServlet {
 		}
 		req.setAttribute("SUC_FAIL", affected);
 		req.setAttribute("WHERE", "EVENTWRITE");		
-		req.setAttribute("boardtype", req.getParameter("boardtype"));
-		req.getRequestDispatcher("/backend/pages/common/Fail.jsp").forward(req, resp);
+		req.setAttribute("boardtype", mr.getParameter("boardtype"));
+		req.getRequestDispatcher("/backend/pages/common/Fail.jsp?board=2").forward(req, resp);
 		//타입 2 = 지역이벤트
 	}
 	

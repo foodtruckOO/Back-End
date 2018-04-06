@@ -52,9 +52,11 @@ public class TruckEditController extends HttpServlet{
 			dto.setAddr2(mr.getParameter("addr2"));
 			if(mr.getOriginalFileName("attachedFile")!=null) {
 				File attachedFile = new File(req.getServletContext().getRealPath("/backend/img/noMember")+File.separator+mr.getOriginalFileName("attachedFile"));
+				System.out.println(mr.getOriginalFileName("attachedFile"));
 				File attachedNewFile = new File(req.getServletContext().getRealPath("/backend/img/noMember")+File.separator+mr.getParameter("no")+"_"+mr.getOriginalFileName("attachedFile"));
 				attachedFile.renameTo(attachedNewFile);
-				dto.setAttachedFile(mr.getOriginalFileName("attachedFile"));
+				System.out.println(mr.getOriginalFileName("attachedFile"));
+				dto.setAttachedFile(mr.getParameter("no")+"_"+mr.getOriginalFileName("attachedFile"));
 			}
 			else dto.setAttachedFile(dao.selectOne(mr.getParameter("no")).getAttachedFile());//파일 첨부 별도로 안 했다면(파일 안바꿨다면) 기존파일 그대로 넣도록 해 줘야 함.
 			affected = dao.update(dto);

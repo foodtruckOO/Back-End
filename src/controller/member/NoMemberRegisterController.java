@@ -28,7 +28,7 @@ public class NoMemberRegisterController extends HttpServlet{
 		//파일이 추가되어 multifile어쩌구를 써야 함
 		NoMemberDAO dao = new NoMemberDAO(req.getServletContext());
 		NoMemberDTO dto = new NoMemberDTO();
-		int max = dao.maxNum();
+		int max = dao.getNextVal();
 		String savePath = req.getServletContext().getRealPath("/backend/img/noMember");
 		File targetDir = new File(savePath);
 		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임

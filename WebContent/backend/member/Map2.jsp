@@ -65,6 +65,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services,clusterer"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<c:url value='/backend/js/jquery.validate.js'/>"></script>
 </head>
 <body>
 
@@ -103,22 +104,23 @@
     <!-- /#wrapper -->
     
     <!-- ModalPage -->
-    <div id="dialog-form" title="Create new user">
+    <div id="dialog-form" title="트럭 정보 수정 창">
 		<p class="validateTips">트럭 정보 수정 창</p>
 		<form id="frm" method="post" action="<c:url value='/Back/TruckEdit.do'/>" enctype="multipart/form-data">
 			<fieldset>
 				<label for="tname">상호명</label>
-				<input type="text" name="name" id="tname" value="" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="name" id="tname" value="" class="text ui-widget-content ui-corner-all"></br>
 				<label for="tal">연락처</label>
-				<input type="text" name="tel" id="tel" value="" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="tel" id="tel" value="" class="text ui-widget-content ui-corner-all"></br>
 				<label for="addr">위치</label><input type="button" id="selectOnMap" value="지도에서 위치변경" style="display: inline-block;">
-				<input type="text" name="addr" id="addr" value="" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="addr" id="addr" value="" class="text ui-widget-content ui-corner-all"></br>
 				<label for="addr">상세위치</label>
-				<input type="text" name="addr2" id="addr2" value="" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="addr2" id="addr2" value="" class="text ui-widget-content ui-corner-all"></br>
 				<label for="corpNo">사업자번호</label>
-				<input type="text" name="corpNo" id="corpNo" value="" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="corpNo" id="corpNo" value="" class="text ui-widget-content ui-corner-all"></br>
 				<label for="attachedFile">첨부이미지파일</label>
-				<input type="file" name="attachedFile" id="attachedFile">
+				<input type="file" name="attachedFile" id="attachedFile"></br>
+				<img id="noMemberImage" alt="그림을못찾음" src="" onclick="" style="max-width:350px">
 				<input type="hidden" id="no" name="no" value="">
 				<input type="hidden" id="cc" name="cc" value="">
 				<input type="hidden" id="originalAddr" name="originalAddr" value="">
@@ -138,7 +140,9 @@
 	  modal: true,
 	  buttons: {
 	    "수정": function(){
-	    	if(confirm("이대로 수정하시겠습니까?"))$("#frm").submit();
+	    	if($("#frm").valid()){
+	    		if(confirm("이대로 수정하시겠습니까?"))$("#frm").submit();
+	    	}
 	    },
 	    "삭제": function(){
 	    	if(confirm("정말로 삭제하시겠습니까?"))location.href="<c:url value='/Back/TruckDelete.do?no="+$("#no").val()+"&cc="+$("#cc").val()+"'/>";
@@ -167,14 +171,19 @@
 		$("#corpNo").val(dto.etc);
 		$("#cc").val(dto.cc);
 		if(dto.cc=='10'){//회원의 경우
+			$(".validateTips").html("회원 트럭 정보 수정");
 			$("#attachedFile").hide();
 			$("label[for=attachedFile]").hide();
+			$("#noMemberImage").hide();
 			$("#corpNo").show();
 			$("label[for=corpNo]").show();
 		}
 		else if(dto.cc=='6'){//비회원의 경우
+			$(".validateTips").html("비회원 트럭 정보 수정");
 			$("#corpNo").hide();
 			$("label[for=corpNo]").hide();
+			$("label[for=corpNo]").val("blahblahblah");
+			$("#noMemberImage").show().prop("src", "<c:url value='/backend/img/noMember/"+dto.etc+"'/>");
 			$("#attachedFile").show();
 			$("label[for=attachedFile]").show();
 		}
@@ -185,6 +194,27 @@
 	    });
 	}
 ///////////////////모달창 관련된 부분들/////////////////////////////
+///////////모달폼의 유효성평가하기////////////////
+$(function(){
+	$("#frm").validate({
+		rules:{
+			name : {required:true},
+			tel : {required:true},
+			addr : {required:true},
+			addr2 : {required:true},
+			corpNo : {required:true},
+		},
+		messages:{
+			name:	{required:"상호명 입력 필요"},
+			tel:	{required:"연락처 입력 필요"},
+			addr:	{required:"주소 입력 필요"},
+			addr2:	{required:"상세주소 입력필요"},
+			corpNo:	{required:"사업자번호 입력필요"}
+		}
+	});
+});
+
+/////////////유효성 끝/////////////
 /////////////////////////////////////////////////////////////
 	var mapData = ${json};
 	var markers = [];

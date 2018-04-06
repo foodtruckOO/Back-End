@@ -208,7 +208,7 @@ public class AdminEventDAO {
 	
 	public int selectLatestNo() {
 		AdminEventDTO dto = new AdminEventDTO();
-		String sql = "SELECT max(eno) FROM event";
+		String sql = "select last_number from user_sequences where sequence_name=upper('seq_event')";
 		int result=0;
 		try {
 			psmt = conn.prepareStatement(sql);

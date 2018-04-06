@@ -129,8 +129,8 @@ public class NoMemberDAO {
 		return affected;
 	}
 	
-	public int maxNum() {
-		String sql = "SELECT max(f_no) FROM foodtrucks";
+	public int getNextVal() {
+		String sql = "SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = UPPER('seq_foodtrucks')";
 		int maxNum=0;
 		try {
 			psmt = conn.prepareStatement(sql);

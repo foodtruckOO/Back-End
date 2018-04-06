@@ -37,20 +37,26 @@ public class MapDAO {
 	
 	public List<MapDTO> selectListBasic() {
 		List<MapDTO> list = new Vector();
-		String sql="";
-		switch(selectListSupport()) {
-			case 3 : 
-				sql = "SELECT f_no no, tname, addr, addr2, tel, attachedFile etc, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') type FROM foodtrucks UNION ";
-				sql+="SELECT s_no no, tname, addr, addr2, tel, corporate_no etc, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') type FROM seller";
-				break;
-			case 2 : 
-				sql+="SELECT s_no no, tname, addr, addr2, tel, corporate_no etc, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') type FROM seller";
-				break;
-			default :
-				sql = "SELECT f_no no, tname, addr, addr2, tel, attachedFile etc, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') type FROM foodtrucks UNION";
-				break;
+		String sql = "SELECT f_no no, tname, addr, addr2, tel, attachedFile etc, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') type FROM foodtrucks";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				MapDTO dto = new MapDTO();
+				dto.setNo(rs.getString(1));
+				dto.setTname(rs.getString(2));
+				dto.setAddr(rs.getString(3));
+				dto.setAddr2(rs.getString(4));
+				dto.setTel(rs.getString(5));
+				dto.setEtc(rs.getString(6));
+				dto.setColumnCount(rs.getString(7));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
+		sql ="SELECT s_no no, tname, addr, addr2, tel, corporate_no etc, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') type FROM seller";
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
@@ -71,26 +77,6 @@ public class MapDAO {
 		return list;
 	}
 		
-	public int selectListSupport() {
-		String sql = "SELECT f_no no, tname, addr, addr2, tel FROM foodtrucks UNION ";
-		sql+="SELECT s_no no, tname, addr, addr2, tel FROM seller";
-		try {
-			psmt = conn.prepareStatement(sql);
-			rs = psmt.executeQuery();
-			if(rs.next()) return 3;//두 테이블에 다 데이터가 있다.
-			else {
-				sql="SELECT f_no no, tname, addr, tel FROM seller";
-				psmt = conn.prepareStatement(sql);
-				rs = psmt.executeQuery();
-				if(rs.next()) return 2;//seller만 데이터를 갖고 있다.
-				else return 1;//foodtrucks만 데이터를 갖고 있던지, 아니면 아무것도 없던지
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;//오류발생시 반환값
-	}
-	
 	public List<MapDTO> selectListbyMember(String type) {
 		List<MapDTO> list = new Vector();
 		String sql="";

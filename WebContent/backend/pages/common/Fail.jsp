@@ -30,7 +30,7 @@
 	<c:when test="${WHERE eq 'EVENTWRITE'}">
 		<c:set var="SUC_MSG" value="글 작성 성공"/>
 		<c:set var="FAIL_MSG" value="글 작성 실패"/>
-		<c:set var="SUC_URL" value="/Back/Board.do?type=admin&board=1"/>
+		<c:set var="SUC_URL" value="/Back/Board.do?type=admin&board=${boardtype}"/>
 	</c:when>
 	<c:when test="${WHERE eq 'EVENTEDIT'}">
 		<c:set var="SUC_MSG" value="글 수정 성공"/>
