@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Food4JO - Fresh, Overpowered, Omnivorous, Delicious한 음식의 세계로</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value='/backend/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">
@@ -37,15 +37,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<script>
-$(function(){
-	wsocket = new WebSocket("ws//localhost:8080/${pageContext.request.contextPath}/order-ws-do");
-	wsocket.onopen = socketOpen;
-	wsocket.onclose = socketClose;
-	wsocket.addEventListener("message", socketMessage);	
-});
-
-</script>
 </head>
 
 <body>
@@ -75,11 +66,11 @@ $(function(){
                                     <tr>
                                         <th width="7%">번호</th>
                                         <th width="10%">주문자</th>
-                                        <th width="25%">판매자</th>
+                                        <th width="15%">판매자</th>
                                         <th width="18%">상품</th>
-                                        <th width="10%">총액</th>
-                                        <th width="20%">주문일시</th>
-                                        <th width="10%">상태</th>
+                                        <th width="18%">가격</th>
+                                        <th width="10%">주문/수령예정시간</th>
+                                        <th width="20%">기타</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,8 +82,8 @@ $(function(){
 			                                    <td class="center">${order.sname}</td>
 			                                    <td class="center">${order.fname}</td>
 			                                    <td class="center">${order.price}</td>
-			                                    <td class="center">${order.num}</td>
-			                                    <td class="center">글쎄</td>
+			                                    <td class="center">${order.stringPostdate}<br/>${order.timeOfReceipt}</td>
+			                                    <td class="center">${order.content}</td>
 			                                </tr>
 		                                </c:forEach>
 	                                </c:if>

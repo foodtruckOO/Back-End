@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Food4JO - Fresh, Overpowered, Omnivorous, Delicious한 음식의 세계로</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value='/backend/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">

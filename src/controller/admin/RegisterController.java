@@ -44,6 +44,7 @@ public class RegisterController extends HttpServlet{
 			//System.out.println(affected);
 			req.setAttribute("DUPLE", "NO");
 			req.setAttribute("SUC_FAIL", affected);
+			req.setAttribute("isFirst", dao.adminCount()==1?"Y":"N");
 			/*if(affected==0) {
 				//req.getRequestDispatcher("/backend/pages/Register.jsp").forward(req, resp);
 			}

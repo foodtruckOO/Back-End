@@ -125,4 +125,51 @@ public class GraphDAO {
 		}
 		return list;
 	}
+	
+	public List<Map> selectSalesGraph(String term){
+		List<Map> list = new Vector();
+		String sql="";
+		switch(term) {
+			case "weekly" : 
+				sql+="select sum(food.price*ord.num), to_char(postdate, 'YYYY-WW') month from " + 
+					 "food join seller sel on food.s_no=sel.s_no " + 
+					 "join orderform ord on food.f_no=ord.f_no " + 
+					 "join customer cus on ord.g_no=cus.g_no " + 
+					 "where to_char(postdate, 'YYYY-WW')<=to_char(postdate, 'YYYY-WW') " + 
+					 "group by to_char(postdate, 'YYYY-WW') " + 
+					 "order by to_char(postdate, 'YYYY-WW')";
+				break;
+			case "monthly" : 
+				sql+="select sum(food.price*ord.num), to_char(ord.postdate, 'YYYY-MM') month from " + 
+					 "food join seller sel on food.s_no=sel.s_no " + 
+					 "join orderform ord on food.f_no=ord.f_no " + 
+					 "join customer cus on ord.g_no=cus.g_no " + 
+					 "where add_months(ord.postdate, 0)>=add_months(sysdate, -1) " + 
+					 "group by to_char(ord.postdate, 'YYYY-MM') " + 
+					 "order by to_char(ord.postdate, 'YYYY-MM')";
+				break;
+			case "daily" : 
+				sql+="select sum(food.price*ord.num), to_char(postdate, 'YYYY-MM-DD') month from food join seller sel on food.s_no=sel.s_no " + 
+					 "join orderform ord on food.f_no=ord.f_no join customer cus on ord.g_no=cus.g_no where to_char(postdate-7, 'YYYY-MM-DD')<=to_char(sysdate, 'YYYY-MM-DD') " + 
+					 "group by to_char(postdate, 'YYYY-MM-DD') order by to_char(postdate, 'YYYY-MM-DD')";
+				break;
+		}
+		try {
+			psmt = conn.prepareStatement(sql);
+			System.out.println(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				Map map = new HashMap();
+				map.put("매출액", rs.getString(1));
+				System.out.println(rs.getString(1));
+				map.put("기간", rs.getString(2));
+				System.out.println(rs.getString(2));
+				list.add(map);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 }

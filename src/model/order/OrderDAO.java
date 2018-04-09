@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.naming.Context;
@@ -35,10 +37,9 @@ public class OrderDAO {
 	
 	public List<OrderDTO> selectList(){
 		List<OrderDTO> list = new Vector();
-		String sql = "select ord.o_no, cus.name customer, sel.name seller,"+
-				" food.fname food, food.price, ord.num from\r\n" + 
-				"food join seller sel on food.s_no=sel.s_no\r\n" + 
-				"join orderform ord on food.f_no=ord.f_no\r\n" + 
+		String sql = "select ord.o_no, cus.name customer, sel.name seller, food.fname food, food.price, ord.num, " +
+				"ord.timeofreceipt, ord.content, to_char(ord.postdate, 'YYYY-MM-DD HH:MM:SS') from " + 
+				"food join seller sel on food.s_no=sel.s_no join orderform ord on food.f_no=ord.f_no " + 
 				"join customer cus on ord.g_no=cus.g_no order by o_no";
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -51,6 +52,9 @@ public class OrderDAO {
 				dto.setFname(rs.getString(4));
 				dto.setPrice(rs.getString(5));
 				dto.setNum(rs.getString(6));
+				dto.setTimeOfReceipt(rs.getString(7));
+				dto.setContent(rs.getString(8));
+				dto.setStringPostdate(rs.getString(9));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -85,4 +89,5 @@ public class OrderDAO {
 		}
 		return list;
 	}
+
 }

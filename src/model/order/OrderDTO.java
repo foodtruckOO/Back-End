@@ -7,7 +7,7 @@ public class OrderDTO {
 	private String g_no;
 	private String f_no;
 	private String num;
-	private Date timeOfReceipt;//수령예정시간
+	private String timeOfReceipt;//수령예정시간
 	private String content;
 	private Date postdate;//주문시간
 	////////아래는 Join할거 대비 편의상 추가
@@ -15,6 +15,7 @@ public class OrderDTO {
 	private String fname;
 	private String sname;
 	private String price;
+	private String stringPostdate;
 	
 	public String getO_no() {
 		return o_no;
@@ -64,10 +65,10 @@ public class OrderDTO {
 	public void setPrice(String price) {
 		this.price = price;
 	}
-	public Date getTimeOfReceipt() {
+	public String getTimeOfReceipt() {
 		return timeOfReceipt;
 	}
-	public void setTimeOfReceipt(Date timeOfReceipt) {
+	public void setTimeOfReceipt(String timeOfReceipt) {
 		this.timeOfReceipt = timeOfReceipt;
 	}
 	public String getContent() {
@@ -81,5 +82,11 @@ public class OrderDTO {
 	}
 	public void setPostdate(Date postdate) {
 		this.postdate = postdate;
+	}
+	public String getStringPostdate() {
+		return stringPostdate;
+	}
+	public void setStringPostdate(String stringPostdate) {
+		this.stringPostdate = stringPostdate;
 	}
 }

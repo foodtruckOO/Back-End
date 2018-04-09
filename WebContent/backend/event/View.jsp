@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Food4JO - Fresh, Overpowered, Omnivorous, Delicious한 음식의 세계로</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value='/backend/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">
@@ -56,7 +56,6 @@ function editOK(no){
 	}
 </style>
 </head>
-
 <body>
     <div id="wrapper">
         <!-- Navigation -->
@@ -127,7 +126,6 @@ function editOK(no){
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
-
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value='/backend/vendor/bootstrap/js/bootstrap.min.js'/>"></script>
 
@@ -137,5 +135,4 @@ function editOK(no){
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
 </body>
-
 </html>

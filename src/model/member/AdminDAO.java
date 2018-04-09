@@ -158,7 +158,9 @@ public class AdminDAO {
 	}
 	public int insert(AdminDTO dto) {
 		int affected=0;
-		String sql="INSERT INTO administrator VALUES(seq_admin.nextval, ?, ?, '3', ?)";
+		String sql="";
+		if(adminCount()==0) sql+="INSERT INTO administrator VALUES(seq_admin.nextval, ?, ?, '1', ?)";//아무도 없는 경우는 바로 1권한 부여
+		else sql+="INSERT INTO administrator VALUES(seq_admin.nextval, ?, ?, '3', ?)";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getId());
@@ -169,5 +171,19 @@ public class AdminDAO {
 			e.printStackTrace();
 		}
 		return affected;
+	}
+	public int adminCount() {
+		int count=0;
+		String sql="SELECT count(*) FROM administrator";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				count=rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 }

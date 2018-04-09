@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>푸드트럭 - 일정관리</title>
+    <title>Food4JO - Fresh, Overpowered, Omnivorous, Delicious한 음식의 세계로</title>
     
     <!-- jQuery UI -->
     <link href="https://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" media="screen">

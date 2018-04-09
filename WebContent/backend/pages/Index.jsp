@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>푸드트럭 - 놀랍도록 빠르고 굉장할 정도로 맛있습니다!</title>
+    <title>Food4JO - Fresh, Overpowered, Omnivorous, Delicious한 음식의 세계로</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value='/backend/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">
@@ -34,11 +34,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
-
 <body>
-
     <div id="wrapper">
         <!-- Navigation -->
         <jsp:include page="/backend/template/Top.jsp"/>

@@ -3,7 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:choose>
 	<c:when test="${WHERE eq 'REGISTER' }">
-		<c:set var="SUC_MSG" value="회원가입에 성공했습니다. 마스터 관리자의 승인 전 까지는 접속이 불가능하니 마스터 관리자에게 문의하세요"/>
+		<c:if test="${isFirst eq 'Y'}">
+			<c:set var="SUC_MSG" value="회원가입에 성공했습니다. 첫 가입자이므로 자동으로 마스터 권한이 부여됩니다"/>
+		</c:if>
+		<c:if test="${isFirst eq 'N'}">
+			<c:set var="SUC_MSG" value="회원가입에 성공했습니다. 마스터 관리자의 승인 전 까지는 접속이 불가능하니 마스터 관리자에게 문의하세요"/>
+		</c:if>
 		<c:if test="${DUPLE eq 'YES'}">
 			<c:set var="FAIL_MSG" value="아이디가 중복되었습니다."/>
 		</c:if>

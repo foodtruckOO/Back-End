@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>Food4JO - Fresh, Overpowered, Omnivorous, Delicious한 음식의 세계로</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<c:url value='/backend/vendor/bootstrap/css/bootstrap.min.css'/>" rel="stylesheet">
@@ -116,7 +116,26 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Line Chart Example
+                            	매출액 통계 - <span id="lineGraph">일별</span>
+                            <div class="pull-right">
+                            	<div class="btn-group">
+                                	<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    	기간 선택
+                                    	<span class="caret"></span>
+                                    </button>
+                           			<ul class="dropdown-menu pull-right" role="menu">
+                                        <li>
+                                        	<a id='daily'>일별매출액</a>
+                                        </li>
+                                        <li>
+                                        	<a id='weekly'>주간매출</a>
+                                        </li>
+                                        <li>
+                                        	<a id='monthly'>월간매출</a>
+                                        </li>
+                        			</ul>
+                        		</div>
+                        	</div>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -164,68 +183,38 @@
     <script src="<c:url value='/backend/vendor/morrisjs/morris.js'/>"></script>
     <script>
     $(function() {
-    	$("#quarter").click(function(){
+    	////이 아래부터 첫번째 그래프 - 바 그래프
+		$("#quarter, #half, #year").click(function(){
+			var title = $(this).prop("id")=="quarter"?"3개월":$(this).prop("id")=="half"?"6개월":"1년";
+			var term = $(this).prop("id")=="quarter"?'3':$(this).prop("id")=="half"?'6':'12';
 			console.log("버튼클릭함");
 			$.ajax({
 				url:"<c:url value='/Back/Graph.do'/>",
 				type:'post',
 				dataType:'text',
-				data:'term=3',
+				data:'term='+term,
 				success:function(data){
 					console.log("성공"+data);
-					$("#barGraph").html("3개월");
+					$("#barGraph").html(title);
 					barChart.setData(JSON.parse(data));
 				},
 				error:function(data){
 					console.log("에러발생 : "+data);
 				}
 			});
-		});
-		$("#half").click(function(){
+		});	
+//////////////////////////////////////////////////////////////////이 아래부터 2번째 그래프 - 도넛그래프	
+		$("#seller, #all").click(function(){
 			console.log("버튼클릭함");
+			var title = $(this).prop("id")=="seller"?"회원비율 통계":"지역별 트럭 분포 통계";
 			$.ajax({
 				url:"<c:url value='/Back/Graph.do'/>",
 				type:'post',
 				dataType:'text',
-				data:'term=6',
+				data:'type='+$(this).prop("id"),
 				success:function(data){
 					console.log("성공"+data);
-					$("#barGraph").html("6개월");
-					barChart.setData(JSON.parse(data));
-				},
-				error:function(data){
-					console.log("에러발생 : "+data);
-				}
-			});
-		});
-		$("#year").click(function(){
-			console.log("버튼클릭함");
-			$.ajax({
-				url:"<c:url value='/Back/Graph.do'/>",
-				type:'post',
-				dataType:'text',
-				data:'term=12',
-				success:function(data){
-					console.log("성공"+data);
-					$("#barGraph").html("1년");
-					barChart.setData(JSON.parse(data));
-				},
-				error:function(data){
-					console.log("에러발생 : "+data);
-				}
-			});
-		});
-//////////////////////////////////////////////////////////////////이 아래부터 도넛그래프		
-		$("#all").click(function(){
-			console.log("버튼클릭함");
-			$.ajax({
-				url:"<c:url value='/Back/Graph.do'/>",
-				type:'post',
-				dataType:'text',
-				data:'type=all',
-				success:function(data){
-					console.log("성공"+data);
-					$("#donutGraph").html("회원 및 트럭 통계");
+					$("#donutGraph").html(title);
 					donutChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -233,23 +222,26 @@
 				}
 			});
 		});
-		$("#seller").click(function(){
+///////////////////////////////////////////////////////이 아래부터 3번쨰 그래프 - 라인 그래프
+		$("#daily, #weekly, #monthly").click(function(){
 			console.log("버튼클릭함");
+			var title = $(this).prop("id")=="daily"?"일 단위":$(this).prop("id")=="weekly"?"주 단위":"월 단위";
+			var term =  $(this).prop("id")=="daily"?"day":$(this).prop("id")=="weekly"?"week":"month";
 			$.ajax({
 				url:"<c:url value='/Back/Graph.do'/>",
 				type:'post',
 				dataType:'text',
-				data:'type=seller',
+				data:'revenue='+$(this).prop("id"),
 				success:function(data){
 					console.log("성공"+data);
-					$("#donutGraph").html("지역별 트럭 분포 통계");
-					donutChart.setData(JSON.parse(data));
+					$("#lineGraph").html(title);
+					lineChart.setData(JSON.parse(data));
 				},
 				error:function(data){
 					console.log("에러발생 : "+data);
 				}
 			});
-		});		
+		});
 //////////////////////////그래프 선택메뉴 관련////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////그래프 데이터 관련/////////////////////////////////////
@@ -312,20 +304,12 @@
             resize: true
         });
         
-        Morris.Line({//이걸 매출액 버전으로 만들면 될것같긴하다.
+        var lineChart = Morris.Line({//이걸 매출액 버전으로 만들면 될것같긴하다.
         	  element: 'morris-line-chart',
-        	  data: [
-        	    { y: '2006', a: 100, b: 90 },
-        	    { y: '2007', a: 75,  b: 65 },
-        	    { y: '2008', a: 50,  b: 40 },
-        	    { y: '2009', a: 75,  b: 65 },
-        	    { y: '2010', a: 50,  b: 40 },
-        	    { y: '2011', a: 75,  b: 65 },
-        	    { y: '2012', a: 100, b: 90 }
-        	  ],
-        	  xkey: 'y',
-        	  ykeys: ['a', 'b'],
-        	  labels: ['Series A', 'Series B']
+        	  data: ${salesData},
+        	  xkey: '기간',
+        	  ykeys: ['매출액'],
+        	  labels: ['매출액']
     	});
     });
     </script>

@@ -41,7 +41,7 @@ public class GraphController extends HttpServlet {
 		//System.out.println(data);
 		req.setAttribute("data", data);*/
 		
-		//2번째 그래프 구하기 - 달별 이벤트갯수 출력하기용
+		//1번째 그래프 구하기 - 달별 이벤트갯수 출력하기용
 		Calendar cal = Calendar.getInstance();
 		
 		int year = cal.get(cal.YEAR);
@@ -63,9 +63,9 @@ public class GraphController extends HttpServlet {
 		}		
 		String eventData = JSONArray.toJSONString(eventCounts);
 		req.setAttribute("eventData", eventData);
-		//2번째그래프 완료
+		//1번째그래프 완료
 		
-		//3번째그래프 시작
+		//2번째그래프 시작
 		List<Map> memberCounts = new Vector<Map>();
 		Map rc1 = new HashMap();
 		rc1.put("label", "소비자회원 수");
@@ -78,6 +78,14 @@ public class GraphController extends HttpServlet {
 		String memberCountData = JSONArray.toJSONString(memberCounts);
 		System.out.println(memberCountData);
 		req.setAttribute("memberCounts", memberCountData);
+		//2번쨰그래프 끝
+		//3번째그래프시작
+		List<Map> salesGraphList = dao.selectSalesGraph("daily");
+		String salesData = JSONArray.toJSONString(salesGraphList);
+		System.out.println(salesData+"가 출력");
+		req.setAttribute("salesData", salesData);
+		
+		
 		dao.close();
 		//System.out.println(eventData);
 		req.getRequestDispatcher("/backend/member/statistics/Graph.jsp").forward(req, resp);
@@ -139,11 +147,26 @@ public class GraphController extends HttpServlet {
 				System.out.println(eventData);
 			}
 		}
-		
+		else if(req.getParameter("revenue")!=null) {
+			List<Map> salesGraphList = dao.selectSalesGraph(req.getParameter("revenue"));
+			eventData = JSONArray.toJSONString(salesGraphList);
+		}
 		PrintWriter out = resp.getWriter();
 		out.print(eventData);
 		out.close();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//////////////////////////////행정구역의 약칭과 총명칭을 통합하는 용도의 메소드
 	private List<Map> mapMigrator(List<Map> list){
 		List<Map> collections = new Vector();
