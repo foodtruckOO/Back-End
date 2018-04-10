@@ -120,7 +120,7 @@
 				<input type="text" name="corpNo" id="corpNo" value="" class="text ui-widget-content ui-corner-all"></br>
 				<label for="attachedFile">첨부이미지파일</label>
 				<input type="file" name="attachedFile" id="attachedFile"></br>
-				<img id="noMemberImage" alt="그림을못찾음" src="" onclick="" style="max-width:350px">
+				<img id="noMemberImage" alt="그림을못찾음" src="" style="max-width:350px">
 				<input type="hidden" id="no" name="no" value="">
 				<input type="hidden" id="cc" name="cc" value="">
 				<input type="hidden" id="originalAddr" name="originalAddr" value="">
@@ -162,7 +162,7 @@
 	  dialog.dialog( "open" );
 	});
 	function modalShow(dto, marker, infowindow){
-		console.log(dto.no+", "+dto.etc+", "+", "+dto.tname);//tname, tel, addr
+		console.log(dto.no+", "+dto.etc+", "+", "+dto.tname+", "+dto.cc);//tname, tel, addr
 		$("#tname").val(dto.tname);
 		$("#tel").val(dto.tel);
 		$("#addr").val(dto.location);
@@ -170,6 +170,7 @@
 		$("#no").val(dto.no);
 		$("#corpNo").val(dto.etc);
 		$("#cc").val(dto.cc);
+		console.log("들어갔나확인 : "+$("#cc").val());
 		if(dto.cc=='10'){//회원의 경우
 			$(".validateTips").html("회원 트럭 정보 수정");
 			$("#attachedFile").hide();

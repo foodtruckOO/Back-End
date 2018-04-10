@@ -131,13 +131,13 @@ public class GraphDAO {
 		String sql="";
 		switch(term) {
 			case "weekly" : 
-				sql+="select sum(food.price*ord.num), to_char(postdate, 'YYYY-WW') month from " + 
+				sql+="select sum(food.price*ord.num), to_char(postdate, 'YYYY-MM-W') month from " + 
 					 "food join seller sel on food.s_no=sel.s_no " + 
 					 "join orderform ord on food.f_no=ord.f_no " + 
 					 "join customer cus on ord.g_no=cus.g_no " + 
-					 "where to_char(postdate, 'YYYY-WW')<=to_char(postdate, 'YYYY-WW') " + 
-					 "group by to_char(postdate, 'YYYY-WW') " + 
-					 "order by to_char(postdate, 'YYYY-WW')";
+					 "where to_char(postdate, 'YYYY-MM-W')<=to_char(postdate, 'YYYY-MM-W') " + 
+					 "group by to_char(postdate, 'YYYY-MM-W') " + 
+					 "order by to_char(postdate, 'YYYY-MM-W')";
 				break;
 			case "monthly" : 
 				sql+="select sum(food.price*ord.num), to_char(ord.postdate, 'YYYY-MM') month from " + 

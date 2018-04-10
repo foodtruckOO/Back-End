@@ -61,32 +61,30 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="table">
                                 <thead>
                                     <tr>
-                                        <th width="7%">번호</th>
+                                        <th width="10%">번호</th>
                                         <th width="10%">주문자</th>
-                                        <th width="15%">판매자</th>
+                                        <th width="12%">판매자</th>
                                         <th width="18%">상품</th>
-                                        <th width="18%">가격</th>
-                                        <th width="10%">주문/수령예정시간</th>
+                                        <th width="10%">가격</th>
+                                        <th width="18%">주문/수령예정시간</th>
                                         <th width="20%">기타</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	<c:if test="${not empty list}">
-	                                	<c:forEach var="order" items="${list}">
-			                            	<tr class="gradeA">
-			                            		<td>${order.o_no}</td>
-			                                    <td class="center">${order.gname}</td>
-			                                    <td class="center">${order.sname}</td>
-			                                    <td class="center">${order.fname}</td>
-			                                    <td class="center">${order.price}</td>
-			                                    <td class="center">${order.stringPostdate}<br/>${order.timeOfReceipt}</td>
-			                                    <td class="center">${order.content}</td>
-			                                </tr>
-		                                </c:forEach>
-	                                </c:if>
+	                            	<c:forEach var="order" items="${list}">
+			                        	<tr class="gradeA">
+			                            	<td>${order.o_no}</td>
+			                            	<td class="center">${order.gname}</td>
+			                            	<td class="center">${order.sname}</td>
+			                            	<td class="center">${order.fname}</td>
+			                            	<td class="center">${order.price}</td>
+			                            	<td class="center">${order.stringPostdate}<br/>${order.timeOfReceipt}</td>
+			                            	<td class="center">${order.content}</td>
+			                        	</tr>
+		                        	</c:forEach>
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->

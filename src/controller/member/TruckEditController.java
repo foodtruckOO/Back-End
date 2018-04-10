@@ -23,10 +23,10 @@ public class TruckEditController extends HttpServlet{
 		req.setCharacterEncoding("UTF-8");
 		int affected=0;
 		String savePath = req.getServletContext().getRealPath("/backend/img/noMember");
+		File targetDir = new File(savePath);
+		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
 		MultipartRequest mr = FileUtils.upload(req, savePath);
-		//System.out.println("넘어옴"+req.getParameter("no")+", "+req.getParameter("name")+", "+req.getParameter("tel")+", "+req.getParameter("addr")+", "+req.getParameter("corpNo"));
 		if(mr.getParameter("cc").equals("10")) {//회원트럭은 여기서 처리
-			
 			SellerDTO dto = new SellerDTO();
 			dto.setS_no(mr.getParameter("no"));
 			dto.setTname(mr.getParameter("name"));
@@ -39,8 +39,6 @@ public class TruckEditController extends HttpServlet{
 			dao.close();
 		}
 		else {//비회원트럭은 여기서 처리
-			File targetDir = new File(savePath);
-			if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
 			NoMemberDTO dto = new NoMemberDTO();
 			NoMemberDAO dao = new NoMemberDAO(req.getServletContext());
 			System.out.println("출력준비중");
