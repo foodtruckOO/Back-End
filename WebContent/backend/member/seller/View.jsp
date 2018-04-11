@@ -19,14 +19,10 @@
     <!-- MetisMenu CSS -->
     <link href="<c:url value='/backend/vendor/metisMenu/metisMenu.min.css'/>" rel="stylesheet">
 
-    <!-- DataTables CSS -->
-    <link href="<c:url value='/backend/vendor/datatables-plugins/dataTables.bootstrap.css'/>" rel="stylesheet">
-
-    <!-- DataTables Responsive CSS -->
-    <link href="<c:url value='/backend/vendor/datatables-responsive/dataTables.responsive.css'/>" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="<c:url value='/backend/dist/css/sb-admin-2.css'/>" rel="stylesheet">
+	<!-- datepicker용 -->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" />
 
     <!-- Custom Fonts -->
     <link href="<c:url value='/backend/vendor/font-awesome/css/font-awesome.min.css'/>" rel="stylesheet" type="text/css">
@@ -37,20 +33,37 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <!-- jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="<c:url value='/backend/js/jquery.validate.js'/>"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script>
+function deleteOK(no){
+	if(confirm('정말로 삭제하시겠습니까?')){
+		location.href="<c:url value='/Back/EventDelete.do?no="+no+"'/>";
+	}
+}
+function editOK(no){
+	location.href="<c:url value='/Back/EventEdit.do?no="+no+"'/>";
+}
+</script>
+<style>
+	.ui-datepicker-trigger{
+		position:relative;
+		width:30px;
+		height:20px;
+		top:10px;
+	}
+</style>
 </head>
-
 <body>
-
     <div id="wrapper">
-
         <!-- Navigation -->
         <jsp:include page="/backend/template/Top.jsp"/>
-
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Tables</h1>
+                    <h1 class="page-header">사장 게시판</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -59,31 +72,33 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            	사장 게시판 내용
                         </div>
-                        <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                <thead>
-                                    <tr>
-                                        <th width="10%">글번호</th>
-                                        <th width="20%">작성자</th>
-                                        <th width="50%">글제목</th>
-                                        <th width="20%">작성일</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                	<c:forEach var="cusBoard" items="${list}">
-	                                    <tr class="gradeA">
-	                                        <td>${cusBoard.cb_no}</td>
-	                                        <td>${cusBoard.name}</td>
-	                                        <td><a href="<c:url value='/Back/BoardView.do?cusNo=${cusBoard.cb_no}'/>">${cusBoard.title}</a></td>
-	                                        <td class="center">${cusBoard.postdate}</td>
-	                                    </tr>
-                                	</c:forEach>
-                                </tbody>
-                            </table>
-                            <!-- /.table-responsive -->
+                            <div class="row">
+                                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                	<tr>
+                                		<td width="20%">작성자</td>
+                                		<td width="80%">${selBoard.sname}</td>
+                                	</tr>
+                                	<tr>
+                                		<td>제목</td>
+                                		<td>${selBoard.title}</td>
+                                	</tr>
+                                	<tr>
+                                		<td>내용</td>
+                                		<td>${selBoard.content}</td>
+                                	</tr>
+                                	<tr>
+                                		<td>작성일자</td>
+                                		<td>${selBoard.postdate}</td>
+                                	</tr>
+                                </table>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+		                    <button onclick="editOK(${selBoard.sb_no})" class="btn btn-info">수정</button>
+		                    <button onclick="deleteOK(${selBoard.sb_no})" class="btn btn-danger">삭제</button>
+                            <!-- /.row (nested) -->
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -94,37 +109,15 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-
     </div>
     <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="<c:url value='/backend/vendor/jquery/jquery.min.js'/>"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value='/backend/vendor/bootstrap/js/bootstrap.min.js'/>"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<c:url value='/backend/vendor/metisMenu/metisMenu.min.js'/>"></script>
 
-
-    <!-- DataTables JavaScript -->
-    <script src="<c:url value='/backend/vendor/datatables/js/jquery.dataTables.min.js'/>"></script>
-    <script src="<c:url value='/backend/vendor/datatables-plugins/dataTables.bootstrap.min.js'/>"></script>
-    <script src="<c:url value='/backend/vendor/datatables-responsive/dataTables.responsive.js'/>"></script>
-
     <!-- Custom Theme JavaScript -->
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
-
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-    </script>
-
 </body>
-
 </html>

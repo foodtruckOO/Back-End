@@ -34,8 +34,9 @@ public class NoMemberRegisterController extends HttpServlet{
 		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
 		MultipartRequest mr = FileUtils.upload(req, savePath);//업로드하기
 		File contentFile = new File(req.getServletContext().getRealPath("/backend/img/noMember")+File.separator+mr.getOriginalFileName("attachedFile"));
-		File contentNewFile = new File(req.getServletContext().getRealPath("/backend/img/noMember/"+(max+1))+File.separator+mr.getOriginalFileName("attachedFile"));
+		File contentNewFile = new File(req.getServletContext().getRealPath("/backend/img/noMember/"+(max+1))+mr.getOriginalFileName("attachedFile"));
 		contentFile.renameTo(contentNewFile);
+		System.out.println();
 		String addr = mr.getParameter("roadAddrPart1").equals("선택하신 곳에서 도로명주소를 얻을 수 없습니다.")?mr.getParameter("roadAddrPart1_5"):mr.getParameter("roadAddrPart1");
 		dto.setTname(mr.getParameter("tname"));
 		dto.setTel(mr.getParameter("tel"));

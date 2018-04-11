@@ -122,6 +122,14 @@
     <url-pattern>/Back/AdminEdit.do</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>SellerBoardEdit</servlet-name>
+    <servlet-class>controller.board.BoardViewController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SellerBoardEdit</servlet-name>
+    <url-pattern>/Back/BoardView.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>MemberEdit</servlet-name>
     <servlet-class>controller.member.MemberEditController</servlet-class>
   </servlet>
@@ -216,9 +224,9 @@
   <session-config>
   	<session-timeout>30</session-timeout>
   </session-config>
+  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
-    <welcome-file>/Back/Index.do</welcome-file>
     <welcome-file>/backend/pages/Index.jsp</welcome-file>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>

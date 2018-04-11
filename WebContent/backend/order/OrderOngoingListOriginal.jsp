@@ -43,32 +43,14 @@ window.setInterval(function() {
 		url : "<c:url value='/Back/OrderOngoing.do'/>",
 		type : 'post',
 		dataType : 'json',
-		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		success : function(data){
-			console.log(data);
-			ajaxResultSetter(data);
+			
 		},
 		error : function(request, status, error){
-			console.log("에러남");
 			console.log(error);
 		}
 	});
 }, 3000)
-function ajaxResultSetter(data){
-	var text = "";
-	$.each(data, function(index, record) {
-    	text+='<tr class="gradeA">';
-    	text+='<td>'+record.o_no+'</td>';
-    	text+='<td class="center">'+record.gname+'</td>';
-    	text+='<td class="center">'+record.sname+'</td>';
-    	text+='<td class="center">'+record.fname+'</td>';
-    	text+='<td class="center">'+record.price+'</td>';
-    	text+='<td class="center">'+record.stringPostdate+'<br/>'+record.timeOfReceipt+'</td>';
-    	text+='<td class="center">'+record.content+'</td>';
-    	text+='</tr>'
-	});
-	$("tbody").html(text);
-}
 </script>
 </head>
 

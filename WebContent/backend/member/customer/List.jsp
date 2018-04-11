@@ -89,18 +89,19 @@
                                 <tbody>
                                 	<c:forEach var="dto" items="${list}">
 	                                    <tr class="gradeA">
-	                                        <td>${dto.g_no}</td>
-	                                        <td class="center">${dto.id}</td>
-	                                        <td class="center">${dto.name}</td>
+	                                        <td>${dto.s_no}</td>
+	                                        <td>${dto.id}</td>
+	                                        <td class="center">${dto.tname}</td>
+	                                        <td class="center">${dto.addr}</td>
 	                                        <td class="center">${dto.tel}</td>
 	                                        <td class="center">
 	                                        	<form method="get" action="<c:url value='/Back/MemberEdit.do'/>" style="display: inline-block;">
-		                                			<input type="hidden" value="${dto.g_no}" name="no">
-		                                			<input type="hidden" value="customer" name="type">
+		                                			<input type="hidden" value="${dto.s_no}" name="no">
+		                                			<input type="hidden" value="seller" name="type">
 		                                			<input type="submit" class="btn btn-info" value="수정">
 		                                		</form>
-		                                		<button onclick="deleteOK(${dto.g_no})" class="btn btn-danger">삭제</button>
-		                                	</td>
+		                                		<button onclick="deleteOK(${dto.s_no})" class="btn btn-danger">삭제</button>
+											</td>
 	                                    </tr>
                                     </c:forEach>
                                 </tbody>

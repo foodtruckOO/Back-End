@@ -47,6 +47,7 @@
 <script src="<c:url value='/backend/js/jquery.tabletojson.min.js'/>"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4fa6b1aa17406c2b2c3553c2e41aad3a&libraries=services"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="<c:url value='/backend/js/jquery.validate.js'/>"></script>
 <script language="javascript">
 function goPopup(){
 	// 주소검색을 수행할 팝업 페이지를 호출합니다.
@@ -62,7 +63,8 @@ function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2){//,en
 		document.form.roadAddrPart1_5.value="";
 }
 $(function(){//메뉴추가
-	$("#addMenu").click(function(){
+	//이거안씀
+	/* $("#addMenu").click(function(){
 		$("#menuTbody").append("<tr>" +
 			"<td>" + $("#menuName").val() + "</td>" +
 			"<td>" + $("#menuPrice").val() + "</td>" +
@@ -77,7 +79,44 @@ $(function(){//메뉴추가
 		$("#menuList").val(JSON.stringify(table));
 		console.log($("#menuList").val());
 		alert(JSON.stringify(table));
+	}); */
+	$("#form").validate({
+		rules :{
+			tname : {required:true, minlength:2},
+			tel : {required:true, minlength:3, maxlength:11},
+			roadAddrPart1_5 : {required:true},
+			addrDetail : {required:true},
+			attachedFile : {required:true}
+		},
+		messages :{
+			tname :				{
+				required:"상호명을 입력하셔야 합니다",
+				minlength:"최소 2자 이상 입력하셔야 합니다"
+			},
+			tel : 				{
+				required:"연락처를 입력하셔야 합니다",
+				minlength:"최소 3자 이상 입력하셔야 합니다",
+				maxlength:"연락처는 11자를 초과할 수 없습니다. 입력간 -를 빼 주세요"
+			},
+			roadAddrPart1_5 : 	{
+				required:"트럭 위치를 지정해야 합니다"
+			},
+			addrDetail :  		{
+				required:"상세주소를 입력해 주셔야 이용자들이 위치를 찾기 편합니다"
+			},
+			attachedFile :  	{
+				required:"대표 이미지파일을 첨부해 주세요"
+			}
+		}
 	});
+	$("#submit").click(function(){
+		if($("#form").valid()){
+			if(confirm("이대로 저장하시겠습니까?")){
+				$("#form").submit();
+			}
+		}
+	});
+	
 	$(document).on("click","#menuDelete",function(){//메뉴삭제
 		if(confirm("해당 메뉴를 삭제합니다 : "+$(this).parent().parent().children("td:first").html())){
 			$(this).parent().parent().remove();
@@ -156,7 +195,7 @@ $(function(){//메뉴추가
 									 -->
 									파일첨부<input type="file" id="attachedFile" name="attachedFile"/><br>
 								 	<!-- Allow form submission with keyboard without duplicating the dialog button -->
-									<input type="submit" value="작성">
+									<input type="submit" value="작성" id="submit">
 								</form>
 							</fieldset>
                         </div>
@@ -204,6 +243,8 @@ function searchDetailAddrFromCoords(coords, callback) {
 // 지도에 클릭 이벤트를 등록합니다
 // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
 daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+	document.getElementById('roadAddrPart1_5').value='';//클릭하면 일단 주소부터 초기화하기	
+	document.getElementById('roadAddrPart1').value='';//클릭하면 일단 주소부터 초기화하기
 	searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
         if (status === daum.maps.services.Status.OK) {
             var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';

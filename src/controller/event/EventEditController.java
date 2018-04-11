@@ -1,5 +1,6 @@
 package controller.event;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,8 @@ public class EventEditController extends HttpServlet{
 		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
 		AdminEventDTO dto = new AdminEventDTO();
 		String savePath = req.getServletContext().getRealPath("/backend/img/admin/"+writerDTO.getId());
+		File targetDir = new File(savePath);
+		if(!targetDir.exists())targetDir.mkdirs();//상황을 보니 메타데이터에 올라가는거다 보니까 매번 해 줘야 하는 것 같다... 아마도
 		MultipartRequest mr = FileUtils.upload(req, savePath);//업로드하기 - 파일명중복이면 큰일날듯...
 		System.out.println("타이틀파일:"+mr.getParameter("titleFile"));
 		System.out.println("컨텐츠파일:"+mr.getParameter("contentFile"));
@@ -57,14 +60,19 @@ public class EventEditController extends HttpServlet{
 				e.printStackTrace();
 			}
 			//파일 바꿨는지 안바꿨는지에 따라서 조치하는 로직 시작//
-			
-			if(mr.getOriginalFileName("titleFile")!=null) {
+			if(mr.getOriginalFileName("titleFile")!=null) {//파일변경
+				File titleFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+writerDTO.getId())+File.separator+mr.getOriginalFileName("titleFile"));
+				File titleNewFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+writerDTO.getId())+File.separator+nowNum+mr.getOriginalFileName("titleFile"));
 				dto.setTitlefile(nowNum+mr.getOriginalFileName("titleFile"));
+				titleFile.renameTo(titleNewFile);
 				System.out.println(mr.getOriginalFileName("titleFile")+", "+dto.getTitlefile());
 			}
 			else dto.setTitlefile(originalDTO.getTitlefile());
 			
-			if(mr.getOriginalFileName("contentFile")!=null) {
+			if(mr.getOriginalFileName("contentFile")!=null) {//파일변경
+				File contentFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+writerDTO.getId())+File.separator+mr.getOriginalFileName("contentFile"));
+				File contentNewFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+writerDTO.getId())+File.separator+nowNum+mr.getOriginalFileName("contentFile"));
+				contentFile.renameTo(contentNewFile);
 				dto.setContentfile(nowNum+mr.getOriginalFileName("contentFile"));//새로운 이름의 파일을 저장함
 				//기존파일 삭제하는 로직을 여기 넣어야 하는데... 싫다. 일단 저 안에 같은 파일이 존재하냐 마냐도 따져야 할 거 같은데 어렵다.일단은.
 				System.out.println(mr.getOriginalFileName("contentFile")+", "+dto.getContentfile());

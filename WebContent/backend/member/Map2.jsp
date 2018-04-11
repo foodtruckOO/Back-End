@@ -274,7 +274,7 @@ $(function(){
 		        if(dto.cc=='10') imageSrc="<c:url value='/backend/img/map/Marker_Colored.png'/>";
 		        else imageSrc="<c:url value='/backend/img/map/Marker_Monochrome.png'/>";
 		        var imageSize= new daum.maps.Size(24,24),
-		            imageOption={offset:new daum.maps.Point(0,0)};
+		            imageOption={offset:new daum.maps.Point(16,24)};
 		        var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				//마커이미지 생성완료
 		        // 결과값으로 받은 위치를 마커로 표시합니다

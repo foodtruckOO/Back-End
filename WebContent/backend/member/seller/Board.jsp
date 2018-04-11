@@ -59,7 +59,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                        	판매자게시판에서 작성된 글 목록임
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -69,32 +69,18 @@
                                         <th width="10%">글번호</th>
                                         <th width="20%">작성자</th>
                                         <th width="50%">글제목</th>
-                                        <th width="10%">유형</th>
-                                        <th width="10%">작성일</th>
+                                        <th width="20%">작성일</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="gradeA">
-                                        <td>1</td>
-                                        <td>여의도남바완</td>
-                                        <td>트럭팝니다</td>
-                                        <td class="center">매매</td>
-                                        <td class="center">18/02/15</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>2</td>
-                                        <td>앙겟썸</td>
-                                        <td>손님들 돈 뺏고 싶다</td>
-                                        <td class="center">잡담</td>
-                                        <td class="center">18/02/15</td>
-                                    </tr>
-                                    <tr class="gradeA">
-                                        <td>3</td>
-                                        <td>분탕충</td>
-                                        <td>ㄴ주어가 아들로 바뀜</td>
-                                        <td class="center">잡담</td>
-                                        <td class="center">18/02/16</td>
-                                    </tr>
+                                	<c:forEach var="selBoard" items="${list}">
+	                                    <tr class="gradeA">
+	                                        <td>${selBoard.sb_no}</td>
+	                                        <td>${selBoard.sname}</td>
+	                                        <td><a href="<c:url value='/Back/BoardView.do?selNo=${selBoard.sb_no}'/>">${selBoard.title}</a></td>
+	                                        <td class="center">${selBoard.postdate}</td>
+	                                    </tr>
+                                	</c:forEach>
                                 </tbody>
                             </table>
                             <!-- /.table-responsive -->
