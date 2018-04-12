@@ -25,25 +25,7 @@ public class GraphController extends HttpServlet {
 		GraphDAO dao = new GraphDAO(req.getServletContext());
 		System.out.println(req.getParameter("id"));
 		String id = req.getParameter("id");
-		/*List<GraphDTO> list =  dao.selectList();
-		List<Map> collections = new Vector<Map>();
-		for(GraphDTO dto : list) {
-			Map record = new HashMap();
-			record.put("period", dto.getDate().toString());
-			//System.out.println(dto.getDate());
-			record.put("fir", Integer.parseInt(dto.getFir()));
-			//System.out.println(dto.getFir());
-			record.put("sec", Integer.parseInt(dto.getSec()));
-			record.put("thr", Integer.parseInt(dto.getThr()));
-			collections.add(record);
-		}
-		String data = JSONArray.toJSONString(collections);
-		//System.out.println(data);
-		req.setAttribute("data", data);*/
-		
-		//1번째 그래프 구하기 - 달별 이벤트갯수 출력하기용
 		Calendar cal = Calendar.getInstance();
-		
 		int year = cal.get(cal.YEAR);
 		int month = cal.get(cal.MONTH)+1;
 		List<Map> eventCounts = new Vector<Map>();
@@ -111,6 +93,20 @@ public class GraphController extends HttpServlet {
 			Calendar cal = Calendar.getInstance();
 			int year = cal.get(cal.YEAR);
 			int month = cal.get(cal.MONTH)+1;
+			///////////////////////카운트넘기는거 추가하고자 함 1달단위로 뒤로 넘기기 같은 그런거...
+			int paramNum = req.getParameter("month")!=null?Integer.parseInt(req.getParameter("month")):0;
+			month+=paramNum;
+			while(true) {
+				if(month>12) {
+					month-=12;
+					year+=1;
+				}
+				else if(month<1) {
+					month+=12;
+					year-=1;
+				}
+				else break;
+			}
 			List<Map> eventCounts = new Vector<Map>();
 			int num=Integer.parseInt(req.getParameter("term"));
 			for(int i=0;i<num;i++) {

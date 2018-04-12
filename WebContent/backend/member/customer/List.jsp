@@ -37,6 +37,9 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="<c:url value='/backend/js/jquery.validate.js'/>"></script>
 <script>
 	$("#frmDalete #delete").click(function(){
 		console.log('버튼클릭인식함');
@@ -76,31 +79,32 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="table">
                                 <thead>
                                     <tr>
                                         <th width="15%">번호</th>
                                         <th width="20%">아이디</th>
-                                        <th width="20%">이름</th>
+                                        <th width="15%">이름</th>
                                         <th width="20%">연락처</th>
-                                        <th width="20%">가입일</th>
+                                        <th width="15%">가입일</th>
+                                        <th width="15%">설정</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 	<c:forEach var="dto" items="${list}">
 	                                    <tr class="gradeA">
-	                                        <td>${dto.s_no}</td>
+	                                        <td>${dto.g_no}</td>
 	                                        <td>${dto.id}</td>
-	                                        <td class="center">${dto.tname}</td>
-	                                        <td class="center">${dto.addr}</td>
+	                                        <td class="center">${dto.name}</td>
 	                                        <td class="center">${dto.tel}</td>
+	                                        <td class="center">${dto.regidate}</td>
 	                                        <td class="center">
 	                                        	<form method="get" action="<c:url value='/Back/MemberEdit.do'/>" style="display: inline-block;">
-		                                			<input type="hidden" value="${dto.s_no}" name="no">
+		                                			<input type="hidden" value="${dto.g_no}" name="no">
 		                                			<input type="hidden" value="seller" name="type">
 		                                			<input type="submit" class="btn btn-info" value="수정">
 		                                		</form>
-		                                		<button onclick="deleteOK(${dto.s_no})" class="btn btn-danger">삭제</button>
+		                                		<button onclick="deleteOK(${dto.g_no})" class="btn btn-danger">삭제</button>
 											</td>
 	                                    </tr>
                                     </c:forEach>
@@ -142,11 +146,9 @@
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
 		$('#table').DataTable({
-			"order":[[0, "desc"]]
+			"order":[[0, "desc"]],
+        	responsive: true
 		});
     });
     </script>

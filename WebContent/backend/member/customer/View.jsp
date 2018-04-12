@@ -79,19 +79,19 @@ function editOK(no){
                                 <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 	<tr>
                                 		<td width="20%">작성자</td>
-                                		<td width="80%">${selBoard.sname}</td>
+                                		<td width="80%">${cusBoard.name}</td>
                                 	</tr>
                                 	<tr>
                                 		<td>제목</td>
-                                		<td>${selBoard.title}</td>
+                                		<td>${cusBoard.title}</td>
                                 	</tr>
                                 	<tr>
                                 		<td>내용</td>
-                                		<td>${selBoard.content}</td>
+                                		<td>${cusBoard.content}</td>
                                 	</tr>
                                 	<tr>
                                 		<td>작성일자</td>
-                                		<td>${selBoard.postdate}</td>
+                                		<td>${cusBoard.postdate}</td>
                                 	</tr>
                                 </table>
                                 <!-- /.col-lg-6 (nested) -->

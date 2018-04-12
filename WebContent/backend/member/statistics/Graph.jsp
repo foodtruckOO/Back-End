@@ -60,6 +60,9 @@
                         <div class="panel-heading">
                             	행사 일정 통계 - <span id="barGraph">6개월</span>
                             <div class="pull-right">
+                            	<button id="left1"><i class="fa fa-arrow-left"></i></button>
+                            	<button id="right1"><i class="fa fa-arrow-right"></i></button>
+                            	<input type="hidden" id="termNum" value="0">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                         	기간 선택
@@ -217,6 +220,26 @@
 					console.log("에러발생 : "+data);
 				}
 			});
+		});
+    	$("#left1, #right1").click(function(){
+    		var title = $("#barGraph").html();
+    		var term = $("#barGraph").html()=="3개월"?'3':$("#barGraph").html()=="6개월"?'6':'12';
+    		if($(this).prop("id")=="left1") $("#termNum").val(parseInt($("#termNum").val())-1);
+    		else $("#termNum").val(parseInt($("#termNum").val())+1);
+    		console.log($("#termNum").val());
+			$.ajax({
+				url:"<c:url value='/Back/Graph.do'/>",
+				type:'post',
+				dataType:'text',
+				data:'term='+term+"&month="+$("#termNum").val(),
+				success:function(data){					
+					$("#barGraph").html(title);
+					barChartEvent.setData(JSON.parse(data));
+				},
+				error:function(data){
+					console.log("에러발생 : "+data);
+				}
+			});
 		});	
 //////////////////////////////////////////////////////////////////이 아래부터 2번째 그래프 - 도넛그래프	
 		$("#seller, #all").click(function(){
@@ -228,7 +251,7 @@
 				dataType:'text',
 				data:'type='+$(this).prop("id"),
 				success:function(data){
-					$("button:eq(2)").html(title);
+					$("button:eq(4)").html(title);
 					console.log("성공"+data);
 					$("#donutGraph").html(title);
 					donutChart.setData(JSON.parse(data));
@@ -249,7 +272,7 @@
 				dataType:'text',
 				data:'revenue='+$(this).prop("id"),
 				success:function(data){
-					$("button:eq(3)").html(title);
+					$("button:eq(5)").html(title);
 					console.log("성공"+data);
 					$("#lineGraph").html(title);
 					lineChart.setData(JSON.parse(data));
@@ -268,7 +291,7 @@
 				dataType:'text',
 				data:'truckName='+$(this).prop("title"),
 				success:function(data){
-					$("button:eq(4)").html(title);
+					$("button:eq(6)").html(title);
 					console.log("성공"+data);
 					barChartReview.setData(JSON.parse(data));
 				},
@@ -303,7 +326,7 @@
             xkey: 'name',
             ykeys: ['score'],
             labels: ['점수'],
-            barColors:['yellow'],
+            barColors:['#40aac2'],
             hideHover: 'auto',
             resize: true
         }); 
