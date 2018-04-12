@@ -204,5 +204,39 @@ public class GraphDAO {
 			return list;
 		}
 		return list;
-	}	
+	}
+	
+	public List<Map> selectedTruckReviewScore(String name){
+		List<Map> list = new Vector();
+		String sql="select avg(st) from (select avg(star) st, s_no from review group by s_no)";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				Map map = new HashMap();
+				map.put("name", "평균");
+				map.put("score", rs.getInt(1));
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return list;
+		}
+		
+		sql="select avg(star) st from review re join seller sel on re.s_no = sel.s_no where tname=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, name);
+			rs = psmt.executeQuery();
+			Map map2 = new HashMap();
+			map2.put("name", name);
+			if(rs.next()) map2.put("score", rs.getInt(1));
+			else map2.put("score", 0);
+			list.add(map2);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return list;
+		}
+		return list;
+	}
 }

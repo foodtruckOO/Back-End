@@ -155,7 +155,13 @@ public class GraphController extends HttpServlet {
 			eventData = JSONArray.toJSONString(salesGraphList);
 		}
 		else if(req.getParameter("truckName")!=null) {
-			
+			String tname = req.getParameter("truckName");
+			System.out.println(tname);
+			List<Map> list;
+			if(tname.equalsIgnoreCase("전체")) list = dao.selectReviewScoreGraph();			
+			else list = dao.selectedTruckReviewScore(tname);
+			eventData = JSONArray.toJSONString(list);
+			System.out.println(eventData);
 		}
 		PrintWriter out = resp.getWriter();
 		out.print(eventData);

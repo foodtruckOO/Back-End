@@ -20,11 +20,6 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
                         <li>
                         	<c:if test="${empty sessionScope.dto}" var="isNotLogin">
                         		<a href="<c:url value='/Back/Login.do'/>"><i class="fa fa-sign-out fa-fw"></i> 로그인</a>
@@ -111,9 +106,6 @@
 		                        </li>
 		                        <li>
 		                            <a href="<c:url value='/Back/NoMemberRegister.do'/>"><i class="fa fa-user fa-fw"></i>비회원 트럭 등록</a>
-		                        </li>
-		                        <li>
-		                            <a href="#"><i class="fa fa-desktop fa-fw"></i>트럭 통합관리</a>
 		                        </li>
                             </ul>
                         </li>

@@ -33,7 +33,8 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+    <script src="<c:url value='/backend/js/jquery.validate.js'/>"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
 
@@ -156,12 +157,16 @@
 	                        <div class="pull-right">
 	                            <div class="btn-group">
 	                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-	                                    	조회 대상<span class="caret"></span>
+	                                    	전체
+	                                    	<span class="caret"></span>
 	                                </button>
 	                           		<ul class="dropdown-menu pull-right" role="menu">
+	                           			<li>
+		                                	<a class="truckName" id='truckall' title="전체">전체</a>
+		                                </li>
 	                           			<c:forEach var="truckName" items="${truckNames}">
 		                                    <li>
-		                                       	<a id='truckName' title="${truckName}">${truckName}</a>
+		                                       	<a class="truckName" id='truckName' title="${truckName}">${truckName}</a>
 		                                    </li>
 	                                    </c:forEach>
 	                        		</ul>
@@ -185,22 +190,14 @@
 
     <!-- jQuery -->
     <script src="<c:url value='/backend/vendor/jquery/jquery.min.js'/>"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="<c:url value='/backend/vendor/bootstrap/js/bootstrap.min.js'/>"></script>
-
     <!-- Metis Menu Plugin JavaScript -->
     <script src="<c:url value='/backend/vendor/metisMenu/metisMenu.min.js'/>"></script>
-
-
-
     <!-- Morris Charts JavaScript -->
     <script src="<c:url value='/backend/vendor/raphael/raphael.min.js'/>"></script>
     <script src="<c:url value='/backend/vendor/morrisjs/morris.js'/>"></script>
     <script>
-    function nameCompressor(name){
-    	
-    }
     $(function() {
     	////이 아래부터 첫번째 그래프 - 바 그래프
 		$("#quarter, #half, #year").click(function(){
@@ -222,18 +219,17 @@
 			});
 		});
     	$("#left1, #right1").click(function(){
-    		var title = $("#barGraph").html();
-    		var term = $("#barGraph").html()=="3개월"?'3':$("#barGraph").html()=="6개월"?'6':'12';
+    		var eventtitle = $("#barGraph").html();
+    		var eventterm = $("#barGraph").html()=="3개월"?'3':$("#barGraph").html()=="6개월"?'6':'12';
     		if($(this).prop("id")=="left1") $("#termNum").val(parseInt($("#termNum").val())-1);
     		else $("#termNum").val(parseInt($("#termNum").val())+1);
-    		console.log($("#termNum").val());
 			$.ajax({
 				url:"<c:url value='/Back/Graph.do'/>",
 				type:'post',
 				dataType:'text',
-				data:'term='+term+"&month="+$("#termNum").val(),
+				data:'term='+eventterm+"&month="+$("#termNum").val(),
 				success:function(data){					
-					$("#barGraph").html(title);
+					$("#barGraph").html(eventtitle);
 					barChartEvent.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -243,17 +239,16 @@
 		});	
 //////////////////////////////////////////////////////////////////이 아래부터 2번째 그래프 - 도넛그래프	
 		$("#seller, #all").click(function(){
-			console.log("버튼클릭함");
-			var title = $(this).prop("id")=="seller"?"회원비율 통계":"지역별 트럭 분포 통계";
+			var usertitle = $(this).prop("id")=="seller"?"회원비율 통계":"지역별 트럭 분포 통계";
 			$.ajax({
 				url:"<c:url value='/Back/Graph.do'/>",
 				type:'post',
 				dataType:'text',
 				data:'type='+$(this).prop("id"),
 				success:function(data){
-					$("button:eq(4)").html(title);
+					$("button:eq(4)").html(usertitle);
 					console.log("성공"+data);
-					$("#donutGraph").html(title);
+					$("#donutGraph").html(usertitle);
 					donutChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -264,7 +259,7 @@
 ///////////////////////////////////////////////////////이 아래부터 3번쨰 그래프 - 라인 그래프
 		$("#daily, #weekly, #monthly").click(function(){
 			console.log("버튼클릭함");
-			var title = $(this).prop("id")=="daily"?"일 단위":$(this).prop("id")=="weekly"?"주 단위":"월 단위";
+			var moneytitle = $(this).prop("id")=="daily"?"일 단위":$(this).prop("id")=="weekly"?"주 단위":"월 단위";
 			var term =  $(this).prop("id")=="daily"?"day":$(this).prop("id")=="weekly"?"week":"month";
 			$.ajax({
 				url:"<c:url value='/Back/Graph.do'/>",
@@ -272,9 +267,8 @@
 				dataType:'text',
 				data:'revenue='+$(this).prop("id"),
 				success:function(data){
-					$("button:eq(5)").html(title);
-					console.log("성공"+data);
-					$("#lineGraph").html(title);
+					$("button:eq(5)").html(moneytitle);
+					$("#lineGraph").html(moneytitle);
 					lineChart.setData(JSON.parse(data));
 				},
 				error:function(data){
@@ -282,16 +276,20 @@
 				}
 			});
 		});
-//////////////////////////////////////////////////////이하 4번째그래프		
-		$("#truckName").click(function(){
-			var title = $(this).prop("title");
+//////////////////////////////////////////////////////이하 4번째그래프
+
+ 		$(".truckName").click(function(){
+			var reviewtitle = $(this).html();
+			var target = $(this).prop("title");
+			console.log(reviewtitle);
+			console.log(target);
 			$.ajax({
 				url:"<c:url value='/Back/Graph.do'/>",
 				type:'post',
 				dataType:'text',
-				data:'truckName='+$(this).prop("title"),
+				data:'truckName='+target,
 				success:function(data){
-					$("button:eq(6)").html(title);
+					$("button:eq(6)").html(reviewtitle);
 					console.log("성공"+data);
 					barChartReview.setData(JSON.parse(data));
 				},
@@ -299,7 +297,7 @@
 					console.log("에러발생 : "+data);
 				}
 			});
-		});
+		}); 
 //////////////////////////그래프 선택메뉴 관련////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////그래프 데이터 관련/////////////////////////////////////
