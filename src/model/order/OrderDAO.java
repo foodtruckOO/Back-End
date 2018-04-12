@@ -62,7 +62,6 @@ public class OrderDAO {
 		}	
 		return list;
 	}
-	
 	public List<OrderDTO> selectOne(String o_no){
 		List<OrderDTO> list = new Vector();
 		String sql = "select ord.o_no, cus.name customer, sel.name seller,"+
@@ -103,5 +102,4 @@ public class OrderDAO {
 		}
 		return count;
 	}
-
 }
