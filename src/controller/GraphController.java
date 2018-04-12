@@ -84,7 +84,15 @@ public class GraphController extends HttpServlet {
 		String salesData = JSONArray.toJSONString(salesGraphList);
 		System.out.println(salesData+"가 출력");
 		req.setAttribute("salesData", salesData);
-		
+		//3번쨰 그래프 끝
+		//4번째 그래프 시작
+		List<Map> salesReviewScoreList = dao.selectReviewScoreGraph();
+		String ReviewData = JSONArray.toJSONString(salesReviewScoreList);
+		List<String> truckNames = dao.selectTruckNames();
+		System.out.println(JSONArray.toJSONString(truckNames));
+		req.setAttribute("ReviewData", ReviewData);
+		req.setAttribute("truckNames", truckNames);
+		//4번쨰 그래프 끝
 		
 		dao.close();
 		//System.out.println(eventData);
@@ -121,7 +129,6 @@ public class GraphController extends HttpServlet {
 		}
 		////////////////////////////2번쨰 도넛그래프 요청은 얘가 처리함
 
-		
 		else if(req.getParameter("type")!=null) {
 			if(req.getParameter("type").equals("all")) {
 				List<Map> memberCounts = new Vector<Map>();
@@ -151,20 +158,13 @@ public class GraphController extends HttpServlet {
 			List<Map> salesGraphList = dao.selectSalesGraph(req.getParameter("revenue"));
 			eventData = JSONArray.toJSONString(salesGraphList);
 		}
+		else if(req.getParameter("truckName")!=null) {
+			
+		}
 		PrintWriter out = resp.getWriter();
 		out.print(eventData);
 		out.close();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	//////////////////////////////행정구역의 약칭과 총명칭을 통합하는 용도의 메소드

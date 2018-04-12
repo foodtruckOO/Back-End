@@ -38,56 +38,7 @@ public class EventWriteController extends HttpServlet {
 		}
 		else resp.sendRedirect(req.getContextPath()+"/backend/event/EventWrite.jsp");
 	}
-	/*@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println(req.getParameter("startdate"));
-		System.out.println(req.getParameter("enddate"));
-		AdminEventDTO dto = new AdminEventDTO();
-		//한글깨짐관련 조치사항
-		req.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html;charset=UTF-8");
-		
-		
-		int affected=0;
-		dto.setA_no(((AdminDTO)req.getSession().getAttribute("dto")).getA_no());
-		dto.setTitle(req.getParameter("title"));
-		dto.setContent(req.getParameter("content"));
-		dto.setBoardtype(req.getParameter("boardtype"));
-		dto.setTitlefile(req.getParameter("titleFile"));
-		dto.setContentfile(req.getParameter("contentFile"));
-		
-		///////////////파일업로드 관련 조치사항들
-		//디렉토리생성 관련
-		String savePath = req.getServletContext().getRealPath("/backend/img/admin/"+((AdminDTO)req.getSession().getAttribute("dto")).getId());
-		//backend/img/admin/아이디로 할 생각
-		java.io.File targetDir = new java.io.File(savePath);
-		if(!targetDir.exists())targetDir.mkdirs();//디렉토리 없으면 만든다는 소리임
-		//디렉토리생성 끝
-		if(req.getParameter("contentFile")!=null) {
-			MultipartRequest mr = FileUtils.upload(req, savePath);//업로드하기
-			
-		}
-		try {
-			dto.setS_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startdate")).getTime()));
-			dto.setE_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("enddate")).getTime()));
-		} catch (ParseException e) {
-			System.out.println("시간 변환 과정에서 문제 발생함");
-			e.printStackTrace();
-		}
-		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
-		String sf="";
-		affected=dao.insert(dto);
-		if(affected==0) {
-			sf="0";
-		}
-		else sf="1";
-		dao.close();	
-		req.setAttribute("SUC_FAIL", sf);
-		req.setAttribute("WHERE", "EVENTWRITE");		
-		req.setAttribute("boardtype", req.getParameter("boardtype"));
-		req.getRequestDispatcher("/backend/pages/common/Fail.jsp").forward(req, resp);
-		//타입 2 = 지역이벤트
-	}*/
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//한글깨짐관련 조치사항
@@ -110,7 +61,8 @@ public class EventWriteController extends HttpServlet {
 		File titleNewFile = new File(req.getServletContext().getRealPath("/backend/img/admin/"+((AdminDTO)req.getSession().getAttribute("dto")).getId())+File.separator+nowNum+mr.getOriginalFileName("titleFile"));
 		contentFile.renameTo(contentNewFile);
 		titleFile.renameTo(titleNewFile);
-		/////////////////////////////////////////////
+		///////////////////////
+		///////////////////////
 		int affected=0;
 		if(mr!=null) {//업로드가 성공되었을 때 한해서 입력조치를 한다.
 			AdminEventDTO dto = new AdminEventDTO();

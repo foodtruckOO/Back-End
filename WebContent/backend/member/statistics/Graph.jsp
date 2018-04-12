@@ -78,7 +78,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="morris-bar-chart"></div>
+                            <div id="morris-bar-chart1"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -149,14 +149,27 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <!-- Area Chart Example -->
-                            DB와 연동한 그래프입니다
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                        </div>
+                           	평점그래프
+	                        <div class="pull-right">
+	                            <div class="btn-group">
+	                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+	                                    	조회 대상<span class="caret"></span>
+	                                </button>
+	                           		<ul class="dropdown-menu pull-right" role="menu">
+	                           			<c:forEach var="truckName" items="${truckNames}">
+		                                    <li>
+		                                       	<a id='truckName' title="${truckName}">${truckName}</a>
+		                                    </li>
+	                                    </c:forEach>
+	                        		</ul>
+	                        	</div>
+	                        </div>
+                     	</div>
+	                    <!-- /.panel-heading -->
+	                    <div class="panel-body">
+	                        <div id="morris-bar-chart2"></div>
                         <!-- /.panel-body -->
+	                    </div>
                     </div>
                     <!-- /.panel -->
                 </div>
@@ -182,6 +195,9 @@
     <script src="<c:url value='/backend/vendor/raphael/raphael.min.js'/>"></script>
     <script src="<c:url value='/backend/vendor/morrisjs/morris.js'/>"></script>
     <script>
+    function nameCompressor(name){
+    	
+    }
     $(function() {
     	////이 아래부터 첫번째 그래프 - 바 그래프
 		$("#quarter, #half, #year").click(function(){
@@ -194,9 +210,8 @@
 				dataType:'text',
 				data:'term='+term,
 				success:function(data){
-					console.log("성공"+data);
 					$("#barGraph").html(title);
-					barChart.setData(JSON.parse(data));
+					barChartEvent.setData(JSON.parse(data));
 				},
 				error:function(data){
 					console.log("에러발생 : "+data);
@@ -213,6 +228,7 @@
 				dataType:'text',
 				data:'type='+$(this).prop("id"),
 				success:function(data){
+					$("button:eq(2)").html(title);
 					console.log("성공"+data);
 					$("#donutGraph").html(title);
 					donutChart.setData(JSON.parse(data));
@@ -233,6 +249,7 @@
 				dataType:'text',
 				data:'revenue='+$(this).prop("id"),
 				success:function(data){
+					$("button:eq(3)").html(title);
 					console.log("성공"+data);
 					$("#lineGraph").html(title);
 					lineChart.setData(JSON.parse(data));
@@ -242,50 +259,27 @@
 				}
 			});
 		});
+//////////////////////////////////////////////////////이하 4번째그래프		
+		$("#truckName").click(function(){
+			var title = $(this).prop("title");
+			$.ajax({
+				url:"<c:url value='/Back/Graph.do'/>",
+				type:'post',
+				dataType:'text',
+				data:'truckName='+$(this).prop("title"),
+				success:function(data){
+					$("button:eq(4)").html(title);
+					console.log("성공"+data);
+					barChartReview.setData(JSON.parse(data));
+				},
+				error:function(data){
+					console.log("에러발생 : "+data);
+				}
+			});
+		});
 //////////////////////////그래프 선택메뉴 관련////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////그래프 데이터 관련/////////////////////////////////////
-        Morris.Area({
-            element: 'morris-area-chart',
-            data: //${data}
-                [{
-                period: '2010 Q1',
-                iphone: 2666,
-            },  {
-                period: '2010 Q2',
-                iphone: 2778,
-            }, {
-                period: '2010 Q3',
-                iphone: 4912,
-            }, {
-                period: '2010 Q4',
-                iphone: 3767,
-            }, {
-                period: '2011 Q1',
-                iphone: 6810,
-            }, {
-                period: '2011 Q2',
-                iphone: 5670,
-            }, {
-                period: '2011 Q3',
-                iphone: 4820,
-            }, {
-                period: '2011 Q4',
-                iphone: 15073,
-            }, {
-                period: '2012 Q1',
-                iphone: 10687,
-            }, {
-                period: '2012 Q2',
-                iphone: 8432,
-            }] ,
-            xkey: 'period',
-            ykeys: ['iphone'],
-            labels: ['IPHONE'],
-            pointSize: 2,
-            hideHover: 'auto',
-            resize: true
-        });
         
         var donutChart = Morris.Donut({
             element: 'morris-donut-chart',
@@ -293,8 +287,8 @@
             resize: true
         });
 
-        var barChart = Morris.Bar({
-            element: 'morris-bar-chart',
+        var barChartEvent = Morris.Bar({
+            element: 'morris-bar-chart1',
             data: ${eventData},
             xkey: 'period',
             ykeys: ['count'],
@@ -303,14 +297,24 @@
             hideHover: 'auto',
             resize: true
         });
-        
+        var barChartReview = Morris.Bar({
+            element: 'morris-bar-chart2',
+            data: ${ReviewData},
+            xkey: 'name',
+            ykeys: ['score'],
+            labels: ['점수'],
+            barColors:['yellow'],
+            hideHover: 'auto',
+            resize: true
+        }); 
         var lineChart = Morris.Line({//이걸 매출액 버전으로 만들면 될것같긴하다.
-        	  element: 'morris-line-chart',
-        	  data: ${salesData},
-        	  xkey: '기간',
-        	  ykeys: ['매출액'],
-        	  labels: ['매출액']
+        	element: 'morris-line-chart',
+        	data: ${salesData},
+        	xkey: '기간',
+        	ykeys: ['매출액'],
+        	labels: ['매출액']
     	});
+        
     });
     </script>
     <!-- Custom Theme JavaScript -->

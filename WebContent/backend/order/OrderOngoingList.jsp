@@ -38,7 +38,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <script>
-window.setInterval(function() {
+var interval =  window.setInterval(function() {
 	$.ajax({
 		url : "<c:url value='/Back/OrderOngoing.do'/>",
 		type : 'post',
@@ -54,6 +54,11 @@ window.setInterval(function() {
 		}
 	});
 }, 3000)
+$(function(){
+	$("#refresh").toggle(function(){
+		clearInterval(interval);
+	});
+});
 function ajaxResultSetter(data){
 	var text = "";
 	$.each(data, function(index, record) {
@@ -91,6 +96,7 @@ function ajaxResultSetter(data){
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                        <button id="refresh">최신화</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -154,13 +160,6 @@ function ajaxResultSetter(data){
     <script src="<c:url value='/backend/dist/js/sb-admin-2.js'/>"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-    $(document).ready(function() {
-		$('#table').DataTable({
-            responsive: true,
-			"order":[[0, "desc"]]
-		});
-    });
-    </script>
+
 </body>
 </html>

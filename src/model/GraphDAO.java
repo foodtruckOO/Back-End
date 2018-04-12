@@ -171,5 +171,38 @@ public class GraphDAO {
 		}
 		return list;
 	}
+
+	public List<Map> selectReviewScoreGraph(){
+		List<Map> list = new Vector();
+		String sql = "select k.*, rownum r from (select round(avg(star), 3), tname from review r join  seller s on r.s_no=s.s_no ";
+				sql+="group by tname order by avg(star) desc) k order by rownum";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				Map map = new HashMap();
+				map.put("score", rs.getString(1));
+				map.put("name", rs.getString(2));
+				list.add(map);
+			}
+		} catch (Exception e) {e.printStackTrace();}
+		return list;
+	}
 	
+	
+	public List<String> selectTruckNames(){
+		List<String> list = new Vector();
+		String sql="select tname from seller";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString(1));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return list;
+		}
+		return list;
+	}	
 }

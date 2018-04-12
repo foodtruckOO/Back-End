@@ -40,7 +40,7 @@ public class OrderDAO {
 		String sql = "select ord.o_no, cus.name customer, sel.name seller, food.fname food, food.price, ord.num, " +
 				"ord.timeofreceipt, ord.content, to_char(ord.postdate, 'YYYY-MM-DD HH:MM:SS') from " + 
 				"food join seller sel on food.s_no=sel.s_no join orderform ord on food.f_no=ord.f_no " + 
-				"join customer cus on ord.g_no=cus.g_no order by o_no";
+				"join customer cus on ord.g_no=cus.g_no order by o_no desc";
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
@@ -88,6 +88,20 @@ public class OrderDAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public int selectOrderCount() {
+		int count=0;
+		String sql="select count(*) from (select count(*) from orderform group by o_no)";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 
 }

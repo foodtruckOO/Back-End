@@ -33,7 +33,9 @@ public class IndexPageController extends HttpServlet {
 		////////////////////두번쨰꺼 조치 끝
 		
 		//////////////////////세번째꺼 조치 아직 못함
-		
+		OrderDAO orderDao = new OrderDAO(req.getServletContext());
+		int orderCount = orderDao.selectOrderCount();
+		req.setAttribute("orderCount", orderCount);
 		//////////////////////아직 손못댄 세번째꺼 조치관련
 		
 		/////////////////////네번째꺼 조치
@@ -43,14 +45,10 @@ public class IndexPageController extends HttpServlet {
 		
 		
 		///////////////////첫번째 표 조치 시작 - 주문상황으로?
-		OrderDAO orderDao = new OrderDAO(req.getServletContext());
 		List<OrderDTO> firstList =  OrderOngoingController.orderMigrater(orderDao.selectList());
 		req.setAttribute("firstList", firstList);
 		///////////////////첫번째 표 조치 끝
 		
-		
-		
-
 		aedao.close();
 		customerdao.close();
 		sellerdao.close();
