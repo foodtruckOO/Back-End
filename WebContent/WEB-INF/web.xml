@@ -74,6 +74,14 @@
     <url-pattern>/Back/UserList.do</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>SellerView</servlet-name>
+    <servlet-class>controller.member.SellerViewController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SellerView</servlet-name>
+    <url-pattern>/Back/Seller/View.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>Graph</servlet-name>
     <servlet-class>controller.GraphController</servlet-class>
   </servlet>

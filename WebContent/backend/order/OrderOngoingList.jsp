@@ -96,7 +96,6 @@ function ajaxResultSetter(data){
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                        <button id="refresh">최신화</button>
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">

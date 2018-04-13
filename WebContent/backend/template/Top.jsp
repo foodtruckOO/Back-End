@@ -115,9 +115,6 @@
 			                	<li>
 			                		<a href="<c:url value='/Back/OrderOngoing.do'/>"><i class="fa fa-star fa-fw"></i>주문현황</a>
 			                	</li>
-			                    <li>
-			                        <a href="<c:url value='/Back/OrderLog.do'/>"><i class="fa fa-star-o fa-fw"></i>주문내역조회</a>
-			                    </li>
 	                        </ul>
 	                    </li>
                         <li>
@@ -125,30 +122,6 @@
                         </li>
                         <li>
                             <a href="<c:url value='/Back/Calendar.do'/>"><i class="fa fa-calendar fa-fw"></i>행사일정월력 관리</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="<c:url value='/backend/pages/Panels-Wells.jsp'/>">Panels and Wells</a>
-                                </li>
-                                <li>
-                                    <a href="<c:url value='/backend/pages/Buttons.jsp'/>">Buttons</a>
-                                </li>
-                                <li>
-                                    <a href="<c:url value='/backend/pages/Notifications.jsp'/>">Notifications</a>
-                                </li>
-                                <li>
-                                    <a href="<c:url value='/backend/pages/Typography.jsp'/>">Typography</a>
-                                </li>
-                                <li>
-                                    <a href="<c:url value='/backend/pages/Icons.jsp'/>"> Icons</a>
-                                </li>
-                                <li>
-                                    <a href="<c:url value='/backend/pages/Grid.jsp'/>">Grid</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
                         </li>
                     </ul>
                 </div>

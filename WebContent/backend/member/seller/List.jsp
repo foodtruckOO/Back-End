@@ -91,7 +91,7 @@
                                 	<c:forEach var="dto" items="${list}">
 	                                    <tr class="gradeA">
 	                                        <td>${dto.s_no}</td>
-	                                        <td>${dto.id}</td>
+	                                        <td><a href="<c:url value='/Back/Seller/View.do?s_no=${dto.s_no}'/>">${dto.id}</a></td>
 	                                        <td class="center">${dto.tname}</td>
 	                                        <td class="center">${dto.addr}</td>
 	                                        <td class="center">${dto.tel}</td>

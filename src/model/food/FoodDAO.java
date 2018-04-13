@@ -48,7 +48,9 @@ public class FoodDAO {
 				dto.setS_no(rs.getString(2));
 				dto.setT_no(rs.getString(3));
 				dto.setFname(rs.getString(4));
-				dto.setPrice(rs.getString(5));
+				dto.setContent(rs.getString(5));
+				dto.setPicture(rs.getString(6));
+				dto.setPrice(rs.getString(7));
 				return dto;
 			}
 		} catch (SQLException e) {
@@ -60,7 +62,7 @@ public class FoodDAO {
 	
 	public List<FoodDTO> selectList() {
 		List<FoodDTO> list = new Vector();
-		String sql = "SELECT * FROM food ORDER BY f_no";
+		String sql = "SELECT food.*, type FROM food join foodtype on food.t_no = foodtype.t_no ORDER BY f_no";
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
@@ -70,7 +72,10 @@ public class FoodDAO {
 				dto.setS_no(rs.getString(2));
 				dto.setT_no(rs.getString(3));
 				dto.setFname(rs.getString(4));
-				dto.setPrice(rs.getString(5));
+				dto.setContent(rs.getString(5));
+				dto.setPicture(rs.getString(6));
+				dto.setPrice(rs.getString(7));
+				dto.setType(rs.getString(8));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -81,7 +86,7 @@ public class FoodDAO {
 
 	public List<FoodDTO> selectList(String s_no) {//특정 사람의 음식들만 갖고오는경우
 		List<FoodDTO> list = new Vector();
-		String sql = "SELECT * FROM food ORDER BY f_no where s_no=?";
+		String sql = "SELECT food.*, type FROM food join foodtype on food.t_no = foodtype.t_no where s_no=? ORDER BY f_no";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, s_no);
@@ -92,7 +97,10 @@ public class FoodDAO {
 				dto.setS_no(rs.getString(2));
 				dto.setT_no(rs.getString(3));
 				dto.setFname(rs.getString(4));
-				dto.setPrice(rs.getString(5));
+				dto.setContent(rs.getString(5));
+				dto.setPicture(rs.getString(6));
+				dto.setPrice(rs.getString(7));
+				dto.setType(rs.getString(8));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -119,14 +127,16 @@ public class FoodDAO {
 	
 	public int update(FoodDTO dto) {
 		int affected=0;
-		String sql="UPDATE food SET s_no=?, t_no=?, fname=?, price=? WHERE f_no=?";
+		String sql="UPDATE food SET s_no=?, t_no=?, fname=?, content=?, picture=?, price=? WHERE f_no=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getS_no());
 			psmt.setString(2, dto.getT_no());
 			psmt.setString(3, dto.getFname());
-			psmt.setString(4, dto.getPrice());
-			psmt.setString(5, dto.getF_no());
+			psmt.setString(4, dto.getContent());
+			psmt.setString(5, dto.getPicture());
+			psmt.setString(6, dto.getPrice());
+			psmt.setString(7, dto.getF_no());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -135,13 +145,15 @@ public class FoodDAO {
 	}
 	public int insert(FoodDTO dto) {
 		int affected=0;
-		String sql="INSERT INTO food VALUES(seq_food.nextval, ?, ?, ?, ?)";
+		String sql="INSERT INTO food VALUES(seq_food.nextval, ?, ?, ?, ?, ?, ?)";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, dto.getS_no());
 			psmt.setString(2, dto.getT_no());
 			psmt.setString(3, dto.getFname());
-			psmt.setString(4, dto.getPrice());
+			psmt.setString(4, dto.getContent());
+			psmt.setString(5, dto.getPicture());
+			psmt.setString(6, dto.getPrice());
 			affected = psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

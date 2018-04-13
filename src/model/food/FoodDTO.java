@@ -6,6 +6,10 @@ public class FoodDTO {
 	private String t_no;
 	private String fname;
 	private String price;
+	private String picture;
+	private String content;
+	private String truckName;
+	private String type;
 	
 	public String getF_no() {
 		return f_no;
@@ -36,5 +40,29 @@ public class FoodDTO {
 	}
 	public void setPrice(String price) {
 		this.price = price;
+	}
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getTruckName() {
+		return truckName;
+	}
+	public void setTruckName(String truckName) {
+		this.truckName = truckName;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

@@ -90,7 +90,7 @@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-	                        <div id="map" style="width:100%;height:500px;margin-top: 20px;"></div>
+	                        <div id="map" style="width:100%;height:700px;margin-top: 20px;"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>

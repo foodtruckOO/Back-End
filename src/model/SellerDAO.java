@@ -63,4 +63,24 @@ public class SellerDAO {
 		System.out.println("list사이즈 = "+list.size());
 		return list;
 	}
+	public List<SellerDTO> selectOne(String s_no){
+		List list = new Vector();
+		String sql = "SELECT * FROM SELLER where s_no=?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				GraphDTO dto = new GraphDTO();
+				dto.setIdx(rs.getString(1));
+				dto.setDate(rs.getDate(2));
+				dto.setFir(rs.getString(3));
+				dto.setSec(rs.getString(4));
+				dto.setThr(rs.getString(5));
+				list.add(dto);
+			}
+		} catch (Exception e) {e.printStackTrace();}
+		System.out.println("성공적으로 데이터 받았을지도 모름");
+		System.out.println("list사이즈 = "+list.size());
+		return list;
+	}
 }
