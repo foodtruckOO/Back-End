@@ -29,7 +29,7 @@ public class GraphDAO {
 	}
 	public void close() {
 		try {
-			if(rs!=null)rs.close();
+			if(rs!=null)rs.close();	
 			if(psmt!=null)psmt.close();
 			if(conn!=null)conn.close();
 		} catch (Exception e) {e.printStackTrace();}

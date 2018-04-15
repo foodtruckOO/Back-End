@@ -213,10 +213,15 @@
     <servlet-name>AjaxTest</servlet-name>
     <servlet-class>controller.AjaxController</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>AjaxTest</servlet-name>
-    <url-pattern>/Back/Ajax.do</url-pattern>
-  </servlet-mapping>     
+  <error-page>
+    <error-code>500</error-code>
+    <location>/backend/pages/ErrorPage.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.NullPointerException</exception-type>
+    <location>/backend/pages/ErrorPage.jsp</location>
+  </error-page>
+  
   <context-param>
     <param-name>ORACLE_DRIVER</param-name>
     <param-value>oracle.jdbc.OracleDriver</param-value>

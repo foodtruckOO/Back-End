@@ -1,6 +1,7 @@
 package controller.member;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,6 +29,8 @@ public class SellerViewController extends HttpServlet{
 		sellerDao.close();
 		fooddao.close();
 		tedao.close();
+		
+		req.setAttribute("ip", InetAddress.getLocalHost().getHostAddress());
 		req.setAttribute("sellerInfo", sellerInfo);
 		req.setAttribute("foodList", foodList);
 		req.setAttribute("tEventList", tEventList);		
