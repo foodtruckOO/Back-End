@@ -85,32 +85,6 @@ public class AdminEventDAO {
 		}
 		return list;
 	}
-	/*
-	public List<AdminEventDTO> selectList2(String type) {
-		List<AdminEventDTO> list = new Vector();
-		String sql = "SELECT ae.*, id FROM event ae JOIN administrator a ON ae.a_no=a.a_no  "+type+"  ORDER BY eno DESC";
-		try {
-			psmt = conn.prepareStatement(sql);
-			rs = psmt.executeQuery();
-			while(rs.next()) {
-				AdminEventDTO dto = new AdminEventDTO();
-				dto.setEno(rs.getString(1));
-				dto.setA_no(rs.getString(2));
-				dto.setTitle(rs.getString(3));
-				dto.setContent(rs.getString(4));
-				dto.setAttachedfile(rs.getString(5));
-				dto.setBoardtype(rs.getString(6));
-				dto.setS_date(rs.getDate(7));
-				dto.setE_date(rs.getDate(8));
-				dto.setPostdate(rs.getDate(9));
-				dto.setId(rs.getString(10));
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}*/
 	
 	public AdminEventDTO selectOne(String eno) {
 		AdminEventDTO dto = new AdminEventDTO();

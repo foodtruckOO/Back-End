@@ -58,7 +58,6 @@ public class IndexPageController extends HttpServlet {
 		IndexDAO idxDao = new IndexDAO(req.getServletContext());		
 		List<Map> list = idxDao.selectRecentContents();
 		List<Map> newList = recentChangeChatcher(list);
-		System.out.println(JSONArray.toJSONString(newList));
 		req.setAttribute("recentChanges", newList);
 		///////////////////우측에 있는 표 끝
 		

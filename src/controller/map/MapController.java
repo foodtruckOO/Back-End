@@ -23,8 +23,6 @@ import model.member.SellerDTO;
 public class MapController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println(req.getMethod());
-
 		MapDAO dao = new MapDAO(req.getServletContext());
 		List<MapDTO> list = dao.selectListBasic();
 		List<Map> collections = new Vector();

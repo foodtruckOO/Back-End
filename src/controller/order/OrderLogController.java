@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 public class OrderLogController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("주문기록조회로넘어옴");
 		req.getRequestDispatcher("/backend/order/OrderLogList.jsp").forward(req, resp);
 	}
 }

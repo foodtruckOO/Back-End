@@ -65,16 +65,16 @@ function editOK(no){
 	location.href="<c:url value='/Back/SellerEdit.do?no="+no+"'/>";
 }
 $(function(){
-	$('.imageHover').mouseover(function(e) {
+	$('.imageHover, .imagePanel').mouseover(function(e) {
 		var src = $(this).parent().children(".imgsrc").val();
 		$("#imagePanel").children("img").prop("src", src);
 		var sWidth = window.innerWidth;
 		var sHeight = window.innerHeight;
 		var oWidth = $('.imagePanel').width();
 		var oHeight = $('.imagePanel').height();
-	// 레이어가 나타날 위치를 셋팅한다.
-		var divLeft = e.clientX - 20;
-		var divTop = e.clientY - 15;
+		// 레이어가 나타날 위치를 셋팅한다.
+		var divLeft = e.clientX-300;
+		var divTop = e.clientY-50;
 		// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
 		if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
 		if( divTop + oHeight > sHeight ) divTop -= oHeight;
@@ -230,8 +230,8 @@ $(function(){
 	                                </table>
                                 </c:if>
                        		</div>
-                       		<div id="imagePanel" style="width: 120px; height: 120px;">
-                       			<img alt="이미지를 찾을 수 없습니다" src="" style="width: 100px; height: 100px;">
+                       		<div id="imagePanel" style="width: 220px; height: 220px;">
+                       			<img alt="이미지를 찾을 수 없습니다" src="" style="width: 200px; height: 200px;">
                        		</div>
 		                    <button onclick="editOK(${sellerInfo.s_no})" class="btn btn-info">수정</button>
 		                    <button onclick="deleteOK(${sellerInfo.s_no})" class="btn btn-danger">삭제</button>

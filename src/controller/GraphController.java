@@ -23,7 +23,6 @@ public class GraphController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		GraphDAO dao = new GraphDAO(req.getServletContext());
-		System.out.println(req.getParameter("id"));
 		String id = req.getParameter("id");
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);
@@ -64,14 +63,12 @@ public class GraphController extends HttpServlet {
 		//3번째그래프시작
 		List<Map> salesGraphList = dao.selectSalesGraph("daily");
 		String salesData = JSONArray.toJSONString(salesGraphList);
-		System.out.println(salesData+"가 출력");
 		req.setAttribute("salesData", salesData);
 		//3번쨰 그래프 끝
 		//4번째 그래프 시작
 		List<Map> salesReviewScoreList = dao.selectReviewScoreGraph();
 		String ReviewData = JSONArray.toJSONString(salesReviewScoreList);
 		List<String> truckNames = dao.selectTruckNames();
-		System.out.println(JSONArray.toJSONString(truckNames));
 		req.setAttribute("ReviewData", ReviewData);
 		req.setAttribute("truckNames", truckNames);
 		//4번쨰 그래프 끝
@@ -87,9 +84,7 @@ public class GraphController extends HttpServlet {
 		GraphDAO dao = new GraphDAO(req.getServletContext());
 		//////////////////////////////////첫번째 그래프 관련 요청일 경우 얘가 조치함
 		if(req.getParameter("term")!=null) {
-			System.out.println(req.getParameter("id"));
 			String id = req.getParameter("id");
-			System.out.println("기간선택버튼 클릭함 : "+req.getParameter("term"));
 			Calendar cal = Calendar.getInstance();
 			int year = cal.get(cal.YEAR);
 			int month = cal.get(cal.MONTH)+1;
@@ -137,7 +132,6 @@ public class GraphController extends HttpServlet {
 				memberCounts.add(rc1);
 				memberCounts.add(rc2);
 				eventData = JSONArray.toJSONString(memberCounts);
-				System.out.println(eventData);
 			}
 			else if(req.getParameter("type").equals("seller")) {
 				List<Map> list = dao.selectSellerGraph();
@@ -147,7 +141,6 @@ public class GraphController extends HttpServlet {
 				List<Map> migratedList = mapMigrator(list);
 				///////////////////////////////
 				eventData = JSONArray.toJSONString(migratedList);
-				System.out.println(eventData);
 			}
 		}
 		else if(req.getParameter("revenue")!=null) {
@@ -156,12 +149,10 @@ public class GraphController extends HttpServlet {
 		}
 		else if(req.getParameter("truckName")!=null) {
 			String tname = req.getParameter("truckName");
-			System.out.println(tname);
 			List<Map> list;
 			if(tname.equalsIgnoreCase("전체")) list = dao.selectReviewScoreGraph();			
 			else list = dao.selectedTruckReviewScore(tname);
 			eventData = JSONArray.toJSONString(list);
-			System.out.println(eventData);
 		}
 		PrintWriter out = resp.getWriter();
 		out.print(eventData);

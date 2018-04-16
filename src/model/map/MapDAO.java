@@ -153,44 +153,4 @@ public class MapDAO {
 		return dto;
 	}
 	
-	//지도내 검색기능 넣을 시 구현하려고 예정중인 물건인데 아직 안씀...
-/*	public List<MapDTO> selectListSearchResult(String search) {
-		List<MapDTO> list = new Vector();
-		String sql="";
-		
-		switch(selectListSupport()) {
-			case 3 : 
-				sql = "SELECT f_no no, tname, addr, addr2, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks UNION ";
-				sql+="SELECT s_no no, tname, addr, addr2, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
-				break;
-			case 2 : 
-				sql+="SELECT s_no no, tname, addr, addr2, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='SELLER') FROM seller";
-				break;
-			default :
-				sql = "SELECT f_no no, tname, addr, addr2, tel, (SELECT count(*) FROM USER_TAB_COLUMNS where table_name='FOODTRUCKS') FROM foodtrucks";
-				break;
-		}
-		
-		try {
-			psmt = conn.prepareStatement(sql);
-			rs = psmt.executeQuery();
-			while(rs.next()) {
-				MapDTO dto = new MapDTO();
-				dto.setNo(rs.getString(1));
-				dto.setTname(rs.getString(2));
-				dto.setAddr(rs.getString(3));
-				dto.setAddr2(rs.getString(4));
-				dto.setTel(rs.getString(5));
-				dto.setColumnCount(rs.getString(6));
-				list.add(dto);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}*/
-	
-	
-	
-	
 }

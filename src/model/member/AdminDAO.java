@@ -42,13 +42,10 @@ public class AdminDAO {
 	}
 	public boolean idCheck(String id) {
 		String sql = "SELECT * FROM administrator WHERE id=?";
-		System.out.println("아이디 중복검사 도구 실행");
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
-			System.out.println("쿼리실행 전, id = "+id);
 			rs = psmt.executeQuery();
-			System.out.println("쿼리실행 후");
 			if(rs.next()) {
 				System.out.println("같은 아이디가 존재함");
 				return false;

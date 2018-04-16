@@ -25,7 +25,6 @@ public class EventDeleteController extends HttpServlet {
 		int affected = dao.delete(req.getParameter("no"));
 		dao.close();
 		if(affected==1) {//글 삭제에 성공했다면 그 글에 따른 첨부파일도 삭제해야 한다.
-			System.out.println("삭제성공함");
 			String contentfileName = dto.getContentfile();
 			//String contentfilePath = req.getServletContext().getRealPath("/backend/img/admin/"+dto.getId())+File.separator+contentfileName;
 			String titlefileName = dto.getTitlefile();

@@ -30,10 +30,8 @@ public class EventWriteController extends HttpServlet {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			String[] datearray = req.getParameter("s_date").split(" ");
 			String newDate = datearray[3]+"-"+getMonthNumberByName(datearray[1])+"-"+datearray[2];
-			System.out.println(newDate);
 			req.setAttribute("s_date", newDate);
 			AdminDTO dtto = ((AdminDTO)req.getSession().getAttribute("dto"));
-			System.out.println(req.getServletContext().getContextPath()+"/backend/img/"+dtto.getId());
 			req.getRequestDispatcher("/backend/event/EventWrite.jsp").forward(req, resp);
 		}
 		else resp.sendRedirect(req.getContextPath()+"/backend/event/EventWrite.jsp");
@@ -46,7 +44,6 @@ public class EventWriteController extends HttpServlet {
 		resp.setContentType("text/html;charset=UTF-8");
 		AdminDTO dtto = ((AdminDTO)req.getSession().getAttribute("dto"));
 		String savePath = req.getServletContext().getRealPath("/backend/img/admin/"+dtto.getId());
-		System.out.println(savePath);
 		AdminEventDAO dao = new AdminEventDAO(req.getServletContext());
 		String nowNum = (dao.selectLatestNo()+1)+"_";
 		//backend/img/admin/아이디로 할 생각
@@ -78,7 +75,6 @@ public class EventWriteController extends HttpServlet {
 				dto.setS_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(mr.getParameter("startdate")).getTime()));
 				dto.setE_date(new java.sql.Date(new SimpleDateFormat("yyyy-MM-dd").parse(mr.getParameter("enddate")).getTime()));
 			} catch (ParseException e) {
-				System.out.println("시간 변환 과정에서 문제 발생함");
 				e.printStackTrace();
 			}
 			affected=dao.insert(dto);

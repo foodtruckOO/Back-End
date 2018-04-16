@@ -28,13 +28,11 @@ public class RegisterController extends HttpServlet{
 		AdminDAO dao = new AdminDAO(req.getServletContext());
 		boolean isNotExist = dao.idCheck(req.getParameter("id"));
 		if(!isNotExist) {
-			System.out.println("컨트롤러 : 아이디 중복");
 			req.setAttribute("DUPLE", "YES");
 			req.setAttribute("SUC_FAIL", 0);
 			req.getRequestDispatcher("/backend/pages/common/Fail.jsp").forward(req, resp);
 		}
 		else {//아이디 중복이 아님
-			System.out.println("컨트롤러 : 아이디가 중복되지 않음");
 			AdminDTO dto = new AdminDTO();
 			dto.setId(req.getParameter("id"));
 			dto.setPwd(req.getParameter("pwd"));

@@ -49,7 +49,6 @@ public class OrderOngoingController extends HttpServlet {
 			URLEncoder.encode(jsonArray, "UTF-8");
 			out.print(jsonArray);
 		}
-		System.out.println(jsonArray);
 		out.close();
 	}
 	

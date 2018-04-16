@@ -55,25 +55,21 @@ public class GraphDAO {
 	public String selectEventGraph(String year, String month){
 		String count="0";
 		String sql = "SELECT COUNT(*) FROM EVENT WHERE S_DATE BETWEEN TO_DATE(?,'YYYY-MM-DD') and TO_DATE(?,'YYYY-MM-DD') or E_DATE BETWEEN TO_DATE(?,'YYYY-MM-DD') and TO_DATE(?,'YYYY-MM-DD')";
-		//String sql = "SELECT COUNT(*) FROM event WHERE TO_CHAR(S_DATE, 'YYYY-MM') <= ? AND TO_CHAR(E_DATE, 'YYYY-MM') >= ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, year+"-"+month+"-01");
 			psmt.setString(3, year+"-"+month+"-01");
 			if(month.equals("12")) {//다음년도 1월 1일 설정하기
-				System.out.println("다음년도 1월로 설정하기 = "+Integer.toString(Integer.parseInt(year)+1)+"-01-01");
 				psmt.setString(2, Integer.toString(Integer.parseInt(year)+1)+"-01-01");
 				psmt.setString(4, Integer.toString(Integer.parseInt(year)+1)+"-01-01");
 			}
 			else {//이번년도 다음달 설정하기
-				System.out.println("이번년도 다음달로 설정하기 = "+year+"-"+Integer.toString(Integer.parseInt(month)+1)+"-01");
 				psmt.setString(2, year+"-"+Integer.toString(Integer.parseInt(month)+1)+"-01");
 				psmt.setString(4, year+"-"+Integer.toString(Integer.parseInt(month)+1)+"-01");
 			}
 			rs=psmt.executeQuery();
 			while(rs.next()) {
 				count=rs.getString(1);
-				System.out.println(count);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -156,14 +152,11 @@ public class GraphDAO {
 		}
 		try {
 			psmt = conn.prepareStatement(sql);
-			System.out.println(sql);
 			rs = psmt.executeQuery();
 			while(rs.next()) {
 				Map map = new HashMap();
 				map.put("매출액", rs.getString(1));
-				System.out.println(rs.getString(1));
 				map.put("기간", rs.getString(2));
-				System.out.println(rs.getString(2));
 				list.add(map);
 			}
 		} catch (SQLException e) {

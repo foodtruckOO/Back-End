@@ -27,12 +27,10 @@ public class LoginController extends HttpServlet {
 		AdminDTO dto = dao.logIn(req.getParameter("id"), req.getParameter("password"));
 		dao.close();
 		if(dto!=null) {
-			System.out.println("로그인성공");
 			req.getSession().setAttribute("dto", dto);
 			resp.sendRedirect(req.getContextPath()+"/Back/Index.do");
 		}
 		else {
-			System.out.println("로그인실패");
 			req.setAttribute("message", "로그인 실패. 아이디 혹은 비밀번호를 확인해 주십시오");
 			req.getRequestDispatcher("/backend/pages/Login.jsp").forward(req, resp);
 		}

@@ -40,20 +40,15 @@ public class TruckEditController extends HttpServlet{
 		}
 		else {//비회원트럭은 여기서 처리
 			NoMemberDTO dto = new NoMemberDTO();
-			NoMemberDAO dao = new NoMemberDAO(req.getServletContext());
-			System.out.println("출력준비중");
-			System.out.println(String.format("%s, %s, %s, %s, %s", mr.getParameter("no"), mr.getParameter("name"), mr.getParameter("tel"), mr.getParameter("addr"), mr.getParameter("addr2")));
-			dto.setF_no(mr.getParameter("no"));
+			NoMemberDAO dao = new NoMemberDAO(req.getServletContext());			dto.setF_no(mr.getParameter("no"));
 			dto.setTname(mr.getParameter("name"));
 			dto.setTel(mr.getParameter("tel"));
 			dto.setAddr(mr.getParameter("addr"));
 			dto.setAddr2(mr.getParameter("addr2"));
 			if(mr.getOriginalFileName("attachedFile")!=null) {
 				File attachedFile = new File(req.getServletContext().getRealPath("/backend/img/noMember")+File.separator+mr.getOriginalFileName("attachedFile"));
-				System.out.println(mr.getOriginalFileName("attachedFile"));
 				File attachedNewFile = new File(req.getServletContext().getRealPath("/backend/img/noMember")+File.separator+mr.getParameter("no")+"_"+mr.getOriginalFileName("attachedFile"));
 				attachedFile.renameTo(attachedNewFile);
-				System.out.println(mr.getOriginalFileName("attachedFile"));
 				dto.setAttachedFile(mr.getParameter("no")+"_"+mr.getOriginalFileName("attachedFile"));
 			}
 			else dto.setAttachedFile(dao.selectOne(mr.getParameter("no")).getAttachedFile());//파일 첨부 별도로 안 했다면(파일 안바꿨다면) 기존파일 그대로 넣도록 해 줘야 함.

@@ -36,7 +36,6 @@ public class NoMemberRegisterController extends HttpServlet{
 		File contentFile = new File(req.getServletContext().getRealPath("/backend/img/noMember")+File.separator+mr.getOriginalFileName("attachedFile"));
 		File contentNewFile = new File(req.getServletContext().getRealPath("/backend/img/noMember")+File.separator+max+mr.getOriginalFileName("attachedFile"));
 		contentFile.renameTo(contentNewFile);
-		System.out.println();
 		String addr = mr.getParameter("roadAddrPart1").equals("선택하신 곳에서 도로명주소를 얻을 수 없습니다.")?mr.getParameter("roadAddrPart1_5"):mr.getParameter("roadAddrPart1");
 		dto.setTname(mr.getParameter("tname"));
 		dto.setTel(mr.getParameter("tel"));

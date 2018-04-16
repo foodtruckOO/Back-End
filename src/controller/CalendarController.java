@@ -35,7 +35,6 @@ public class CalendarController extends HttpServlet {
 			collections.add(record);
 		}
 		String data = JSONArray.toJSONString(collections);
-		System.out.println(data);
 		dao.close();
 		req.setAttribute("calendar", data);
 		req.getRequestDispatcher("/backend/event/Calendar.jsp").forward(req, resp);

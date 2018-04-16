@@ -18,8 +18,6 @@ public class MemberEditController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String type = req.getParameter("type");
 		String no = req.getParameter("no");
-		System.out.println(type);
-		System.out.println(no);
 		if(type.equals("customer")) {
 			CustomerDAO dao = new CustomerDAO(req.getServletContext());
 			req.setAttribute("editDto", dao.selectOne(no));
